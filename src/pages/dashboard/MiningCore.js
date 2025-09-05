@@ -35,11 +35,19 @@ const MiningCore = () => {
         <Image src={SphereImg} alt="ship" className={styles.shipImg} priority />
       </div>
       <div className={styles.btnGroup}>
-        <button type="button" className={styles.btn}>
+        <button
+          type="button"
+          className={styles.btn}
+          onClick={() => dispatch(pageSet("alert"))}
+        >
           &gt; 1. Upgrade Module [250 UFO]
         </button>
-        <button type="button" className={styles.btn}>
-          &gt; 2. Space Hangar
+        <button
+          type="button"
+          className={styles.btn}
+          onClick={() => dispatch(pageSet("managementpage"))}
+        >
+          &gt; 2. Fleet Management
         </button>
         <button type="button" className={styles.btn}>
           &gt; 3. Supply Depot

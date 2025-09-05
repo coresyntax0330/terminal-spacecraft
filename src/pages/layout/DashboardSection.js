@@ -12,6 +12,8 @@ import BuySpace from "../dashboard/BuySpace";
 import MiningCore from "../dashboard/MiningCore";
 import DatabasePage from "../dashboard/DatabasePage";
 import RankingPage from "../dashboard/RankingPage";
+import ManualPage from "../dashboard/ManualPage";
+import ManagementPage from "../dashboard/ManagementPage";
 
 const DashboardSection = () => {
   const pagePath = useSelector((state) => state.page.path);
@@ -33,6 +35,10 @@ const DashboardSection = () => {
           <DatabasePage />
         ) : pagePath === "rankingpage" ? (
           <RankingPage />
+        ) : pagePath === "manualpage" ? (
+          <ManualPage />
+        ) : pagePath === "managementpage" ? (
+          <ManagementPage />
         ) : (
           <></>
         )}

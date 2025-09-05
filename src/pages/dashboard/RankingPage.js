@@ -134,12 +134,12 @@ const RankingPage = () => {
                 onClick={() => goTo(token)}
                 aria-current={token === page ? "page" : undefined}
                 style={{
-                  background:
-                    token === page ? "rgba(124,252,0,.15)" : "transparent",
+                  background: token === page ? "#4AFF41" : "transparent",
                   boxShadow:
                     token === page
                       ? "inset 0 0 8px rgba(124,252,0,.3)"
                       : "none",
+                  color: token === page ? "#000" : "#4AFF41",
                   cursor: token === page ? "default" : "pointer",
                 }}
               >
