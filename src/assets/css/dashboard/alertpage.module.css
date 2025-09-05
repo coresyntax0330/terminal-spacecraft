@@ -46,6 +46,11 @@
   margin-bottom: 20px;
 }
 
+.deployBtn:hover {
+  color: #000;
+  background-color: #4aff41;
+}
+
 .systemNotes {
   display: flex;
   flex-direction: column;

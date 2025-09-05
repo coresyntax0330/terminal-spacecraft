@@ -38,6 +38,11 @@
   font-size: 24px;
 }
 
+.closeBtn:hover {
+  color: #000;
+  background-color: #4aff41;
+}
+
 .mainSection {
   flex: 1;
   width: 100%;

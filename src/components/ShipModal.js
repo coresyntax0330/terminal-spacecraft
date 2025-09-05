@@ -1,0 +1,70 @@
+import React from "react";
+import Image from "next/image";
+
+// import style
+import styles from "@/assets/css/dashboard/shipmodal.module.css";
+
+// import assets
+import ShipBisonImg from "@/assets/images/ships/Bison.png";
+import ShipDiabloImg from "@/assets/images/ships/Diablo.png";
+import ShipCargoImg from "@/assets/images/ships/Cargo.png";
+
+const SHIP_IMAGES = {
+  Bison: ShipBisonImg,
+  Diablo: ShipDiabloImg,
+  Cargo: ShipCargoImg,
+};
+
+const ShipModal = ({ setShipFlag, shipGame }) => {
+  return (
+    <div className={styles.main}>
+      <div className={styles.headerSection}>
+        <div className={styles.headerTitle}>{shipGame.name}</div>
+        <button
+          type="button"
+          className={styles.closeBtn}
+          onClick={() => setShipFlag(false)}
+        >
+          [&times;]
+        </button>
+      </div>
+      <div className={styles.wrapper}>
+        <Image
+          src={
+            shipGame && shipGame.hasImage && shipGame.imageKey
+              ? SHIP_IMAGES[shipGame.imageKey]
+              : ShipEmptyImg
+          }
+          alt="ship"
+          className={styles.shipImg}
+          priority
+        />
+        <div className={styles.descSection}>
+          <div className={styles.desc}>FLEET POWER: 125</div>
+          <div className={styles.desc}>LOREM IPSUM PROPELLANT POWER</div>
+          <div className={styles.desc}>LOREM IPSUM (Non-NFT)</div>
+        </div>
+      </div>
+      <div className={styles.content}>
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry's standard dummy text ever
+        since the 1500s, when an unknown printer took a galley of type and
+        scrambled it to make a type specimen book. It has survived not only five
+        centuries, but also the leap into electronic typesetting, remaining
+        essentially unchanged.
+      </div>
+      <div className={styles.deploySection}>
+        <div className={styles.text}>Deploy</div>
+        <div className={styles.status}>{shipGame.status}</div>
+      </div>
+      <div className={styles.system}>
+        <div className={styles.note}>[ System Notes ]</div>
+        <div className={styles.note}>
+          *One Station per wallet address required.
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ShipModal;

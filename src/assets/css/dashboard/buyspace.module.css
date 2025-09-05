@@ -38,6 +38,11 @@
   margin-bottom: 15px;
 }
 
+.deployBtn:hover {
+  color: #000;
+  background-color: #4aff41;
+}
+
 .text {
   font-size: 14px;
 }

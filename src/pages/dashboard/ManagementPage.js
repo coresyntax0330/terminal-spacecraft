@@ -1,9 +1,5 @@
 import React, { useMemo, useState } from "react";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
-
-// redux slices
-import { pageSet } from "@/redux/slices/pageSlice";
 
 // import style
 import styles from "@/assets/css/dashboard/managementpage.module.css";
@@ -13,6 +9,10 @@ import ShipBisonImg from "@/assets/images/ships/Bison.png";
 import ShipDiabloImg from "@/assets/images/ships/Diablo.png";
 import ShipCargoImg from "@/assets/images/ships/Cargo.png";
 import ShipEmptyImg from "@/assets/images/ships/empty.png";
+
+// import components
+import ShipModal from "@/components/ShipModal";
+import ShipEmptyModal from "@/components/ShipEmptyModal";
 
 const SHIP_IMAGES = {
   Bison: ShipBisonImg,
@@ -77,6 +77,9 @@ const makeRows = (n = TOTAL_ROWS) => {
 const PAGE_SIZE = 6;
 
 const ManagementPage = () => {
+  const [shipFlag, setShipFlag] = useState(false);
+  const [shipEmptyFlag, setShipEmptyFlag] = useState(false);
+  const [shipGame, setShipGame] = useState({});
   const [page, setPage] = useState(1);
 
   // In real app, you'd fetch data here and paginate server-side if you prefer.
@@ -96,120 +99,161 @@ const ManagementPage = () => {
   const next = () => goTo(page + 1);
   const prev = () => goTo(page - 1);
 
+  const handleClickShipItem = (gameItem) => {
+    if (gameItem.hasImage) {
+      setShipFlag(true);
+      setShipGame(gameItem);
+    } else {
+      setShipEmptyFlag(true);
+      setShipGame({});
+    }
+  };
+
   return (
     <div className={styles.main}>
-      <div className={styles.title}>Fleet Management</div>
-      <div className={styles.wrapper}>
-        <div className={styles.header}>
-          <div>&gt; 1. Update Capability +1 Slot [40 UFO]</div>
-          <div>
-            [{page}/{totalPages}]
-          </div>
-        </div>
-        <div className={styles.list}>
-          {pageRows.map((item, i) => {
-            return (
-              <div className={styles.item} key={i}>
-                <div className={styles.subItem}>
-                  <div className={styles.shipTitle}>
-                    {item
-                      ? item.hasImage
-                        ? item.name
-                        : "Ship Capability"
-                      : "Ship Capability"}
-                  </div>
-                  <div className={styles.imgSection}>
-                    <Image
-                      src={
-                        item && item.hasImage && item.imageKey
-                          ? SHIP_IMAGES[item.imageKey]
-                          : ShipEmptyImg
-                      }
-                      alt="ship"
-                      className={styles.shipImg}
-                      priority
-                    />
-                  </div>
-                  <div className={styles.footerSection}>
-                    <div className={styles.footerItem}>
-                      <div className={styles.footerText}>Status</div>
-                      <div className={styles.footerText}>
-                        {item ? item.status : "OFF"}
-                      </div>
-                    </div>
-                    <div className={styles.footerItem}>
-                      <div className={styles.footerText}>Fleet Power</div>
-                      <div className={styles.footerText}>
-                        {item ? item.fleetPower : "-"}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+      {shipFlag ? (
+        <ShipModal setShipFlag={setShipFlag} shipGame={shipGame} />
+      ) : shipEmptyFlag ? (
+        <ShipEmptyModal setShipEmptyFlag={setShipEmptyFlag} />
+      ) : (
+        <>
+          <div className={styles.title}>Fleet Management</div>
+          <div className={styles.wrapper}>
+            <div className={styles.header}>
+              <div>&gt; 1. Update Capability +1 Slot [40 UFO]</div>
+              <div>
+                [{page}/{totalPages}]
               </div>
-            );
-          })}
-        </div>
-      </div>
-      <div className={styles.footerBody}>
-        {/* Prev */}
-        <button
-          type="button"
-          onClick={prev}
-          disabled={page === 1}
-          aria-label="Previous page"
-          style={{
-            opacity: page === 1 ? 0.4 : 1,
-            cursor: page === 1 ? "default" : "pointer",
-          }}
-        >
-          [&lt;]
-        </button>
+            </div>
+            <div className={styles.list}>
+              {pageRows.map((item, i) => {
+                return (
+                  <button
+                    className={styles.item}
+                    key={i}
+                    onClick={() => handleClickShipItem(item)}
+                  >
+                    <div className={styles.subItem}>
+                      {item ? (
+                        item.hasImage ? (
+                          <div className={styles.shipTitle}>{item.name}</div>
+                        ) : (
+                          <div className={styles.shipEmptyTitle}>
+                            Ship Capability
+                          </div>
+                        )
+                      ) : (
+                        <div className={styles.shipEmptyTitle}>
+                          Ship Capability
+                        </div>
+                      )}
 
-        {/* Numbers + ellipses */}
-        {pageRange.map((token, idx) =>
-          token === "…" ? (
-            <span
-              key={`dots-${idx}`}
-              style={{
-                userSelect: "none",
-              }}
-            >
-              [ ... ]
-            </span>
-          ) : (
+                      <div className={styles.imgSection}>
+                        <Image
+                          src={
+                            item && item.hasImage && item.imageKey
+                              ? SHIP_IMAGES[item.imageKey]
+                              : ShipEmptyImg
+                          }
+                          alt="ship"
+                          className={styles.shipImg}
+                          priority
+                        />
+                      </div>
+                      {item && item.hasImage && item.imageKey ? (
+                        <div className={styles.footerSection}>
+                          <div className={styles.footerItem}>
+                            <div className={styles.footerText}>Status</div>
+                            <div className={styles.footerText}>
+                              {item ? item.status : "OFF"}
+                            </div>
+                          </div>
+                          <div className={styles.footerItem}>
+                            <div className={styles.footerText}>Fleet Power</div>
+                            <div className={styles.footerText}>
+                              {item ? item.fleetPower : "-"}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className={styles.footerSection}>
+                          <div className={styles.footerEmptyItem}>
+                            <div className={styles.footerText}>
+                              &gt; 1. Buy: 40 UFO
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div className={styles.footerBody}>
+            {/* Prev */}
             <button
               type="button"
-              key={token}
-              onClick={() => goTo(token)}
-              aria-current={token === page ? "page" : undefined}
+              onClick={prev}
+              disabled={page === 1}
+              aria-label="Previous page"
               style={{
-                background: token === page ? "#4AFF41" : "transparent",
-                boxShadow:
-                  token === page ? "inset 0 0 8px rgba(124,252,0,.3)" : "none",
-                color: token === page ? "#000" : "#4AFF41",
-                cursor: token === page ? "default" : "pointer",
+                opacity: page === 1 ? 0.4 : 1,
+                cursor: page === 1 ? "default" : "pointer",
               }}
             >
-              [{token}]
+              [&lt;]
             </button>
-          )
-        )}
 
-        {/* Next */}
-        <button
-          type="button"
-          onClick={next}
-          disabled={page === totalPages}
-          aria-label="Next page"
-          style={{
-            background: "transparent",
-            opacity: page === totalPages ? 0.4 : 1,
-            cursor: page === totalPages ? "default" : "pointer",
-          }}
-        >
-          [&gt;]
-        </button>
-      </div>
+            {/* Numbers + ellipses */}
+            {pageRange.map((token, idx) =>
+              token === "…" ? (
+                <span
+                  key={`dots-${idx}`}
+                  style={{
+                    userSelect: "none",
+                  }}
+                >
+                  [ ... ]
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  key={token}
+                  onClick={() => goTo(token)}
+                  aria-current={token === page ? "page" : undefined}
+                  style={{
+                    background: token === page ? "#4AFF41" : "transparent",
+                    boxShadow:
+                      token === page
+                        ? "inset 0 0 8px rgba(124,252,0,.3)"
+                        : "none",
+                    color: token === page ? "#000" : "#4AFF41",
+                    cursor: token === page ? "default" : "pointer",
+                  }}
+                >
+                  [{token}]
+                </button>
+              )
+            )}
+
+            {/* Next */}
+            <button
+              type="button"
+              onClick={next}
+              disabled={page === totalPages}
+              aria-label="Next page"
+              style={{
+                background: "transparent",
+                opacity: page === totalPages ? 0.4 : 1,
+                cursor: page === totalPages ? "default" : "pointer",
+              }}
+            >
+              [&gt;]
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

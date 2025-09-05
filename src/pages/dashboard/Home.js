@@ -19,11 +19,19 @@ const Home = () => {
       <Image src={LogoImg} alt="logo" className={styles.logoImg} priority />
       <div className={styles.title}>ABSTRACTORS</div>
       <div className={styles.menu}>
-        <button type="button" onClick={() => dispatch(pageSet("start"))}>
+        <button
+          type="button"
+          className={styles.btn}
+          onClick={() => dispatch(pageSet("start"))}
+        >
           &gt; 1. START SYSTEM
         </button>
-        <button type="button">&gt; 2. OPERATIONS MANUAL</button>
-        <button type="button">&gt; 3. SUPPLY DEPOT</button>
+        <button type="button" className={styles.btn}>
+          &gt; 2. OPERATIONS MANUAL
+        </button>
+        <button type="button" className={styles.btn}>
+          &gt; 3. SUPPLY DEPOT
+        </button>
       </div>
     </>
   );
