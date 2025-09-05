@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 
 // redux slices
@@ -8,6 +8,8 @@ import { pageSet } from "@/redux/slices/pageSlice";
 import styles from "@/assets/css/dashboard/alertpage.module.css";
 
 const AlertPage = () => {
+  const dispatch = useDispatch();
+
   return (
     <div className={styles.main}>
       <div className={styles.alertTitle}>[Alert]</div>
@@ -22,7 +24,11 @@ const AlertPage = () => {
         <div className={styles.packageText}>2x Random Ship NFTS</div>
         <div className={styles.packageText}>Base Fleet Power: 200-250</div>
       </div>
-      <button type="button" className={styles.deployBtn}>
+      <button
+        type="button"
+        className={styles.deployBtn}
+        onClick={() => dispatch(pageSet("buyspace"))}
+      >
         &gt; 1. Deploy Station [0.1 ETH]
       </button>
       <div className={styles.systemNotes}>

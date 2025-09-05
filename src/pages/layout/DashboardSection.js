@@ -8,6 +8,10 @@ import styles from "@/assets/css/layout/dashboardSection.module.css";
 import Home from "../dashboard/Home";
 import StartPage from "../dashboard/StartPage";
 import AlertPage from "../dashboard/AlertPage";
+import BuySpace from "../dashboard/BuySpace";
+import MiningCore from "../dashboard/MiningCore";
+import DatabasePage from "../dashboard/DatabasePage";
+import RankingPage from "../dashboard/RankingPage";
 
 const DashboardSection = () => {
   const pagePath = useSelector((state) => state.page.path);
@@ -21,6 +25,14 @@ const DashboardSection = () => {
           <StartPage />
         ) : pagePath === "alert" ? (
           <AlertPage />
+        ) : pagePath === "buyspace" ? (
+          <BuySpace />
+        ) : pagePath === "miningcore" ? (
+          <MiningCore />
+        ) : pagePath === "databasepage" ? (
+          <DatabasePage />
+        ) : pagePath === "rankingpage" ? (
+          <RankingPage />
         ) : (
           <></>
         )}

@@ -1,4 +1,10 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+
+// redux slices
+import { pageSet } from "@/redux/slices/pageSlice";
+
+// import style
 import styles from "@/assets/css/layout/footerSection.module.css";
 
 // import assets
@@ -26,6 +32,8 @@ import ClaimPressImg from "@/assets/images/buttons/claim_press.png";
 import FooterButton from "@/components/FooterButton";
 
 const FooterSection = () => {
+  const dispatch = useDispatch();
+
   return (
     <div className={styles.footerSection}>
       <div className={styles.mainSection}>
@@ -37,7 +45,7 @@ const FooterSection = () => {
             alt="Mining Button"
             className={styles.buttonImg}
             style={{ left: "10px" }}
-            onClick={() => alert("Mining button")}
+            onClick={() => dispatch(pageSet("miningcore"))}
           />
           <FooterButton
             defaultImg={DatabaseImg}
@@ -46,7 +54,7 @@ const FooterSection = () => {
             alt="Database Button"
             className={styles.buttonImg}
             style={{ left: "182px" }}
-            onClick={() => alert("Database button")}
+            onClick={() => dispatch(pageSet("databasepage"))}
           />
           <FooterButton
             defaultImg={RankingImg}
@@ -55,7 +63,7 @@ const FooterSection = () => {
             alt="Ranking Button"
             className={styles.buttonImg}
             style={{ right: "184px" }}
-            onClick={() => alert("Ranking button")}
+            onClick={() => dispatch(pageSet("rankingpage"))}
           />
           <FooterButton
             defaultImg={ManualImg}
@@ -64,7 +72,7 @@ const FooterSection = () => {
             alt="Manual Button"
             className={styles.buttonImg}
             style={{ right: "12px" }}
-            onClick={() => alert("Manual button")}
+            onClick={() => dispatch(pageSet("manualpage"))}
           />
         </div>
         <div className={styles.rightSection}>
@@ -75,7 +83,7 @@ const FooterSection = () => {
             alt="Claim Button"
             className={styles.buttonRightImg}
             style={{ right: "50%", transform: "translateX(50%)" }}
-            onClick={() => alert("Claim button")}
+            onClick={() => dispatch(pageSet("claimpage"))}
           />
         </div>
       </div>
