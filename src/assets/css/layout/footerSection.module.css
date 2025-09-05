@@ -1,0 +1,58 @@
+.footerSection {
+  position: absolute;
+  z-index: 11;
+  width: calc(1024px - 64px);
+  height: 112px;
+  bottom: 32px;
+  left: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mainSection {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.leftSection {
+  height: 100%;
+  width: 674px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  position: relative;
+}
+
+.buttonItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+}
+
+.buttonImg {
+  width: 136px;
+}
+
+.rightSection {
+  height: 100%;
+  width: 270px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
+}
+
+.buttonRightImg {
+  width: 202px;
+}
