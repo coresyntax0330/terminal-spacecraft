@@ -1,2 +1,3 @@
-# terminal-spacecraft
-A terminal spacecraft frontend for EVM chain
+## Terminal SpaceCraft
+
+A Terminal Spacecraft Frontend for EVM chain
