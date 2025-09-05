@@ -29,7 +29,7 @@ const StartPage = () => {
       // ✅ finished showing all items
       setTimeout(() => {
         dispatch(pageSet("alert"));
-      }, 500);
+      }, 100);
     }
   }, [visibleCount, messages.length]);
 

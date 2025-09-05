@@ -7,6 +7,7 @@ import styles from "@/assets/css/layout/dashboardSection.module.css";
 // import component
 import Home from "../dashboard/Home";
 import StartPage from "../dashboard/StartPage";
+import AlertPage from "../dashboard/AlertPage";
 
 const DashboardSection = () => {
   const pagePath = useSelector((state) => state.page.path);
@@ -18,6 +19,8 @@ const DashboardSection = () => {
           <Home />
         ) : pagePath === "start" ? (
           <StartPage />
+        ) : pagePath === "alert" ? (
+          <AlertPage />
         ) : (
           <></>
         )}
