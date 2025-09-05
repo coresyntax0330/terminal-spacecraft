@@ -1,0 +1,20 @@
+.logoImg {
+  width: 196px;
+  height: 144px;
+}
+
+.title {
+  height: 64px;
+  font-size: 64px;
+  margin-top: 10px;
+}
+
+.menu {
+  width: 292px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}

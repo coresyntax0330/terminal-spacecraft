@@ -76,7 +76,6 @@
 .resultSection {
   width: 270px;
   height: 398px;
-  background-color: red;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -90,5 +89,4 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: red;
 }

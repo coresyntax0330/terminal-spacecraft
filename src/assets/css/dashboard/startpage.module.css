@@ -1,0 +1,12 @@
+.main {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.item {
+  text-transform: uppercase;
+  padding: 8px;
+  width: 310px;
+}
