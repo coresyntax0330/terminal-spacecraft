@@ -9,7 +9,11 @@ export const metadata: Metadata = {
   description: "Retro mining game on Abstractor L2",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className="bg-neutral-900 text-green-400 font-mono">
@@ -17,7 +21,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="min-h-screen flex items-center justify-center">
             {/* OUTER TV SHELL */}
             <div className="w-[1024px] h-[832px] bg-black border-8 border-gray-700 rounded-lg shadow-2xl flex p-4">
-              
               {/* INNER CRT SCREEN AREA */}
               <div
                 className="flex flex-col flex-1 border border-green-700 rounded-md p-4 gap-4"

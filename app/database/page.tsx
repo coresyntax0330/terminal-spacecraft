@@ -8,7 +8,9 @@ export default function Database() {
 
       {/* Wallet Section */}
       <div className="mb-6">
-        <h2 className="text-lg mb-2">YOUR WALLET INFORMATION AND ETH BALANCES</h2>
+        <h2 className="text-lg mb-2">
+          YOUR WALLET INFORMATION AND ETH BALANCES
+        </h2>
 
         <div className="border border-green-400 border-dashed p-4 space-y-2">
           <div className="flex justify-between">
@@ -33,7 +35,8 @@ export default function Database() {
       {/* Referral Section */}
       <div className="mb-6">
         <h2 className="text-lg mb-2">
-          SHARE YOUR REFERRAL LINK WITH A FELLOW SPACE DEGEN AND EARN A 2.5% BONUS
+          SHARE YOUR REFERRAL LINK WITH A FELLOW SPACE DEGEN AND EARN A 2.5%
+          BONUS
         </h2>
 
         <div className="border border-green-400 border-dashed p-4 space-y-2">

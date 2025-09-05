@@ -11,25 +11,28 @@ export default function Info() {
         <h2 className="font-bold">QUICK SUMMARY</h2>
         <p className="mb-1">BUY A SPACECRAFT PACK (STARTER OR MARKET).</p>
         <p className="mb-1">
-          DEPLOY SPACECRAFTS INTO YOUR FLEET. THEY START GENERATING $UFO EVERY HOUR.
+          DEPLOY SPACECRAFTS INTO YOUR FLEET. THEY START GENERATING $UFO EVERY
+          HOUR.
         </p>
         <p>
-          REINVEST $UFO INTO MORE SPACECRAFTS OR UPGRADES TO SCALE YOUR FLEET POWER
-          AND EARNINGS.
+          REINVEST $UFO INTO MORE SPACECRAFTS OR UPGRADES TO SCALE YOUR FLEET
+          POWER AND EARNINGS.
         </p>
       </section>
 
       {/* Player Goals */}
       <section className="mb-4">
         <h2 className="font-bold">PLAYER GOALS</h2>
-        <p className="mb-1">BUILD A FLEET THAT PRODUCES PREDICTABLE HOURLY $UFO.</p>
+        <p className="mb-1">
+          BUILD A FLEET THAT PRODUCES PREDICTABLE HOURLY $UFO.
+        </p>
         <p className="mb-1">
           DECIDE THE STRATEGY: BROAD (MANY TIER 1 SPACECRAFTS) OR DEEP (FEWER
           HIGH-TIER SHIPS + UPGRADES).
         </p>
         <p>
-          LEVERAGE PACKS, SEASONAL EVENTS, AND MARKETPLACE TRADES TO INCREASE FLEET
-          POWER.
+          LEVERAGE PACKS, SEASONAL EVENTS, AND MARKETPLACE TRADES TO INCREASE
+          FLEET POWER.
         </p>
       </section>
 
@@ -40,8 +43,8 @@ export default function Info() {
           CASUAL: BUY A STARTER PACK, COLLECT HOURLY $UFO, GRADUALLY EXPAND.
         </p>
         <p className="mb-1">
-          STRATEGIC/INVESTOR: OPTIMIZE TIER & LEVEL MIX, REINVEST FOR COMPOUNDING
-          YIELD.
+          STRATEGIC/INVESTOR: OPTIMIZE TIER & LEVEL MIX, REINVEST FOR
+          COMPOUNDING YIELD.
         </p>
         <p>
           COLLECTOR: TARGET RARE TIER 3 & TIER 4 SPACECRAFTS AND LIMITED PACKS.
@@ -56,13 +59,13 @@ export default function Info() {
           accounts in near real time.
         </p>
         <p>
-          Fleet Power: Each Spacecraft contributes Base Fleet Power (determined by
-          tier + level).
+          Fleet Power: Each Spacecraft contributes Base Fleet Power (determined
+          by tier + level).
         </p>
         <p>Player Share = PlayerFleetPower / TotalFleetPower</p>
         <p>
-          Emission Distribution: Every hour, the system allocates the Hourly Emission
-          Pool and distributes rewards proportionally.
+          Emission Distribution: Every hour, the system allocates the Hourly
+          Emission Pool and distributes rewards proportionally.
         </p>
       </div>
 
@@ -72,7 +75,8 @@ export default function Info() {
         <p>* GLOBAL FLEET POWER: 100,000</p>
         <p>* YOUR FLEET POWER: 1,000 → 1% SHARE</p>
         <p>
-          * HOURLY EMISSION: 100,000 $UFO → YOUR PAYOUT = 1,000 $UFO FOR THAT HOUR.
+          * HOURLY EMISSION: 100,000 $UFO → YOUR PAYOUT = 1,000 $UFO FOR THAT
+          HOUR.
         </p>
       </section>
     </div>
