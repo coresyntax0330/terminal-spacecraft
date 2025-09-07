@@ -14,6 +14,7 @@ import DatabasePage from "../dashboard/DatabasePage";
 import RankingPage from "../dashboard/RankingPage";
 import ManualPage from "../dashboard/ManualPage";
 import ManagementPage from "../dashboard/ManagementPage";
+import ClaimPage from "../dashboard/ClaimPage";
 
 const DashboardSection = () => {
   const pagePath = useSelector((state) => state.page.path);
@@ -39,6 +40,8 @@ const DashboardSection = () => {
           <ManualPage />
         ) : pagePath === "managementpage" ? (
           <ManagementPage />
+        ) : pagePath === "claimpage" ? (
+          <ClaimPage />
         ) : (
           <></>
         )}
