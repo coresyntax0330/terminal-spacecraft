@@ -10,8 +10,8 @@
 }
 
 .mainSection {
-  width: 1024px;
-  height: 832px;
+  width: 1088px;
+  height: 896px;
   background-color: transparent;
   position: relative;
   display: flex;
@@ -33,7 +33,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 32px;
+  padding: 32px 64px 96px 64px;
   gap: 16px;
 }
 
