@@ -1,11 +1,9 @@
 import React from "react";
-import Image from "next/image";
 
 // import style
 import styles from "@/assets/css/prediction/home.module.css";
 
-// import assets
-import ChartImg from "@/assets/images/chart.png";
+// import components
 import UFOChart from "@/components/UFOChart";
 
 const Home = () => {
