@@ -18,6 +18,7 @@ import ClaimPage from "../dashboard/ClaimPage";
 
 const DashboardSection = () => {
   const pagePath = useSelector((state) => state.page.path);
+  const walletStatus = useSelector((state) => state.wallet.status);
 
   return (
     <div className={styles.dashboardSection}>
@@ -25,23 +26,59 @@ const DashboardSection = () => {
         {pagePath === "" ? (
           <Home />
         ) : pagePath === "start" ? (
-          <StartPage />
+          walletStatus ? (
+            <StartPage />
+          ) : (
+            <Home />
+          )
         ) : pagePath === "alert" ? (
-          <AlertPage />
+          walletStatus ? (
+            <AlertPage />
+          ) : (
+            <Home />
+          )
         ) : pagePath === "buyspace" ? (
-          <BuySpace />
+          walletStatus ? (
+            <BuySpace />
+          ) : (
+            <Home />
+          )
         ) : pagePath === "miningcore" ? (
-          <MiningCore />
+          walletStatus ? (
+            <MiningCore />
+          ) : (
+            <Home />
+          )
         ) : pagePath === "databasepage" ? (
-          <DatabasePage />
+          walletStatus ? (
+            <DatabasePage />
+          ) : (
+            <Home />
+          )
         ) : pagePath === "rankingpage" ? (
-          <RankingPage />
+          walletStatus ? (
+            <RankingPage />
+          ) : (
+            <Home />
+          )
         ) : pagePath === "manualpage" ? (
-          <ManualPage />
+          walletStatus ? (
+            <ManualPage />
+          ) : (
+            <Home />
+          )
         ) : pagePath === "managementpage" ? (
-          <ManagementPage />
+          walletStatus ? (
+            <ManagementPage />
+          ) : (
+            <Home />
+          )
         ) : pagePath === "claimpage" ? (
-          <ClaimPage />
+          walletStatus ? (
+            <ClaimPage />
+          ) : (
+            <Home />
+          )
         ) : (
           <></>
         )}
