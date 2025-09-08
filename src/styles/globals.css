@@ -33,3 +33,7 @@ a {
   width: 0px; /* vertical scrollbar */
   height: 0px; /* horizontal scrollbar */
 }
+
+.recharts-surface {
+  outline: none !important;
+}
