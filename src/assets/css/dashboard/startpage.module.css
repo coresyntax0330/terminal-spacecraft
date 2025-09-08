@@ -3,6 +3,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
+  height: 160px;
 }
 
 .item {

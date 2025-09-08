@@ -1,3 +1,12 @@
+.wrapper {
+  height: 292px;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
 .logoImg {
   width: 196px;
   height: 144px;

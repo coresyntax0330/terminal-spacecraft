@@ -17,7 +17,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 10px;
+  padding: 8px;
   border: 1px dashed #4aff41;
   gap: 5px;
 }

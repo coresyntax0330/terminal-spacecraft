@@ -28,7 +28,7 @@ const StartPage = () => {
     } else if (visibleCount === messages.length) {
       // ✅ finished showing all items
       setTimeout(() => {
-        dispatch(pageSet("alert"));
+        // dispatch(pageSet("alert"));
       }, 100);
     }
   }, [visibleCount, messages.length]);
