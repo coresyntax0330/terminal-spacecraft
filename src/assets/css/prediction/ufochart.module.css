@@ -1,0 +1,36 @@
+.crtWrapper {
+  width: 222px;
+  height: 150px;
+  color: #4aff41;
+  font-family: "Courier New", monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.crtLegend {
+  text-align: right;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #4aff41;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.crtLegendText {
+  font-size: 12px;
+}
+
+/* CRT scanline effect */
+.crtWrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
