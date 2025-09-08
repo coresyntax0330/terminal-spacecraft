@@ -16,30 +16,51 @@ const StartPage = () => {
     "Status: ONLINE...",
   ];
 
-  const [visibleCount, setVisibleCount] = useState(0);
+  const [displayed, setDisplayed] = useState([]); // finished lines
+  const [currentLine, setCurrentLine] = useState(""); // being typed
+  const [lineIndex, setLineIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (visibleCount < messages.length) {
+    if (lineIndex < messages.length) {
+      const currentText = messages[lineIndex];
+      if (charIndex < currentText.length) {
+        const timeout = setTimeout(() => {
+          setCurrentLine((prev) => prev + currentText[charIndex]);
+          setCharIndex((prev) => prev + 1);
+        }, 15); // typing speed
+        return () => clearTimeout(timeout);
+      } else {
+        // line finished
+        setDisplayed((prev) => [...prev, currentText]);
+        setCurrentLine("");
+        setCharIndex(0);
+        setLineIndex((prev) => prev + 1);
+      }
+    } else if (lineIndex === messages.length) {
+      // all finished -> redirect
       const timer = setTimeout(() => {
-        setVisibleCount((prev) => prev + 1);
-      }, 500); // show new item every 1s
+        dispatch(pageSet("alert"));
+      }, 500);
       return () => clearTimeout(timer);
-    } else if (visibleCount === messages.length) {
-      // ✅ finished showing all items
-      setTimeout(() => {
-        // dispatch(pageSet("alert"));
-      }, 100);
     }
-  }, [visibleCount, messages.length]);
+  }, [charIndex, lineIndex]);
 
   return (
     <div className={styles.main}>
-      {messages.slice(0, visibleCount).map((msg, index) => (
+      {/* Finished lines */}
+      {displayed.map((msg, index) => (
         <div key={index} className={styles.item}>
           &gt; {msg}
         </div>
       ))}
+
+      {/* Currently typing line */}
+      {lineIndex < messages.length && (
+        <div className={styles.item}>&gt; {currentLine}</div>
+      )}
     </div>
   );
 };

@@ -38,7 +38,7 @@ const Home = () => {
         const timeout = setTimeout(() => {
           setCurrentLine((prev) => prev + currentText[charIndex]);
           setCharIndex((prev) => prev + 1);
-        }, 40); // typing speed
+        }, 15); // typing speed
         return () => clearTimeout(timeout);
       } else {
         setDisplayed((prev) => [
