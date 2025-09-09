@@ -1,4 +1,3 @@
-
 @import "tw-animate-css";
 
 @plugin "tailwindcss-animate";
@@ -21,7 +20,6 @@
   margin: 0;
   box-sizing: border-box;
   color: #4aff41;
-  background-color: transparent;
   font-family: "MyFont";
   font-size: 16px;
   font-weight: 400;

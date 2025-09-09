@@ -59,7 +59,6 @@ const Home = () => {
     <div className={styles.wrapper}>
       <Image src={LogoImg} alt="logo" className={styles.logoImg} priority />
 
-      <ConnectWalletButton />
       {/* Title */}
       {displayed.find((el) => el.type === "title") && (
         <div className={styles.title}>
@@ -92,6 +91,8 @@ const Home = () => {
             {currentLine}
           </button>
         )}
+
+        <ConnectWalletButton title={"Title"} />
       </div>
     </div>
   );

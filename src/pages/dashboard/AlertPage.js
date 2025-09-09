@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
+import { useAccount, useBalance } from "wagmi";
+
 // redux slices
 import { pageSet } from "@/redux/slices/pageSlice";
 
 // import styles
 import styles from "@/assets/css/dashboard/alertpage.module.css";
+import { ConnectWalletButton } from "@/components/connect-wallet-button";
 
 const AlertPage = () => {
   const dispatch = useDispatch();
+  const { isConnected, status, address } = useAccount();
 
   // Ordered messages grouped by section
   const sections = [
@@ -38,6 +42,7 @@ const AlertPage = () => {
         },
       ],
     },
+
     {
       container: "systemNotes",
       items: [
@@ -143,16 +148,20 @@ const AlertPage = () => {
       {/* DEPLOY BUTTON */}
       {displayed
         .filter((el) => el.type === "deployBtn")
-        .map((el, i) => (
-          <button
-            key={`btn-${i}`}
-            type="button"
-            className={styles.deployBtn}
-            onClick={el.action || undefined}
-          >
-            {el.text}
-          </button>
-        ))}
+        .map((el, i) =>
+          !isConnected ? (
+            <ConnectWalletButton />
+          ) : (
+            <button
+              key={`btn-${i}`}
+              type="button"
+              className={styles.deployBtn}
+              onClick={el.action || undefined}
+            >
+              {el.text}
+            </button>
+          )
+        )}
       {lineIndex < elements.length &&
         elements[lineIndex].type === "deployBtn" && (
           <button type="button" className={styles.deployBtn}>
