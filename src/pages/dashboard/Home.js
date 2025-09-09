@@ -11,6 +11,9 @@ import styles from "@/assets/css/dashboard/home.module.css";
 // import assets
 import LogoImg from "@/assets/images/logo.gif";
 
+// import component
+import { ConnectWalletButton } from "@/components/connect-wallet-button";
+
 const Home = () => {
   const dispatch = useDispatch();
 
@@ -56,6 +59,7 @@ const Home = () => {
     <div className={styles.wrapper}>
       <Image src={LogoImg} alt="logo" className={styles.logoImg} priority />
 
+      <ConnectWalletButton />
       {/* Title */}
       {displayed.find((el) => el.type === "title") && (
         <div className={styles.title}>
