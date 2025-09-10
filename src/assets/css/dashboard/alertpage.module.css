@@ -45,6 +45,8 @@
 .deployBtn {
   text-transform: uppercase;
   margin-bottom: 20px;
+  width: 100%;
+  text-align: left;
 }
 
 .deployBtn:hover {

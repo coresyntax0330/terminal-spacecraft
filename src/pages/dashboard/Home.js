@@ -17,6 +17,7 @@ import LogoImg from "@/assets/images/logo.gif";
 import { ConnectWalletButton } from "@/components/connect-wallet-button";
 import { playStart } from "@/utils/sounds";
 import { useToast } from "@/components/ToastProvider";
+import { playAddWallet } from "@/utils/sounds";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -75,6 +76,7 @@ const Home = () => {
     if (isConnected) {
       showToast("Wallet Connected!");
       dispatch(walletStatusSet(true));
+      playAddWallet();
     }
   }, [isConnected]);
 

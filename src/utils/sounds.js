@@ -27,3 +27,8 @@ export const playStart = () => {
   const audio = new Audio("/music/StartSystem.mp3");
   audio.play();
 };
+
+export const playAddWallet = () => {
+  const audio = new Audio("/music/PleaseAddWalletNotification.wav");
+  audio.play();
+};

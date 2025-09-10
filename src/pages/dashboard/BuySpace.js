@@ -24,6 +24,7 @@ import { stationPurchaseContractAddress } from "@/utils/contract";
 import { stationPurchaseABI } from "@/utils/abis/stationPurchase";
 import ExplainLine from "@/components/ExplainLine";
 import { useToast } from "@/components/ToastProvider";
+import { playDeploy } from "@/utils/sounds";
 
 const BuySpace = () => {
   const dispatch = useDispatch();
@@ -62,7 +63,7 @@ const BuySpace = () => {
       action: () => handleBuyStation(),
     },
     {
-      type: "deployBtn",
+      type: "previousBtn",
       text: "> 2. Go to previous page",
       action: () => dispatch(pageSet("alert")),
     },
@@ -97,6 +98,7 @@ const BuySpace = () => {
   useEffect(() => {
     if (isSuccess) {
       showToast("Buy Station Success!");
+      playDeploy();
       setBuyLoading(false);
       dispatch(pageSet("miningcore"));
     }
@@ -258,6 +260,26 @@ const BuySpace = () => {
         ))}
       {lineIndex < elements.length &&
         elements[lineIndex].type === "deployBtn" && (
+          <button type="button" className={styles.deployBtn}>
+            {currentLine}
+          </button>
+        )}
+
+      {/* Previous BUTTON */}
+      {displayed
+        .filter((el) => el.type === "previousBtn")
+        .map((el, i) => (
+          <button
+            key={`btn-${i}`}
+            type="button"
+            className={styles.deployBtn}
+            onClick={el.action || undefined}
+          >
+            {el.text}
+          </button>
+        ))}
+      {lineIndex < elements.length &&
+        elements[lineIndex].type === "previousBtn" && (
           <button type="button" className={styles.deployBtn}>
             {currentLine}
           </button>
