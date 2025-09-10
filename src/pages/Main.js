@@ -15,6 +15,7 @@ import DashboardSection from "./layout/DashboardSection";
 import ResultSection from "./layout/ResultSection";
 import PredictionSection from "./layout/PredictionSection";
 import FooterSection from "./layout/FooterSection";
+import ToastProvider from "@/components/ToastProvider";
 
 const Main = () => {
   return (
@@ -42,10 +43,12 @@ const Main = () => {
         </div>
       </div>
 
-      <DashboardSection />
-      <ResultSection />
-      <PredictionSection />
-      <FooterSection />
+      <ToastProvider>
+        <DashboardSection />
+        <ResultSection />
+        <PredictionSection />
+        <FooterSection />
+      </ToastProvider>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useAccount, useReadContract } from "wagmi";
 import { LuCopy } from "react-icons/lu";
 
@@ -7,6 +7,7 @@ import styles from "@/assets/css/prediction/home.module.css";
 
 // import components
 import UFOChart from "@/components/UFOChart";
+import { useToast } from "@/components/ToastProvider";
 
 // import utils
 import { abstractorTokenContractABI } from "@/utils/abis/abstractor";
@@ -14,18 +15,7 @@ import { abstractorTokenContractAddress } from "@/utils/contract";
 
 const Home = () => {
   const { isConnected, status, address } = useAccount();
-  const [tooltip, setTooltip] = useState("Copy");
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(address);
-      setTooltip("Copied!");
-      setTimeout(() => setTooltip("Copy"), 1500); // reset after 1.5s
-    } catch (err) {
-      setTooltip("Failed");
-      setTimeout(() => setTooltip("Copy"), 1500);
-    }
-  };
+  const { showToast } = useToast();
 
   const { data: balance, isSuccess } = useReadContract({
     address: abstractorTokenContractAddress,
@@ -33,6 +23,13 @@ const Home = () => {
     functionName: "balanceOf",
     args: address ? [address] : undefined,
   });
+
+  const handleCopy = async () => {
+    if (address) {
+      await navigator.clipboard.writeText(address);
+      showToast("Copied!");
+    }
+  };
 
   return (
     <div className={styles.main}>
@@ -53,7 +50,6 @@ const Home = () => {
                 <button type="button" onClick={handleCopy}>
                   <LuCopy size={12} />
                 </button>
-                <span className={styles.tooltip}>{tooltip}</span>
               </>
             ) : null}
           </div>

@@ -162,3 +162,61 @@ a {
     @apply bg-background text-foreground;
   }
 }
+
+.toast-container {
+  position: absolute;
+  pointer-events: none;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  top: 48px;
+  left: 401px;
+  transform: translateX(-50%);
+}
+
+.toast {
+  display: inline-block;
+  background-color: transparent;
+  border: 1px dashed #4aff41;
+  color: #4aff41;
+  padding: 8px 16px;
+  border-radius: 8px;
+  margin: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  pointer-events: auto;
+}
+
+/* Positions */
+.toast.top-center {
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.toast.bottom-center {
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.toast.top-left {
+  top: 20px;
+  left: 20px;
+}
+
+.toast.top-right {
+  top: 20px;
+  right: 20px;
+}
+
+.toast.bottom-left {
+  bottom: 20px;
+  left: 20px;
+}
+
+.toast.bottom-right {
+  bottom: 20px;
+  right: 20px;
+}

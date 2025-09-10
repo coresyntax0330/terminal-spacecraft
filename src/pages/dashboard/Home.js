@@ -12,13 +12,15 @@ import styles from "@/assets/css/dashboard/home.module.css";
 // import assets
 import LogoImg from "@/assets/images/logo.gif";
 
-// import component
+// import components
 import { ConnectWalletButton } from "@/components/connect-wallet-button";
 import { playStart } from "@/utils/sounds";
+import { useToast } from "@/components/ToastProvider";
 
 const Home = () => {
   const dispatch = useDispatch();
   const { isConnected } = useAccount();
+  const { showToast } = useToast();
 
   // Ordered elements
   const elements = [
@@ -35,7 +37,10 @@ const Home = () => {
         playStart();
       },
     },
-    { type: "btn", text: "> 2. OPERATIONS MANUAL" },
+    {
+      type: "btn",
+      text: "> 2. OPERATIONS MANUAL",
+    },
     { type: "btn", text: "> 3. SUPPLY DEPOT" },
   ];
 
@@ -64,6 +69,12 @@ const Home = () => {
       }
     }
   }, [charIndex, lineIndex]);
+
+  useEffect(() => {
+    if (isConnected) {
+      showToast("Wallet Connected!");
+    }
+  }, [isConnected]);
 
   return (
     <div className={styles.wrapper}>

@@ -72,7 +72,7 @@ const AlertPage = () => {
         {
           type: "deploySpaceBtn",
           text: "> 1. Deploy Spacecrafts Pack [1000 UFO]",
-          action: () => dispatch(pageSet("buyspace")),
+          action: () => dispatch(pageSet("buyspacecraft")),
         },
       ],
     },

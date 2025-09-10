@@ -15,10 +15,10 @@ import RankingPage from "../dashboard/RankingPage";
 import ManualPage from "../dashboard/ManualPage";
 import ManagementPage from "../dashboard/ManagementPage";
 import ClaimPage from "../dashboard/ClaimPage";
+import BuySpaceCraft from "../dashboard/BuySpaceCraft";
 
 const DashboardSection = () => {
   const pagePath = useSelector((state) => state.page.path);
-  const walletStatus = useSelector((state) => state.wallet.status);
 
   return (
     <div className={styles.dashboardSection}>
@@ -26,59 +26,25 @@ const DashboardSection = () => {
         {pagePath === "" ? (
           <Home />
         ) : pagePath === "start" ? (
-          walletStatus ? (
-            <StartPage />
-          ) : (
-            <Home />
-          )
+          <StartPage />
         ) : pagePath === "alert" ? (
-          walletStatus ? (
-            <AlertPage />
-          ) : (
-            <Home />
-          )
+          <AlertPage />
         ) : pagePath === "buyspace" ? (
-          walletStatus ? (
-            <BuySpace />
-          ) : (
-            <Home />
-          )
+          <BuySpace />
+        ) : pagePath === "buyspacecraft" ? (
+          <BuySpaceCraft />
         ) : pagePath === "miningcore" ? (
-          walletStatus ? (
-            <MiningCore />
-          ) : (
-            <Home />
-          )
+          <MiningCore />
         ) : pagePath === "databasepage" ? (
-          walletStatus ? (
-            <DatabasePage />
-          ) : (
-            <Home />
-          )
+          <DatabasePage />
         ) : pagePath === "rankingpage" ? (
-          walletStatus ? (
-            <RankingPage />
-          ) : (
-            <Home />
-          )
+          <RankingPage />
         ) : pagePath === "manualpage" ? (
-          walletStatus ? (
-            <ManualPage />
-          ) : (
-            <Home />
-          )
+          <ManualPage />
         ) : pagePath === "managementpage" ? (
-          walletStatus ? (
-            <ManagementPage />
-          ) : (
-            <Home />
-          )
+          <ManagementPage />
         ) : pagePath === "claimpage" ? (
-          walletStatus ? (
-            <ClaimPage />
-          ) : (
-            <Home />
-          )
+          <ClaimPage />
         ) : (
           <></>
         )}

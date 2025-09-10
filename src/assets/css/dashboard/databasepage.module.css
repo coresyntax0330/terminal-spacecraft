@@ -42,6 +42,17 @@
   font-size: 14px;
 }
 
+.btnText {
+  font-size: 14px;
+  padding: 2px;
+}
+
+.btnText:hover {
+  color: #000;
+  background-color: #4aff41;
+  padding: 2px;
+}
+
 .barItem {
   width: 100%;
   display: flex;

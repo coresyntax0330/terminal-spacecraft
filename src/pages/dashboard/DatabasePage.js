@@ -1,5 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useAccount, useBalance, useReadContract } from "wagmi";
+import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 
 // redux slices
 import { pageSet } from "@/redux/slices/pageSlice";
@@ -7,8 +9,40 @@ import { pageSet } from "@/redux/slices/pageSlice";
 // import style
 import styles from "@/assets/css/dashboard/databasepage.module.css";
 
+// import component
+import { useToast } from "@/components/ToastProvider";
+
+// import abi
+import { abstractorTokenContractAddress } from "@/utils/contract";
+import { abstractorTokenContractABI } from "@/utils/abis/abstractor";
+
 const DatabasePage = () => {
   const dispatch = useDispatch();
+  const { isConnected, status, address } = useAccount();
+  const { showToast } = useToast();
+  const { data: balance, isLoading: isBalanceLoading } = useBalance({
+    address,
+  });
+
+  const { data: balanceToken, isSuccess } = useReadContract({
+    address: abstractorTokenContractAddress,
+    abi: abstractorTokenContractABI,
+    functionName: "balanceOf",
+    args: address ? [address] : undefined,
+  });
+
+  const { logout } = useLoginWithAbstract();
+
+  const handleCopy = async () => {
+    if (address) {
+      await navigator.clipboard.writeText(address);
+      showToast("Copied!");
+    }
+  };
+
+  const formattedBalance = balance
+    ? `${parseFloat(balance.formatted).toFixed(4)} ${balance.symbol}`
+    : "0.0000 ETH";
 
   return (
     <div className={styles.main}>
@@ -22,17 +56,24 @@ const DatabasePage = () => {
         </div>
         <div className={styles.item}>
           <div className={styles.text}>ETH</div>
-          <div className={styles.text}>0.000000 $ETH</div>
+          <div className={styles.text}>
+            {!isBalanceLoading ? formattedBalance : "Loading..."}
+          </div>
         </div>
         <div className={styles.item}>
-          <div className={styles.text}>ETHLoremIPSUM</div>
-          <div className={styles.text}>0 $ETHL</div>
+          <div className={styles.text}>Token</div>
+          <div className={styles.text}>
+            {isSuccess
+              ? Number(Number(balanceToken?.toString()) / 1000000000000000000) +
+                " UFO"
+              : "Loading..."}
+          </div>
         </div>
         <div className={styles.barItem}>
-          <div className={styles.text}>
-            0xba46uoa928726123809129012a46uoa928726123312328do02
-          </div>
-          <div className={styles.text}>[Copy]</div>
+          <div className={styles.text}>{address ? address : "Loading..."}</div>
+          <button type="button" className={styles.btnText} onClick={handleCopy}>
+            [Copy]
+          </button>
         </div>
       </div>
       <div className={styles.subTitle}>
@@ -55,13 +96,19 @@ const DatabasePage = () => {
           <div className={styles.text}>
             HTTP://LOREMIPSUM.ETH/REF/0xba46...28do02
           </div>
-          <div className={styles.text}>[Copy]</div>
+          <button type="button" className={styles.btnText} onClick={handleCopy}>
+            [Copy]
+          </button>
         </div>
       </div>
       <button
         type="button"
         className={styles.btn}
-        onClick={() => dispatch(pageSet(""))}
+        onClick={() => {
+          logout();
+          showToast("Wallet Disconnected!");
+          dispatch(pageSet(""));
+        }}
       >
         &gt; 1. Disconnect
       </button>
