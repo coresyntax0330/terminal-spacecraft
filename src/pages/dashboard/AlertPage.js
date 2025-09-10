@@ -24,12 +24,27 @@ const AlertPage = () => {
       ],
     },
     {
+      container: "systemNotes",
+      items: [
+        { type: "notesItem", text: "[ System Notes ]" },
+        {
+          type: "notesItem",
+          text: "> One Station per wallet address required.",
+        },
+        { type: "notesItem", text: "> Payment executed via connected wallet." },
+        {
+          type: "notesItem",
+          text: "> Ship NFTs minted instantly after confirmation.",
+        },
+      ],
+    },
+    {
       container: "stationPackage",
       items: [
-        { type: "packageTitle", text: "[ Station Package ]" },
-        { type: "packageText", text: "Station Core Asset (Non-NFT)" },
+        { type: "packageTitle", text: "[ Station Pack ]" },
+        { type: "packageText", text: "Station Core Asset" },
         { type: "packageText", text: "2x Random Ship NFTS" },
-        { type: "packageText", text: "Base Fleet Power: 200-250" },
+        { type: "packageText", text: "Base Fleet Power: 200-800" },
       ],
     },
     {
@@ -42,19 +57,22 @@ const AlertPage = () => {
         },
       ],
     },
-
     {
-      container: "systemNotes",
+      container: "spacecraftsPackage",
       items: [
-        { type: "notesItem", text: "[ System Notes ]" },
+        { type: "packageTitle", text: "[ Spacecrafts Pack ]" },
+        { type: "packageText", text: "Boosted Pack" },
+        { type: "packageText", text: "2x Random Ship NFTS" },
+        { type: "packageText", text: "Base Fleet Power: 125-550" },
+      ],
+    },
+    {
+      container: "deploySpaceBtn",
+      items: [
         {
-          type: "notesItem",
-          text: "*One Station per wallet address required.",
-        },
-        { type: "notesItem", text: "*Payment executed via connected wallet." },
-        {
-          type: "notesItem",
-          text: "*Ship NFTs minted instantly after confirmation.",
+          type: "deploySpaceBtn",
+          text: "> 1. Deploy Spacecrafts Pack [1000 UFO]",
+          action: () => dispatch(pageSet("buyspace")),
         },
       ],
     },
@@ -74,10 +92,15 @@ const AlertPage = () => {
   const [lineIndex, setLineIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [showBorderBar, setShowBorderBar] = useState(false);
+  const [showSpaceBorderBar, setShowSpaceBorderBar] = useState(false);
 
   useEffect(() => {
-    if (lineIndex === 3) {
+    if (lineIndex === 7) {
       setShowBorderBar(true);
+    }
+
+    if (lineIndex === 12) {
+      setShowSpaceBorderBar(true);
     }
 
     if (lineIndex < elements.length) {
@@ -125,6 +148,21 @@ const AlertPage = () => {
           <div className={styles.subText}>{currentLine}</div>
         )}
 
+      {/* SYSTEM NOTES */}
+      <div className={styles.systemNotes}>
+        {displayed
+          .filter((el) => el.container === "systemNotes")
+          .map((el, i) => (
+            <div key={`note-${i}`} className={styles.notesItem}>
+              {el.text}
+            </div>
+          ))}
+        {lineIndex < elements.length &&
+          elements[lineIndex].container === "systemNotes" && (
+            <div className={styles.notesItem}>{currentLine}</div>
+          )}
+      </div>
+
       {/* STATION PACKAGE */}
       <div
         className={styles.stationPackage}
@@ -169,20 +207,49 @@ const AlertPage = () => {
           </button>
         )}
 
-      {/* SYSTEM NOTES */}
-      <div className={styles.systemNotes}>
+      {/* SPACECRAFTS PACKAGE */}
+      <div
+        className={styles.stationPackage}
+        style={{ display: showSpaceBorderBar ? "flex" : "none" }}
+      >
         {displayed
-          .filter((el) => el.container === "systemNotes")
+          .filter((el) => el.container === "spacecraftsPackage")
           .map((el, i) => (
-            <div key={`note-${i}`} className={styles.notesItem}>
+            <div key={`pkg-${i}`} className={styles[el.type]}>
               {el.text}
             </div>
           ))}
         {lineIndex < elements.length &&
-          elements[lineIndex].container === "systemNotes" && (
-            <div className={styles.notesItem}>{currentLine}</div>
+          elements[lineIndex].container === "spacecraftsPackage" && (
+            <div className={styles[elements[lineIndex].type]}>
+              {currentLine}
+            </div>
           )}
       </div>
+
+      {/* DEPLOY SPACE BUTTON */}
+      {displayed
+        .filter((el) => el.type === "deploySpaceBtn")
+        .map((el, i) =>
+          !isConnected ? (
+            <ConnectWalletButton />
+          ) : (
+            <button
+              key={`btn-${i}`}
+              type="button"
+              className={styles.deployBtn}
+              onClick={el.action || undefined}
+            >
+              {el.text}
+            </button>
+          )
+        )}
+      {lineIndex < elements.length &&
+        elements[lineIndex].type === "deploySpaceBtn" && (
+          <button type="button" className={styles.deployBtn}>
+            {currentLine}
+          </button>
+        )}
     </div>
   );
 };

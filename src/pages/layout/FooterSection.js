@@ -30,6 +30,7 @@ import ClaimPressImg from "@/assets/images/buttons/claim_press.png";
 
 // import components
 import FooterButton from "@/components/FooterButton";
+import { playButtonClick, playClaim } from "@/utils/sounds";
 
 const FooterSection = () => {
   const dispatch = useDispatch();
@@ -45,7 +46,10 @@ const FooterSection = () => {
             alt="Mining Button"
             className={styles.buttonImg}
             style={{ left: "10px" }}
-            onClick={() => dispatch(pageSet("miningcore"))}
+            onClick={() => {
+              dispatch(pageSet("miningcore"));
+              playButtonClick();
+            }}
           />
           <FooterButton
             defaultImg={DatabaseImg}
@@ -54,7 +58,10 @@ const FooterSection = () => {
             alt="Database Button"
             className={styles.buttonImg}
             style={{ left: "182px" }}
-            onClick={() => dispatch(pageSet("databasepage"))}
+            onClick={() => {
+              dispatch(pageSet("databasepage"));
+              playButtonClick();
+            }}
           />
           <FooterButton
             defaultImg={RankingImg}
@@ -63,7 +70,10 @@ const FooterSection = () => {
             alt="Ranking Button"
             className={styles.buttonImg}
             style={{ right: "184px" }}
-            onClick={() => dispatch(pageSet("rankingpage"))}
+            onClick={() => {
+              dispatch(pageSet("rankingpage"));
+              playButtonClick();
+            }}
           />
           <FooterButton
             defaultImg={ManualImg}
@@ -72,7 +82,10 @@ const FooterSection = () => {
             alt="Manual Button"
             className={styles.buttonImg}
             style={{ right: "12px" }}
-            onClick={() => dispatch(pageSet("manualpage"))}
+            onClick={() => {
+              dispatch(pageSet("manualpage"));
+              playButtonClick();
+            }}
           />
         </div>
         <div className={styles.rightSection}>
@@ -83,7 +96,10 @@ const FooterSection = () => {
             alt="Claim Button"
             className={styles.buttonRightImg}
             style={{ right: "50%", transform: "translateX(50%)" }}
-            onClick={() => dispatch(pageSet("claimpage"))}
+            onClick={() => {
+              dispatch(pageSet("claimpage"));
+              playClaim();
+            }}
           />
         </div>
       </div>

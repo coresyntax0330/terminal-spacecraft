@@ -14,6 +14,7 @@ import LogoImg from "@/assets/images/logo.gif";
 
 // import component
 import { ConnectWalletButton } from "@/components/connect-wallet-button";
+import { playStart } from "@/utils/sounds";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,10 @@ const Home = () => {
     {
       type: "btn",
       text: "> 1. START SYSTEM",
-      action: () => dispatch(pageSet("start")),
+      action: () => {
+        dispatch(pageSet("start"));
+        playStart();
+      },
     },
     { type: "btn", text: "> 2. OPERATIONS MANUAL" },
     { type: "btn", text: "> 3. SUPPLY DEPOT" },
