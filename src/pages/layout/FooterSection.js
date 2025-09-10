@@ -55,7 +55,7 @@ const FooterSection = () => {
                 dispatch(pageSet("miningcore"));
                 playButtonClick();
               } else {
-                showToast("Please connect wallet.");
+                showToast("Please connect wallet");
               }
             }}
           />
@@ -71,7 +71,7 @@ const FooterSection = () => {
                 dispatch(pageSet("databasepage"));
                 playButtonClick();
               } else {
-                showToast("Please connect wallet.");
+                showToast("Please connect wallet");
               }
             }}
           />
@@ -87,7 +87,7 @@ const FooterSection = () => {
                 dispatch(pageSet("rankingpage"));
                 playButtonClick();
               } else {
-                showToast("Please connect wallet.");
+                showToast("Please connect wallet");
               }
             }}
           />
@@ -103,7 +103,7 @@ const FooterSection = () => {
                 dispatch(pageSet("manualpage"));
                 playButtonClick();
               } else {
-                showToast("Please connect wallet.");
+                showToast("Please connect wallet");
               }
             }}
           />
@@ -117,8 +117,12 @@ const FooterSection = () => {
             className={styles.buttonRightImg}
             style={{ right: "50%", transform: "translateX(50%)" }}
             onClick={() => {
-              dispatch(pageSet("claimpage"));
-              playClaim();
+              if (isConnected) {
+                dispatch(pageSet("claimpage"));
+                playClaim();
+              } else {
+                showToast("Please connect wallet");
+              }
             }}
           />
         </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAccount, useReadContract } from "wagmi";
 
 // import style
@@ -13,7 +13,7 @@ import { abstractorTokenContractABI } from "@/utils/abis/abstractor";
 import { rewardABI } from "@/utils/abis/reward";
 
 const Home = () => {
-  const { isConnected, status, address } = useAccount();
+  const { address } = useAccount();
 
   const { data: shipPower, isSuccess: isShipPowerSuccess } = useReadContract({
     address: rewardContractAddress,
@@ -27,6 +27,14 @@ const Home = () => {
       address: rewardContractAddress,
       abi: rewardABI,
       functionName: "getTotalActiveFleetPower",
+    });
+
+  const { data: pendingRewards, isSuccess: isPendingRewardsSuccess } =
+    useReadContract({
+      address: rewardContractAddress,
+      abi: rewardABI,
+      functionName: "calculatePendingRewards",
+      args: address ? [address] : undefined,
     });
 
   const { data: balance, isSuccess: isBalanceSuccess } = useReadContract({
@@ -61,7 +69,16 @@ const Home = () => {
         </div>
         <div className={styles.item}>
           <div className={styles.name}>Hourly Earnings:</div>
-          <div className={styles.name}>0.00 UFO</div>
+          <div className={styles.name}>
+            {isPendingRewardsSuccess
+              ? Number(
+                  Number(
+                    Number(pendingRewards[0]?.toString()) / 1000000000000000000
+                  ).toFixed(4)
+                )
+              : 0.0}{" "}
+            UFO
+          </div>
         </div>
       </div>
       <div className={styles.wrapper}>
@@ -72,7 +89,16 @@ const Home = () => {
         </div>
         <div className={styles.item}>
           <div className={styles.name}>Emission Per block:</div>
-          <div className={styles.name}>0 UFO</div>
+          <div className={styles.name}>
+            {isPendingRewardsSuccess
+              ? Number(
+                  Number(
+                    Number(pendingRewards[1]?.toString()) / 1000000000000000000
+                  ).toFixed(4)
+                )
+              : 0.0}{" "}
+            UFO
+          </div>
         </div>
         <div className={styles.item}>
           <div className={styles.name}>Total Fleet Power:</div>
