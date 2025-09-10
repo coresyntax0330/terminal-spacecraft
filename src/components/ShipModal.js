@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import Image from "next/image";
 
 // import style
@@ -9,6 +10,11 @@ import ShipBisonImg from "@/assets/images/ships/Bison.png";
 import ShipDiabloImg from "@/assets/images/ships/Diablo.png";
 import ShipCargoImg from "@/assets/images/ships/Cargo.png";
 
+// import component
+import { spacecraftPurchaseContractAddress } from "@/utils/contract";
+import { spacecraftPurchaseABI } from "@/utils/abis/spacecraftPurchase";
+import { useToast } from "./ToastProvider";
+
 const SHIP_IMAGES = {
   Bison: ShipBisonImg,
   Diablo: ShipDiabloImg,
@@ -16,6 +22,36 @@ const SHIP_IMAGES = {
 };
 
 const ShipModal = ({ setShipFlag, shipGame }) => {
+  const { showToast } = useToast();
+  const { writeContract, data: txHash, error: writeError } = useWriteContract();
+  const { isSuccess } = useWaitForTransactionReceipt({ hash: txHash });
+
+  const [shipActive, setShipActive] = useState(
+    shipGame.status === "On" ? true : false
+  );
+
+  const handleToggleShipActive = async (tokenId, status) => {
+    try {
+      await writeContract({
+        address: spacecraftPurchaseContractAddress,
+        abi: spacecraftPurchaseABI,
+        functionName: "toggleActive",
+        args: [tokenId, !status],
+      });
+    } catch (err) {
+      console.error("Error Toggle Active SpaceCraft:", err);
+      showToast("Error Toggle Active SpaceCraft.");
+    }
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      showToast("Toggle Success!");
+      setShipFlag(false);
+      setShipActive(!shipActive);
+    }
+  }, [isSuccess]);
+
   return (
     <div className={styles.main}>
       <div className={styles.headerSection}>
@@ -55,7 +91,13 @@ const ShipModal = ({ setShipFlag, shipGame }) => {
       </div>
       <div className={styles.deploySection}>
         <div className={styles.text}>Deploy</div>
-        <div className={styles.status}>{shipGame.status}</div>
+        <button
+          type="button"
+          className={styles.status}
+          onClick={() => handleToggleShipActive(shipGame.tokenId, shipActive)}
+        >
+          {shipActive ? "On" : "Off"}
+        </button>
       </div>
       <div className={styles.system}>
         <div className={styles.note}>[ System Notes ]</div>

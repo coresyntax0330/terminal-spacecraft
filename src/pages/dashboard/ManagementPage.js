@@ -65,11 +65,12 @@ const getRandomStatus = () => (Math.random() > 0.5 ? "On" : "Off");
 
 const getRandomFleetPower = () => Math.floor(Math.random() * 200) + 50; // between 50–250
 
-const makeRows = (n = TOTAL_ROWS) => {
-  return Array.from({ length: n }, (_, i) => {
+const makeRows = (tokenIds) => {
+  return tokenIds.map((item, i) => {
     const ship = ships[Math.floor(Math.random() * ships.length)];
 
     return {
+      tokenId: item,
       name: ship.name || `Empty-${i + 1}`,
       status: getRandomStatus(),
       fleetPower: ship.imageKey ? getRandomFleetPower() : 0,
@@ -89,10 +90,10 @@ const ManagementPage = () => {
 
   const { isConnected, status, address } = useAccount();
   // ✅ read station info for the connected wallet
-  const { data: spacecraftInfo, isSuccess } = useReadContract({
+  const { data: tokenIds, success: isTokenSuccess } = useReadContract({
     address: spacecraftPurchaseContractAddress,
     abi: spacecraftPurchaseABI,
-    functionName: "balanceOf",
+    functionName: "getOwnedShips",
     args: address ? [address] : undefined,
   });
 
@@ -100,13 +101,12 @@ const ManagementPage = () => {
   const [pageRowsData, setPageRowsData] = useState([]);
 
   useEffect(() => {
-    if (isSuccess && spacecraftInfo) {
-      console.log("Contract result:", spacecraftInfo.toString());
-      const rows = makeRows(Number(spacecraftInfo));
+    if (tokenIds) {
+      const rows = makeRows(tokenIds);
       setAllRows(rows);
       setPage(1); // reset to page 1 when new data arrives
     }
-  }, [spacecraftInfo, isSuccess]);
+  }, [tokenIds, isTokenSuccess]);
 
   // In real app, you'd fetch data here and paginate server-side if you prefer.
 
