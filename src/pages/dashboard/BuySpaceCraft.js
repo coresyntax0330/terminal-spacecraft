@@ -20,10 +20,14 @@ import styles from "@/assets/css/dashboard/buyspace.module.css";
 import CruxioImg from "@/assets/images/cruxio.png";
 
 // Smart Contract details
-import { stationPurchaseContractAddress } from "@/utils/contract";
-import { stationPurchaseABI } from "@/utils/abis/stationPurchase";
+import {
+  stationContractAddress,
+  spacecraftPurchaseContractAddress,
+} from "@/utils/contract";
+import { spacecraftPurchaseABI } from "@/utils/abis/spacecraftPurchase";
 import ExplainLine from "@/components/ExplainLine";
 import { useToast } from "@/components/ToastProvider";
+import { stationABI } from "@/utils/abis/station";
 
 const BuySpaceCraft = () => {
   const dispatch = useDispatch();
@@ -31,11 +35,18 @@ const BuySpaceCraft = () => {
   const { writeContract, data: txHash, error: writeError } = useWriteContract();
   const { isSuccess } = useWaitForTransactionReceipt({ hash: txHash });
 
-  // Fetching Account balance
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
   const { data: balance } = useBalance({
     address,
     watch: true,
+  });
+
+  // ✅ read station info for the connected wallet
+  const { data: stationInfo, isSuccess: isReadSuccess } = useReadContract({
+    address: stationContractAddress,
+    abi: stationABI,
+    functionName: "getStationInfo",
+    args: address ? [address] : undefined,
   });
 
   const formattedBalance = balance
@@ -57,8 +68,17 @@ const BuySpaceCraft = () => {
     { type: "image" }, // static image
     {
       type: "deployBtn",
-      text: "> 1. Deploy SpaceCraft [1000 UFO]",
-      action: () => handleBuySpaceCraft(),
+      text:
+        stationInfo && Number(stationInfo[0]) > 0
+          ? "> 1. Deploy SpaceCraft [1000 UFO]"
+          : "> Purchase station first",
+      action: () => {
+        if (stationInfo && Number(stationInfo[0]) > 0) {
+          handleBuySpaceCraft();
+        } else {
+          dispatch(pageSet("alert"));
+        }
+      },
     },
     { type: "text", text: `*Insufficent ${formattedBalance} Balance` },
   ];
@@ -95,18 +115,26 @@ const BuySpaceCraft = () => {
     }
   }, [isSuccess, dispatch]);
 
+  const getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
   // Handle Buy Spacecraft button click
   const handleBuySpaceCraft = async () => {
-    try {
-      await writeContract({
-        address: stationPurchaseContractAddress,
-        abi: stationPurchaseABI,
-        functionName: "buyStation",
-        value: parseEther("0.001"),
-      });
-    } catch (err) {
-      console.error("Error Buying SpaceCraft:", err);
-      showToast("Error Buying SpaceCraft.");
+    if (stationInfo && Number(stationInfo[0]) > 0) {
+      try {
+        await writeContract({
+          address: spacecraftPurchaseContractAddress,
+          abi: spacecraftPurchaseABI,
+          functionName: "mint",
+          args: [address, stationInfo[0], 1, getRandomInt(150, 250)],
+        });
+      } catch (err) {
+        console.error("Error Buying SpaceCraft:", err);
+        showToast("Error Buying SpaceCraft.");
+      }
+    } else {
+      showToast("Please purchase station first");
     }
   };
 

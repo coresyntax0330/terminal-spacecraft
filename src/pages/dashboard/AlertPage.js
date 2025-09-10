@@ -34,8 +34,8 @@ const AlertPage = () => {
       items: [
         "[Alert]",
         stationInfo && Number(stationInfo[0]) > 0
-          ? "No Station Detected!"
-          : "Station Detected!",
+          ? "Station Detected!"
+          : "No Station Detected!",
       ],
     },
     {
