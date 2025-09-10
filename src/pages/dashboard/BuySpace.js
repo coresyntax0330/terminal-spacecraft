@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
+import { useAccount, useBalance, useWriteContract, useReadContract, useWaitForTransactionReceipt } from "wagmi";
 
 // redux slices
 import { pageSet } from "@/redux/slices/pageSlice";
@@ -10,6 +11,11 @@ import styles from "@/assets/css/dashboard/buyspace.module.css";
 
 // import assets
 import SphereImg from "@/assets/images/sphere.gif";
+import { parseEther } from "viem";
+
+// Smart Contract details
+import { stationPurchaseContractAddress } from "@/utils/contract";
+import { stationPurchaseABI } from "@/utils/abis/stationPurchase";
 
 const BuySpace = () => {
   const dispatch = useDispatch();
@@ -24,11 +30,27 @@ const BuySpace = () => {
     { type: "image" }, // static image
     {
       type: "deployBtn",
-      text: "> 1. Deploy station [0.1 ETH]",
-      action: () => dispatch(pageSet("miningcore")),
+      text: "> 1. Deploy station [0.001 ETH]",
+      // action: () => dispatch(pageSet("miningcore")),
+      action: () => handleBuyStation(),
     },
     { type: "text", text: "*Insufficent $eth balance" },
   ];
+
+  // Fetching Account balance
+  const { isConnected, status, address } = useAccount();
+  const { data: balance, isLoading: isBalanceLoading } = useBalance({
+    address,
+    watch: true,
+  });
+
+  // ✅ Hooks at the top level
+  const { writeContract, data: txHash, error: writeError } = useWriteContract();
+  const { isSuccess } = useWaitForTransactionReceipt({ hash: txHash });
+
+  const formattedBalance = balance
+    ? `${parseFloat(balance.formatted).toFixed(4)} ${balance.symbol}`
+    : "0.0000 ETH";
 
   const [displayed, setDisplayed] = useState([]); // finished lines
   const [currentLine, setCurrentLine] = useState("");
@@ -59,6 +81,26 @@ const BuySpace = () => {
       }
     }
   }, [charIndex, lineIndex]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(pageSet("miningcore"));
+    }
+  }, [isSuccess, dispatch]);
+
+  // Handle Buy Station button click
+  const handleBuyStation = async () => {
+    try {
+      await writeContract({
+        address: stationPurchaseContractAddress,
+        abi: stationPurchaseABI,
+        functionName: "buyStation",
+        value: parseEther("0.001"),
+      });
+    } catch (err) {
+      console.error("Error buying station:", err);
+    }
+  };
 
   return (
     <div className={styles.main}>
@@ -120,16 +162,17 @@ const BuySpace = () => {
         )}
 
       {/* FOOTER TEXT */}
-      {displayed
+      {formattedBalance < 0.001 ? (<>{displayed
         .filter((el) => el.type === "text")
         .map((el, i) => (
           <div key={`text-${i}`} className={styles.text}>
             {el.text}
           </div>
         ))}
-      {lineIndex < elements.length && elements[lineIndex].type === "text" && (
-        <div className={styles.text}>{currentLine}</div>
-      )}
+        {lineIndex < elements.length && elements[lineIndex].type === "text" && (
+          <div className={styles.text}>{currentLine}</div>
+        )}</>) : (<div className={styles.text}>You have sufficient balance: {formattedBalance}</div>)}
+
     </div>
   );
 };

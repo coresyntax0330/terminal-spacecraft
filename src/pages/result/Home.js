@@ -10,7 +10,7 @@ const Home = () => {
         <div className={styles.title}>Station Control</div>
         <div className={styles.item}>
           <div className={styles.name}>UFO Balance:</div>
-          <div className={styles.name}>1,250.00 UFO</div>
+          <div className={styles.name}>0.00 UFO</div>
         </div>
         <div className={styles.item}>
           <div className={styles.name}>Station Status:</div>
@@ -18,11 +18,11 @@ const Home = () => {
         </div>
         <div className={styles.item}>
           <div className={styles.name}>Fleet Power:</div>
-          <div className={styles.name}>2,450</div>
+          <div className={styles.name}>0.00</div>
         </div>
         <div className={styles.item}>
           <div className={styles.name}>Hourly Earnings:</div>
-          <div className={styles.name}>125 UFO</div>
+          <div className={styles.name}>0.00 UFO</div>
         </div>
       </div>
       <div className={styles.wrapper}>
@@ -37,11 +37,11 @@ const Home = () => {
         </div>
         <div className={styles.item}>
           <div className={styles.name}>Total Fleet Power:</div>
-          <div className={styles.name}>64,837,568</div>
+          <div className={styles.name}>0.00</div>
         </div>
         <div className={styles.item}>
           <div className={styles.name}>Total Burned:</div>
-          <div className={styles.name}>48,107,182</div>
+          <div className={styles.name}>0.00</div>
         </div>
       </div>
       <div className={styles.wrapper}>
@@ -60,13 +60,13 @@ const Home = () => {
         </div>
         <div className={styles.item}>
           <div className={styles.name}>Daily Yield:</div>
-          <div className={styles.name}>3,000 UFO</div>
+          <div className={styles.name}>0.00 UFO</div>
         </div>
       </div>
       <div className={styles.wrapper}>
         <div className={styles.item}>
           <div className={styles.name}>Earned:</div>
-          <div className={styles.name}>1,250.00 $UFO</div>
+          <div className={styles.name}>0.00 $UFO</div>
         </div>
       </div>
     </div>

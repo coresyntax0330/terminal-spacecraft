@@ -21,7 +21,11 @@ import { useState } from "react";
  * - Balance display with wallet and Abstract logos
  * - Dropdown menu with address copy functionality
  */
-export function ConnectWalletButton({ className, customDropdownItems }) {
+export function ConnectWalletButton({
+  className,
+  customDropdownItems,
+  title = "Connect Wallet",
+}) {
   // Wagmi hooks for wallet state and balance
   const { isConnected, status, address } = useAccount();
   const { data: balance, isLoading: isBalanceLoading } = useBalance({
@@ -54,7 +58,6 @@ export function ConnectWalletButton({ className, customDropdownItems }) {
         className={cn("cursor-pointer group min-w-40", className)}
       >
         Connecting...
-        <AbstractLogo className="ml-2 animate-spin" />
       </Button>
     );
   }
@@ -66,8 +69,7 @@ export function ConnectWalletButton({ className, customDropdownItems }) {
         onClick={login}
         className={cn("cursor-pointer group min-w-40", className)}
       >
-        Connect Wallet
-        <AbstractLogo className="ml-2 group-hover:animate-spin transition-transform" />
+        {title}
       </Button>
     );
   }
@@ -102,7 +104,6 @@ export function ConnectWalletButton({ className, customDropdownItems }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" side="bottom" className="w-56">
-        {/* Address display with copy functionality */}
         <DropdownMenuItem className="focus:bg-transparent cursor-auto">
           <div className="flex items-center justify-between w-full">
             <span className="text-xs text-muted-foreground font-mono">
@@ -131,7 +132,7 @@ export function ConnectWalletButton({ className, customDropdownItems }) {
             )}
           </div>
         </DropdownMenuItem>
-        {/* Custom dropdown items or default disconnect */}
+
         {customDropdownItems ? (
           customDropdownItems
         ) : (

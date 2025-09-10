@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
+import { useAccount } from "wagmi";
 
 // redux slices
 import { pageSet } from "@/redux/slices/pageSlice";
@@ -16,10 +17,15 @@ import { ConnectWalletButton } from "@/components/connect-wallet-button";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const { isConnected } = useAccount();
 
   // Ordered elements
   const elements = [
     { type: "title", text: "ABSTRACTORS" },
+    {
+      type: "walletBtn",
+      text: "Connect Wallet",
+    },
     {
       type: "btn",
       text: "> 1. START SYSTEM",
@@ -71,28 +77,36 @@ const Home = () => {
 
       {/* Menu wrapper */}
       <div className={styles.menu}>
-        {/* Finished buttons */}
-        {displayed
-          .filter((el) => el.type === "btn")
-          .map((el, idx) => (
-            <button
-              key={idx}
-              type="button"
-              className={styles.btn}
-              onClick={el.action || undefined}
-            >
-              {el.text}
-            </button>
-          ))}
+        {isConnected
+          ? displayed
+              .filter((el) => el.type === "btn")
+              .map((el, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  className={styles.btn}
+                  onClick={el.action || undefined}
+                >
+                  {el.text}
+                </button>
+              ))
+          : displayed
+              .filter((el) => el.type === "walletBtn")
+              .map((el, idx) => (
+                <ConnectWalletButton key={idx} title={el.text} />
+              ))}
 
-        {/* Typing button */}
-        {lineIndex < elements.length && elements[lineIndex].type === "btn" && (
-          <button type="button" className={styles.btn}>
-            {currentLine}
-          </button>
-        )}
-
-        <ConnectWalletButton title={"Title"} />
+        {isConnected
+          ? lineIndex < elements.length &&
+            elements[lineIndex].type === "btn" && (
+              <button type="button" className={styles.btn}>
+                {currentLine}
+              </button>
+            )
+          : lineIndex < elements.length &&
+            elements[lineIndex].type === "walletBtn" && (
+              <ConnectWalletButton title={currentLine} />
+            )}
       </div>
     </div>
   );
