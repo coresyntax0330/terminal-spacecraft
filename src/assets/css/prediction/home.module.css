@@ -46,11 +46,11 @@
 }
 
 .tooltip {
-  color: #4aff41;
+  color: #000;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  background: transparent;
+  background: #4aff41;
   border-radius: 6px;
   padding: 4px 8px;
   font-size: 12px;
