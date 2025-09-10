@@ -25,9 +25,9 @@ import {
   spacecraftPurchaseContractAddress,
 } from "@/utils/contract";
 import { spacecraftPurchaseABI } from "@/utils/abis/spacecraftPurchase";
+import { stationABI } from "@/utils/abis/station";
 import ExplainLine from "@/components/ExplainLine";
 import { useToast } from "@/components/ToastProvider";
-import { stationABI } from "@/utils/abis/station";
 
 const BuySpaceCraft = () => {
   const dispatch = useDispatch();

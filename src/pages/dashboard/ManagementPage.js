@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { useAccount, useReadContract } from "wagmi";
 import Image from "next/image";
 
 // import style
@@ -13,6 +14,10 @@ import ShipEmptyImg from "@/assets/images/ships/empty.png";
 // import components
 import ShipModal from "@/components/ShipModal";
 import ShipEmptyModal from "@/components/ShipEmptyModal";
+
+// Smart Contract details
+import { spacecraftPurchaseContractAddress } from "@/utils/contract";
+import { spacecraftPurchaseABI } from "@/utils/abis/spacecraftPurchase";
 
 const SHIP_IMAGES = {
   Bison: ShipBisonImg,
@@ -53,7 +58,7 @@ const ships = [
   { name: "Bison-01", imageKey: "Bison", img: ShipBisonImg },
   { name: "Diablo-01", imageKey: "Diablo", img: ShipDiabloImg },
   { name: "Cargo-01", imageKey: "Cargo", img: ShipCargoImg },
-  { name: "", imageKey: "", img: ShipEmptyImg }, // empty case
+  // { name: "", imageKey: "", img: ShipEmptyImg }, // empty case
 ];
 
 const getRandomStatus = () => (Math.random() > 0.5 ? "On" : "Off");
@@ -82,12 +87,35 @@ const ManagementPage = () => {
   const [shipGame, setShipGame] = useState({});
   const [page, setPage] = useState(1);
 
+  const { isConnected, status, address } = useAccount();
+  // ✅ read station info for the connected wallet
+  const { data: spacecraftInfo, isSuccess } = useReadContract({
+    address: spacecraftPurchaseContractAddress,
+    abi: spacecraftPurchaseABI,
+    functionName: "balanceOf",
+    args: address ? [address] : undefined,
+  });
+
+  const [allRows, setAllRows] = useState([]); // store all rows AFTER contract call
+  const [pageRowsData, setPageRowsData] = useState([]);
+
+  useEffect(() => {
+    if (isSuccess && spacecraftInfo) {
+      console.log("Contract result:", spacecraftInfo.toString());
+      const rows = makeRows(Number(spacecraftInfo));
+      setAllRows(rows);
+      setPage(1); // reset to page 1 when new data arrives
+    }
+  }, [spacecraftInfo, isSuccess]);
+
   // In real app, you'd fetch data here and paginate server-side if you prefer.
-  const allRows = useMemo(() => makeRows(), []);
+
   const totalPages = Math.max(1, Math.ceil(allRows.length / PAGE_SIZE));
 
-  const start = (page - 1) * PAGE_SIZE;
-  const pageRows = allRows.slice(start, start + PAGE_SIZE);
+  useEffect(() => {
+    const start = (page - 1) * PAGE_SIZE;
+    setPageRowsData(allRows.slice(start, start + PAGE_SIZE));
+  }, [page, allRows]);
 
   const pageRange = useMemo(
     () =>
@@ -126,7 +154,7 @@ const ManagementPage = () => {
               </div>
             </div>
             <div className={styles.list}>
-              {pageRows.map((item, i) => {
+              {pageRowsData.map((item, i) => {
                 return (
                   <button
                     className={styles.item}
