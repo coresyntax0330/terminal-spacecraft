@@ -6,10 +6,36 @@ import Image from "next/image";
 import styles from "@/assets/css/dashboard/managementpage.module.css";
 
 // import assets
+import ShipArachnidImg from "@/assets/images/ships/Arachnid.png";
+import ShipArcBlasterImg from "@/assets/images/ships/ArcBlaster.png";
+import ShipAreisuImg from "@/assets/images/ships/Areisu.png";
 import ShipBisonImg from "@/assets/images/ships/Bison.png";
-import ShipDiabloImg from "@/assets/images/ships/Diablo.png";
 import ShipCargoImg from "@/assets/images/ships/Cargo.png";
+import ShipCrossbowImg from "@/assets/images/ships/Crossbow.png";
+import ShipCruxioImg from "@/assets/images/ships/Cruxio.png";
+import ShipDestructorImg from "@/assets/images/ships/Destructor.png";
+import ShipDiabloImg from "@/assets/images/ships/Diablo.png";
+import ShipDivergerImg from "@/assets/images/ships/Diverger.png";
+import ShipDodgeChargerImg from "@/assets/images/ships/DodgeCharger.png";
 import ShipEmptyImg from "@/assets/images/ships/empty.png";
+import ShipEndraImg from "@/assets/images/ships/Endra.png";
+import ShipFirebirdImg from "@/assets/images/ships/Firebird.png";
+import ShipHarbingerImg from "@/assets/images/ships/Harbinger.png";
+import ShipHullImg from "@/assets/images/ships/Hull.png";
+import ShipMjolnirMarkVImg from "@/assets/images/ships/MjolnirMarkV.png";
+import ShipNorthStarImg from "@/assets/images/ships/NorthStar.png";
+import ShipNTeslaImg from "@/assets/images/ships/NTesla.png";
+import ShipPointBreakImg from "@/assets/images/ships/PointBreak.png";
+import ShipRavenImg from "@/assets/images/ships/Raven.png";
+import ShipSciFighterImg from "@/assets/images/ships/SciFighter.png";
+import ShipScorpionImg from "@/assets/images/ships/Scorpion.png";
+import ShipSeraphImg from "@/assets/images/ships/Seraph.png";
+import ShipSkyjetImg from "@/assets/images/ships/Skyjet.png";
+import ShipStarblasterImg from "@/assets/images/ships/Starblaster.png";
+import ShipStarSparrowImg from "@/assets/images/ships/StarSparrow.png";
+import ShipSwitchBladeImg from "@/assets/images/ships/SwitchBlade.png";
+import ShipTridentImg from "@/assets/images/ships/Trident.png";
+import ShipVanguardImg from "@/assets/images/ships/Vanguard.png";
 
 // import components
 import ShipModal from "@/components/ShipModal";
@@ -20,9 +46,36 @@ import { spacecraftPurchaseContractAddress } from "@/utils/contract";
 import { spacecraftPurchaseABI } from "@/utils/abis/spacecraftPurchase";
 
 const SHIP_IMAGES = {
+  Arachnid: ShipArachnidImg,
+  ArcBlaster: ShipArcBlasterImg,
+  Areisu: ShipAreisuImg,
   Bison: ShipBisonImg,
-  Diablo: ShipDiabloImg,
   Cargo: ShipCargoImg,
+  Crossbow: ShipCrossbowImg,
+  Cruxio: ShipCruxioImg,
+  Destructor: ShipDestructorImg,
+  Diablo: ShipDiabloImg,
+  Diverger: ShipDivergerImg,
+  DodgeCharger: ShipDodgeChargerImg,
+  Empty: ShipEmptyImg,
+  Endra: ShipEndraImg,
+  Firebird: ShipFirebirdImg,
+  Harbinger: ShipHarbingerImg,
+  Hull: ShipHullImg,
+  MjolnirMarkV: ShipMjolnirMarkVImg,
+  NorthStar: ShipNorthStarImg,
+  NTesla: ShipNTeslaImg,
+  PointBreak: ShipPointBreakImg,
+  Raven: ShipRavenImg,
+  SciFighter: ShipSciFighterImg,
+  Scorpion: ShipScorpionImg,
+  Seraph: ShipSeraphImg,
+  Skyjet: ShipSkyjetImg,
+  Starblaster: ShipStarblasterImg,
+  StarSparrow: ShipStarSparrowImg,
+  SwitchBlade: ShipSwitchBladeImg,
+  Trident: ShipTridentImg,
+  Vanguard: ShipVanguardImg,
 };
 
 const getPaginationRange = ({ currentPage, totalPages, siblingCount = 1 }) => {
@@ -55,9 +108,36 @@ const getPaginationRange = ({ currentPage, totalPages, siblingCount = 1 }) => {
 const TOTAL_ROWS = 80;
 
 const ships = [
-  { name: "Bison-01", imageKey: "Bison", img: ShipBisonImg },
-  { name: "Diablo-01", imageKey: "Diablo", img: ShipDiabloImg },
-  { name: "Cargo-01", imageKey: "Cargo", img: ShipCargoImg },
+  { name: "Arachnid", imageKey: "Arachnid", img: ShipArachnidImg },
+  { name: "ArcBlaster", imageKey: "ArcBlaster", img: ShipArcBlasterImg },
+  { name: "Areisu", imageKey: "Areisu", img: ShipAreisuImg },
+  { name: "Bison", imageKey: "Bison", img: ShipBisonImg },
+  { name: "Cargo", imageKey: "Cargo", img: ShipCargoImg },
+  { name: "Crossbow", imageKey: "Crossbow", img: ShipCrossbowImg },
+  { name: "Cruxio", imageKey: "Cruxio", img: ShipCruxioImg },
+  { name: "Destructor", imageKey: "Destructor", img: ShipDestructorImg },
+  { name: "Diablo", imageKey: "Diablo", img: ShipDiabloImg },
+  { name: "Diverger", imageKey: "Diverger", img: ShipDivergerImg },
+  { name: "DodgeCharger", imageKey: "DodgeCharger", img: ShipDodgeChargerImg },
+  { name: "Empty", imageKey: "Empty", img: ShipEmptyImg },
+  { name: "Endra", imageKey: "Endra", img: ShipEndraImg },
+  { name: "Firebird", imageKey: "Firebird", img: ShipFirebirdImg },
+  { name: "Harbinger", imageKey: "Harbinger", img: ShipHarbingerImg },
+  { name: "Hull", imageKey: "Hull", img: ShipHullImg },
+  { name: "MjolnirMarkV", imageKey: "MjolnirMarkV", img: ShipMjolnirMarkVImg },
+  { name: "NorthStar", imageKey: "NorthStar", img: ShipNorthStarImg },
+  { name: "NTesla", imageKey: "NTesla", img: ShipNTeslaImg },
+  { name: "PointBreak", imageKey: "PointBreak", img: ShipPointBreakImg },
+  { name: "Raven", imageKey: "Raven", img: ShipRavenImg },
+  { name: "SciFighter", imageKey: "SciFighter", img: ShipSciFighterImg },
+  { name: "Scorpion", imageKey: "Scorpion", img: ShipScorpionImg },
+  { name: "Seraph", imageKey: "Seraph", img: ShipSeraphImg },
+  { name: "Skyjet", imageKey: "Skyjet", img: ShipSkyjetImg },
+  { name: "Starblaster", imageKey: "Starblaster", img: ShipStarblasterImg },
+  { name: "StarSparrow", imageKey: "StarSparrow", img: ShipStarSparrowImg },
+  { name: "SwitchBlade", imageKey: "SwitchBlade", img: ShipSwitchBladeImg },
+  { name: "Trident", imageKey: "Trident", img: ShipTridentImg },
+  { name: "Vanguard", imageKey: "Vanguard", img: ShipVanguardImg },
   // { name: "", imageKey: "", img: ShipEmptyImg }, // empty case
 ];
 
@@ -71,7 +151,7 @@ const makeRows = (tokenIds) => {
 
     return {
       tokenId: item,
-      name: ship.name || `Empty-${i + 1}`,
+      name: ship.name ? ship.name + "-" + item : `Empty-${i + 1}`,
       status: getRandomStatus(),
       fleetPower: ship.imageKey ? getRandomFleetPower() : 0,
       hasImage: !!ship.imageKey,
