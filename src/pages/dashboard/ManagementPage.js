@@ -164,7 +164,7 @@ const makeRows = (tokenIds) => {
   });
 };
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 4;
 
 const ManagementPage = () => {
   const dispatch = useDispatch();
