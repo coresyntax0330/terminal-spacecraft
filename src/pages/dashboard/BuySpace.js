@@ -23,10 +23,11 @@ import SphereImg from "@/assets/images/sphere.gif";
 import { stationPurchaseContractAddress } from "@/utils/contract";
 import { stationPurchaseABI } from "@/utils/abis/stationPurchase";
 import ExplainLine from "@/components/ExplainLine";
+import { useToast } from "@/components/ToastProvider";
 
 const BuySpace = () => {
   const dispatch = useDispatch();
-  // ✅ Hooks at the top level
+  const { showToast } = useToast();
   const { writeContract, data: txHash, error: writeError } = useWriteContract();
   const { isSuccess } = useWaitForTransactionReceipt({ hash: txHash });
 
@@ -89,6 +90,7 @@ const BuySpace = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      showToast("Buy Station Success!");
       dispatch(pageSet("miningcore"));
     }
   }, [isSuccess, dispatch]);
@@ -104,6 +106,7 @@ const BuySpace = () => {
       });
     } catch (err) {
       console.error("Error buying station:", err);
+      showToast("Error buying station.");
     }
   };
 

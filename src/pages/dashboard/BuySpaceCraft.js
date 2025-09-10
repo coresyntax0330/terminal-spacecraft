@@ -23,10 +23,11 @@ import CruxioImg from "@/assets/images/cruxio.png";
 import { stationPurchaseContractAddress } from "@/utils/contract";
 import { stationPurchaseABI } from "@/utils/abis/stationPurchase";
 import ExplainLine from "@/components/ExplainLine";
+import { useToast } from "@/components/ToastProvider";
 
 const BuySpaceCraft = () => {
   const dispatch = useDispatch();
-  // ✅ Hooks at the top level
+  const { showToast } = useToast();
   const { writeContract, data: txHash, error: writeError } = useWriteContract();
   const { isSuccess } = useWaitForTransactionReceipt({ hash: txHash });
 
@@ -57,7 +58,7 @@ const BuySpaceCraft = () => {
     {
       type: "deployBtn",
       text: "> 1. Deploy SpaceCraft [1000 UFO]",
-      action: () => handleBuyStation(),
+      action: () => handleBuySpaceCraft(),
     },
     { type: "text", text: `*Insufficent ${formattedBalance} Balance` },
   ];
@@ -89,12 +90,13 @@ const BuySpaceCraft = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      showToast("Buy Spacecrafts Success!");
       dispatch(pageSet("miningcore"));
     }
   }, [isSuccess, dispatch]);
 
-  // Handle Buy Station button click
-  const handleBuyStation = async () => {
+  // Handle Buy Spacecraft button click
+  const handleBuySpaceCraft = async () => {
     try {
       await writeContract({
         address: stationPurchaseContractAddress,
@@ -103,7 +105,8 @@ const BuySpaceCraft = () => {
         value: parseEther("0.001"),
       });
     } catch (err) {
-      console.error("Error buying station:", err);
+      console.error("Error Buying SpaceCraft:", err);
+      showToast("Error Buying SpaceCraft.");
     }
   };
 

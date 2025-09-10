@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useAccount, useReadContract } from "wagmi";
 
-import { useAccount, useBalance } from "wagmi";
+// import components
+import { stationABI } from "@/utils/abis/station";
+import { stationContractAddress } from "@/utils/contract";
+import { useToast } from "@/components/ToastProvider";
 
 // redux slices
 import { pageSet } from "@/redux/slices/pageSlice";
@@ -13,10 +17,27 @@ import { ConnectWalletButton } from "@/components/connect-wallet-button";
 const AlertPage = () => {
   const dispatch = useDispatch();
   const { isConnected, status, address } = useAccount();
+  const { showToast } = useToast();
+
+  // ✅ read station info for the connected wallet
+  const { data: stationInfo, isSuccess } = useReadContract({
+    address: stationContractAddress,
+    abi: stationABI,
+    functionName: "getStationInfo",
+    args: address ? [address] : undefined,
+  });
 
   // Ordered messages grouped by section
   const sections = [
-    { container: "alertTitle", items: ["[Alert]", "No Station Detected!"] },
+    {
+      container: "alertTitle",
+      items: [
+        "[Alert]",
+        stationInfo && Number(stationInfo[0]) > 0
+          ? "No Station Detected!"
+          : "Station Detected!",
+      ],
+    },
     {
       container: "subText",
       items: [
@@ -52,8 +73,17 @@ const AlertPage = () => {
       items: [
         {
           type: "deployBtn",
-          text: "> 1. Deploy Station [0.1 ETH]",
-          action: () => dispatch(pageSet("buyspace")),
+          text:
+            stationInfo && Number(stationInfo[0]) > 0
+              ? "> Go to Mining Page"
+              : "> 1. Deploy Station [0.1 ETH]",
+          action: () => {
+            if (stationInfo && Number(stationInfo[0]) > 0) {
+              dispatch(pageSet("miningcore"));
+            } else {
+              dispatch(pageSet("buyspace"));
+            }
+          },
         },
       ],
     },
@@ -119,6 +149,12 @@ const AlertPage = () => {
       }
     }
   }, [charIndex, lineIndex]);
+
+  useEffect(() => {
+    if (stationInfo && Number(stationInfo[0]) > 0) {
+      showToast("You already have station.");
+    }
+  }, [stationInfo, isSuccess, isConnected]);
 
   return (
     <div className={styles.main}>
