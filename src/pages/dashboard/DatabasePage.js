@@ -5,6 +5,7 @@ import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 
 // redux slices
 import { pageSet } from "@/redux/slices/pageSlice";
+import { walletStatusSet } from "@/redux/slices/walletSlice";
 
 // import style
 import styles from "@/assets/css/dashboard/databasepage.module.css";
@@ -106,8 +107,11 @@ const DatabasePage = () => {
         className={styles.btn}
         onClick={() => {
           logout();
-          showToast("Wallet Disconnected!");
-          dispatch(pageSet(""));
+          setTimeout(() => {
+            showToast("Wallet Disconnected!");
+            dispatch(pageSet(""));
+            dispatch(walletStatusSet(false));
+          }, [500]);
         }}
       >
         &gt; 1. Disconnect

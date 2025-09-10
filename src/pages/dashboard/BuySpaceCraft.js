@@ -57,6 +57,7 @@ const BuySpaceCraft = () => {
   const [currentLine, setCurrentLine] = useState("");
   const [lineIndex, setLineIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
+  const [buyLoading, setBuyLoading] = useState(false);
 
   // Ordered sequence
   const elements = [
@@ -111,6 +112,7 @@ const BuySpaceCraft = () => {
   useEffect(() => {
     if (isSuccess) {
       showToast("Buy Spacecrafts Success!");
+      setBuyLoading(true);
       dispatch(pageSet("miningcore"));
     }
   }, [isSuccess, dispatch]);
@@ -123,6 +125,8 @@ const BuySpaceCraft = () => {
   const handleBuySpaceCraft = async () => {
     if (stationInfo && Number(stationInfo[0]) > 0) {
       try {
+        setBuyLoading(true);
+
         await writeContract({
           address: spacecraftPurchaseContractAddress,
           abi: spacecraftPurchaseABI,
@@ -132,6 +136,7 @@ const BuySpaceCraft = () => {
       } catch (err) {
         console.error("Error Buying SpaceCraft:", err);
         showToast("Error Buying SpaceCraft.");
+        setBuyLoading(false);
       }
     } else {
       showToast("Please purchase station first");
@@ -270,8 +275,9 @@ const BuySpaceCraft = () => {
             type="button"
             className={styles.deployBtn}
             onClick={el.action || undefined}
+            disabled={buyLoading}
           >
-            {el.text}
+            {buyLoading ? "> Loading..." : el.text}
           </button>
         ))}
       {lineIndex < elements.length &&

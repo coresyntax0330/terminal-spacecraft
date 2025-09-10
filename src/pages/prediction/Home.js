@@ -57,10 +57,12 @@ const Home = () => {
         <div className={styles.wrapper}>
           <div className={styles.name}>Token:</div>
           <div className={styles.value}>
-            {isSuccess
-              ? Number(Number(balance?.toString()) / 1000000000000000000) +
-                " UFO"
-              : "Loading..."}
+            {isConnected
+              ? isSuccess
+                ? Number(Number(balance?.toString()) / 1000000000000000000) +
+                  " UFO"
+                : "Loading..."
+              : status}
           </div>
         </div>
       </div>

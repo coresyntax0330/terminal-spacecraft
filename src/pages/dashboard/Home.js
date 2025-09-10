@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 
 // redux slices
 import { pageSet } from "@/redux/slices/pageSlice";
+import { walletStatusSet } from "@/redux/slices/walletSlice";
 
 // import style
 import styles from "@/assets/css/dashboard/home.module.css";
@@ -73,6 +74,7 @@ const Home = () => {
   useEffect(() => {
     if (isConnected) {
       showToast("Wallet Connected!");
+      dispatch(walletStatusSet(true));
     }
   }, [isConnected]);
 

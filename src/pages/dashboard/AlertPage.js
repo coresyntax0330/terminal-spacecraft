@@ -14,12 +14,12 @@ import { pageSet } from "@/redux/slices/pageSlice";
 import styles from "@/assets/css/dashboard/alertpage.module.css";
 import { ConnectWalletButton } from "@/components/connect-wallet-button";
 
-const AlertPage = () => {
+function AlertPage() {
   const dispatch = useDispatch();
-  const { isConnected, status, address } = useAccount();
+  const { isConnected, address } = useAccount();
   const { showToast } = useToast();
 
-  // ✅ read station info for the connected wallet
+  // ✅ read station info
   const { data: stationInfo, isSuccess } = useReadContract({
     address: stationContractAddress,
     abi: stationABI,
@@ -27,13 +27,42 @@ const AlertPage = () => {
     args: address ? [address] : undefined,
   });
 
+  // Typing animation states
+  const [displayed, setDisplayed] = useState([]);
+  const [currentLine, setCurrentLine] = useState("");
+  const [lineIndex, setLineIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [showBorderBar, setShowBorderBar] = useState(false);
+  const [showSpaceBorderBar, setShowSpaceBorderBar] = useState(false);
+
+  // Readiness flag
+  const [ready, setReady] = useState(false);
+
+  // When stationInfo arrives → reset typing animation
+  useEffect(() => {
+    if (isSuccess && stationInfo) {
+      setReady(true);
+
+      setDisplayed([]);
+      setCurrentLine("");
+      setCharIndex(0);
+      setLineIndex(0);
+      setShowBorderBar(false);
+      setShowSpaceBorderBar(false);
+
+      if (Number(stationInfo[0]) > 0) {
+        showToast("You already have station.");
+      }
+    }
+  }, [isSuccess, stationInfo, showToast]);
+
   // Ordered messages grouped by section
   const sections = [
     {
       container: "alertTitle",
       items: [
         "[Alert]",
-        stationInfo && Number(stationInfo[0]) > 0
+        Number(stationInfo?.[0]) > 0
           ? "Station Detected!"
           : "No Station Detected!",
       ],
@@ -74,11 +103,11 @@ const AlertPage = () => {
         {
           type: "deployBtn",
           text:
-            stationInfo && Number(stationInfo[0]) > 0
+            Number(stationInfo?.[0]) > 0
               ? "> Go to Mining Page"
               : "> 1. Deploy Station [0.1 ETH]",
           action: () => {
-            if (stationInfo && Number(stationInfo[0]) > 0) {
+            if (Number(stationInfo?.[0]) > 0) {
               dispatch(pageSet("miningcore"));
             } else {
               dispatch(pageSet("buyspace"));
@@ -108,7 +137,6 @@ const AlertPage = () => {
     },
   ];
 
-  // Flatten to typing sequence
   const elements = sections.flatMap((section) =>
     section.items.map((item) =>
       typeof item === "string"
@@ -117,21 +145,12 @@ const AlertPage = () => {
     )
   );
 
-  const [displayed, setDisplayed] = useState([]); // finished lines
-  const [currentLine, setCurrentLine] = useState("");
-  const [lineIndex, setLineIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [showBorderBar, setShowBorderBar] = useState(false);
-  const [showSpaceBorderBar, setShowSpaceBorderBar] = useState(false);
-
+  // Typing effect (runs only when ready)
   useEffect(() => {
-    if (lineIndex === 7) {
-      setShowBorderBar(true);
-    }
+    if (!ready) return;
 
-    if (lineIndex === 12) {
-      setShowSpaceBorderBar(true);
-    }
+    if (lineIndex === 7) setShowBorderBar(true);
+    if (lineIndex === 12) setShowSpaceBorderBar(true);
 
     if (lineIndex < elements.length) {
       const currentText = elements[lineIndex].text;
@@ -148,13 +167,12 @@ const AlertPage = () => {
         setLineIndex((prev) => prev + 1);
       }
     }
-  }, [charIndex, lineIndex]);
+  }, [charIndex, lineIndex, elements, ready]);
 
-  useEffect(() => {
-    if (stationInfo && Number(stationInfo[0]) > 0) {
-      showToast("You already have station.");
-    }
-  }, [stationInfo, isSuccess, isConnected]);
+  // ⬅️ Important: hooks are all above this return
+  if (!ready) {
+    return <div className={styles.main}>Loading station info...</div>;
+  }
 
   return (
     <div className={styles.main}>
@@ -224,7 +242,7 @@ const AlertPage = () => {
         .filter((el) => el.type === "deployBtn")
         .map((el, i) =>
           !isConnected ? (
-            <ConnectWalletButton />
+            <ConnectWalletButton key={`btn-${i}`} />
           ) : (
             <button
               key={`btn-${i}`}
@@ -268,10 +286,10 @@ const AlertPage = () => {
         .filter((el) => el.type === "deploySpaceBtn")
         .map((el, i) =>
           !isConnected ? (
-            <ConnectWalletButton />
+            <ConnectWalletButton key={`btn-space-${i}`} />
           ) : (
             <button
-              key={`btn-${i}`}
+              key={`btn-space-${i}`}
               type="button"
               className={styles.deployBtn}
               onClick={el.action || undefined}
@@ -288,6 +306,6 @@ const AlertPage = () => {
         )}
     </div>
   );
-};
+}
 
 export default AlertPage;

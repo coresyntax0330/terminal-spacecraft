@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const walletSlice = createSlice({
   name: "wallet",
-  initialState: { status: true },
+  initialState: { status: false },
   reducers: {
     walletStatusSet: (state, action) => {
       state.status = action.payload;

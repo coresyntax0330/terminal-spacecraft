@@ -46,6 +46,7 @@ const BuySpace = () => {
   const [currentLine, setCurrentLine] = useState("");
   const [lineIndex, setLineIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
+  const [buyLoading, setBuyLoading] = useState(false);
 
   // Ordered sequence
   const elements = [
@@ -91,6 +92,7 @@ const BuySpace = () => {
   useEffect(() => {
     if (isSuccess) {
       showToast("Buy Station Success!");
+      setBuyLoading(false);
       dispatch(pageSet("miningcore"));
     }
   }, [isSuccess, dispatch]);
@@ -98,6 +100,7 @@ const BuySpace = () => {
   // Handle Buy Station button click
   const handleBuyStation = async () => {
     try {
+      setBuyLoading(true);
       await writeContract({
         address: stationPurchaseContractAddress,
         abi: stationPurchaseABI,
@@ -107,6 +110,7 @@ const BuySpace = () => {
     } catch (err) {
       console.error("Error buying station:", err);
       showToast("Error buying station.");
+      setBuyLoading(false);
     }
   };
 
@@ -242,8 +246,9 @@ const BuySpace = () => {
             type="button"
             className={styles.deployBtn}
             onClick={el.action || undefined}
+            disabled={buyLoading}
           >
-            {el.text}
+            {buyLoading ? "> Loading..." : el.text}
           </button>
         ))}
       {lineIndex < elements.length &&
