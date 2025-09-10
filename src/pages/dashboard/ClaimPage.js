@@ -1,12 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import {
+  useAccount,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
+
+// import slice
 import { pageSet } from "@/redux/slices/pageSlice";
 
 // import style
 import styles from "@/assets/css/dashboard/claimpage.module.css";
 
+// import utils
+import { rewardContractAddress } from "@/utils/contract";
+import { rewardABI } from "@/utils/abis/reward";
+import { useToast } from "@/components/ToastProvider";
+
 const ClaimPage = () => {
   const dispatch = useDispatch();
+  const { showToast } = useToast();
+  const [buyLoading, setBuyLoading] = useState(false);
+  const { writeContract, data: txHash, error: writeError } = useWriteContract();
+  const { isSuccess } = useWaitForTransactionReceipt({ hash: txHash });
+
+  // Handle Buy Spacecraft button click
+  const handleClaimRewards = async () => {
+    try {
+      setBuyLoading(true);
+
+      await writeContract({
+        address: rewardContractAddress,
+        abi: rewardABI,
+        functionName: "claimRewards",
+      });
+    } catch (err) {
+      console.error("Error occurred while claiming:", err);
+      showToast("Error occurred while claiming");
+      setBuyLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      showToast("Claimed successfully!");
+      setBuyLoading(true);
+      dispatch(pageSet(""));
+    }
+    console.log(writeError, "--erro--");
+  }, [isSuccess, writeError]);
 
   return (
     <div className={styles.main}>
@@ -36,14 +78,15 @@ const ClaimPage = () => {
           <button
             type="button"
             className={styles.btn}
-            onClick={() => dispatch(pageSet("start"))}
+            onClick={() => handleClaimRewards()}
+            disabled={buyLoading}
           >
-            &gt; 1. YES
+            &gt; 1. {buyLoading ? "Loading..." : "Yes"}
           </button>
           <button
             type="button"
             className={styles.btn}
-            onClick={() => dispatch(pageSet("start"))}
+            onClick={() => dispatch(pageSet(""))}
           >
             &gt; 2. NO
           </button>
