@@ -29,6 +29,25 @@
   position: relative;
 }
 
+.lineExplain {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.lineText {
+  border-bottom: 1px solid #4aff41;
+  padding: 1px 0;
+  font-size: 14px;
+}
+
+.lineDrag {
+  width: 35px;
+  font-size: 14px;
+  border-bottom: 1px solid #4aff41;
+}
+
 .shipImg {
   width: 320px;
   height: 320px;
