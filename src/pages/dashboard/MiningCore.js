@@ -41,6 +41,11 @@ const MiningCore = () => {
       action: () => dispatch(pageSet("managementpage")),
     },
     { type: "btn", text: "> 3. Supply Depot" },
+    {
+      type: "btn",
+      text: "> 4. Go to previous page",
+      action: () => dispatch(pageSet("alert")),
+    },
   ];
 
   const [displayed, setDisplayed] = useState([]); // finished items

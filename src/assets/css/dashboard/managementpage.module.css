@@ -24,6 +24,11 @@
   margin-bottom: 20px;
 }
 
+.previousBtn:hover {
+  color: #000;
+  background-color: #4aff41;
+}
+
 .header {
   width: 100%;
   display: flex;

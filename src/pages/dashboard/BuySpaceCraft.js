@@ -72,14 +72,19 @@ const BuySpaceCraft = () => {
       text:
         stationInfo && Number(stationInfo[0]) > 0
           ? "> 1. Deploy SpaceCraft [1000 UFO]"
-          : "> Purchase station first",
+          : "> 1. Purchase station first",
       action: () => {
         if (stationInfo && Number(stationInfo[0]) > 0) {
           handleBuySpaceCraft();
         } else {
-          dispatch(pageSet("alert"));
+          dispatch(pageSet("buyspace"));
         }
       },
+    },
+    {
+      type: "deployBtn",
+      text: "> 2. Go to previous page",
+      action: () => dispatch(pageSet("alert")),
     },
     { type: "text", text: `*Insufficent ${formattedBalance} Balance` },
   ];

@@ -1,9 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useAccount, useReadContract } from "wagmi";
+import { useDispatch } from "react-redux";
 import Image from "next/image";
 
 // import style
 import styles from "@/assets/css/dashboard/managementpage.module.css";
+
+// import slice
+import { pageSet } from "@/redux/slices/pageSlice";
 
 // import assets
 import ShipArachnidImg from "@/assets/images/ships/Arachnid.png";
@@ -163,6 +167,7 @@ const makeRows = (tokenIds) => {
 const PAGE_SIZE = 6;
 
 const ManagementPage = () => {
+  const dispatch = useDispatch();
   const [shipFlag, setShipFlag] = useState(false);
   const [shipEmptyFlag, setShipEmptyFlag] = useState(false);
   const [shipGame, setShipGame] = useState({});
@@ -228,7 +233,13 @@ const ManagementPage = () => {
           <div className={styles.title}>Fleet Management</div>
           <div className={styles.wrapper}>
             <div className={styles.header}>
-              <div>&gt; 1. Update Capability +1 Slot [40 UFO]</div>
+              <button
+                type="button"
+                className={styles.previousBtn}
+                onClick={() => dispatch(pageSet("miningcore"))}
+              >
+                &gt; Go to previous page
+              </button>
               <div>
                 [{page}/{totalPages}]
               </div>

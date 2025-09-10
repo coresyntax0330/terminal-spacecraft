@@ -61,6 +61,11 @@ const BuySpace = () => {
       text: "> 1. Deploy station [0.001 ETH]",
       action: () => handleBuyStation(),
     },
+    {
+      type: "deployBtn",
+      text: "> 2. Go to previous page",
+      action: () => dispatch(pageSet("alert")),
+    },
     { type: "text", text: `*Insufficent ${formattedBalance} Balance` },
   ];
 
