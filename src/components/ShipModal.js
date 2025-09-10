@@ -13,7 +13,7 @@ import ShipCargoImg from "@/assets/images/ships/Cargo.png";
 // import component
 import { spacecraftPurchaseContractAddress } from "@/utils/contract";
 import { spacecraftPurchaseABI } from "@/utils/abis/spacecraftPurchase";
-import { useToast } from "./ToastProvider";
+import { useToast } from "@/components/ToastProvider";
 
 const SHIP_IMAGES = {
   Bison: ShipBisonImg,
