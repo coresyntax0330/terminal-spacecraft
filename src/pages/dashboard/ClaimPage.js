@@ -57,7 +57,6 @@ const ClaimPage = () => {
       setBuyLoading(true);
       dispatch(pageSet(""));
     }
-    console.log(writeError, "--erro--");
   }, [isSuccess, writeError]);
 
   return (
@@ -75,23 +74,13 @@ const ClaimPage = () => {
         </div>
         <div className={styles.subTitle}>Confirm to authorize Withdraw</div>
         <div className={styles.resourceSection}>
-          <div>
-            Resource:{" "}
-            {isPendingRewardsSuccess
-              ? Number(
-                  Number(
-                    Number(pendingRewards[0]?.toString()) / 1000000000000000000
-                  ).toFixed(4)
-                )
-              : 0.0}{" "}
-            UFO
-          </div>
+          <div>Resource: UFO</div>
           <div>
             Amount/Value:{" "}
             {isPendingRewardsSuccess
               ? Number(
                   Number(
-                    Number(pendingRewards[1]?.toString()) / 1000000000000000000
+                    Number(pendingRewards[0]?.toString()) / 1000000000000000000
                   ).toFixed(4)
                 )
               : 0.0}{" "}
