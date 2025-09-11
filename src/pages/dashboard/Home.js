@@ -42,8 +42,17 @@ const Home = () => {
     {
       type: "btn",
       text: "> 2. OPERATIONS MANUAL",
+      action: () => {
+        window.open("https://manual.abstractors.io/", "_blank");
+      },
     },
-    { type: "btn", text: "> 3. SUPPLY DEPOT" },
+    {
+      type: "btn",
+      text: "> 3. SUPPLY DEPOT",
+      action: () => {
+        window.open("https://opensea.io/", "_blank");
+      },
+    },
   ];
 
   const [displayed, setDisplayed] = useState([]); // finished lines

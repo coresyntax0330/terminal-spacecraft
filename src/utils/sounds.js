@@ -4,7 +4,7 @@ export const playClick = () => {
 };
 
 export const playClaim = () => {
-  const audio = new Audio("/music/Claim.wav");
+  const audio = new Audio("/music/Claim.mp3");
   audio.play();
 };
 
@@ -19,7 +19,7 @@ export const playFailed = () => {
 };
 
 export const playButtonClick = () => {
-  const audio = new Audio("/music/MiningCoreDatabaseRankingandManual.wav");
+  const audio = new Audio("/music/MiningCoreDatabaseRankingandManual.mp3");
   audio.play();
 };
 
