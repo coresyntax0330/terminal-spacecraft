@@ -62,8 +62,11 @@ const ManualPage = () => {
   const [lineIndex, setLineIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [showBorderBar, setShowBorderBar] = useState(false);
+  const [skipped, setSkipped] = useState(false);
 
   useEffect(() => {
+    if (skipped) return;
+
     if (lineIndex === 13) {
       setShowBorderBar(true);
     }
@@ -83,9 +86,24 @@ const ManualPage = () => {
         setLineIndex((prev) => prev + 1);
       }
     }
-  }, [charIndex, lineIndex]);
+  }, [charIndex, lineIndex, skipped]);
 
-  const Cursor = () => <span className={styles.cursor}>_</span>;
+  useEffect(() => {
+    const handleDoubleClick = () => {
+      if (!skipped && lineIndex < elements.length) {
+        // instantly show all content
+        setDisplayed(elements);
+        setCurrentLine("");
+        setCharIndex(0);
+        setLineIndex(elements.length);
+        setShowBorderBar(true);
+        setSkipped(true);
+      }
+    };
+
+    window.addEventListener("dblclick", handleDoubleClick);
+    return () => window.removeEventListener("dblclick", handleDoubleClick);
+  }, [skipped, lineIndex]);
 
   return (
     <div className={styles.main}>

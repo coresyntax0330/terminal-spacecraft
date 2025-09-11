@@ -74,7 +74,7 @@ const Home = () => {
 
   useEffect(() => {
     if (isConnected) {
-      showToast("Wallet Connected!");
+      showToast("Wallet Added!");
       dispatch(walletStatusSet(true));
       playAddWallet();
     }

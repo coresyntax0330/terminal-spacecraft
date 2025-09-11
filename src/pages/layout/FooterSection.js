@@ -55,7 +55,7 @@ const FooterSection = () => {
                 dispatch(pageSet("miningcore"));
                 playButtonClick();
               } else {
-                showToast("Please connect wallet");
+                showToast("Please add wallet");
               }
             }}
           />
@@ -71,7 +71,7 @@ const FooterSection = () => {
                 dispatch(pageSet("databasepage"));
                 playButtonClick();
               } else {
-                showToast("Please connect wallet");
+                showToast("Please add wallet");
               }
             }}
           />
@@ -87,7 +87,7 @@ const FooterSection = () => {
                 dispatch(pageSet("rankingpage"));
                 playButtonClick();
               } else {
-                showToast("Please connect wallet");
+                showToast("Please add wallet");
               }
             }}
           />
@@ -103,7 +103,7 @@ const FooterSection = () => {
                 dispatch(pageSet("manualpage"));
                 playButtonClick();
               } else {
-                showToast("Please connect wallet");
+                showToast("Please add wallet");
               }
             }}
           />
@@ -121,7 +121,7 @@ const FooterSection = () => {
                 dispatch(pageSet("claimpage"));
                 playClaim();
               } else {
-                showToast("Please connect wallet");
+                showToast("Please add wallet");
               }
             }}
           />

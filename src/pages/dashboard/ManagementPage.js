@@ -240,137 +240,147 @@ const ManagementPage = () => {
               >
                 &gt; Go to previous page
               </button>
-              <div>
-                [{page}/{totalPages}]
-              </div>
+              {pageRowsData.length > 0 && (
+                <div>
+                  [{page}/{totalPages}]
+                </div>
+              )}
             </div>
-            <div className={styles.list}>
-              {pageRowsData.map((item, i) => {
-                return (
-                  <button
-                    className={styles.item}
-                    key={i}
-                    onClick={() => handleClickShipItem(item)}
-                  >
-                    <div className={styles.subItem}>
-                      {item ? (
-                        item.hasImage ? (
-                          <div className={styles.shipTitle}>{item.name}</div>
+            {pageRowsData.length > 0 ? (
+              <div className={styles.list}>
+                {pageRowsData.map((item, i) => {
+                  return (
+                    <button
+                      className={styles.item}
+                      key={i}
+                      onClick={() => handleClickShipItem(item)}
+                    >
+                      <div className={styles.subItem}>
+                        {item ? (
+                          item.hasImage ? (
+                            <div className={styles.shipTitle}>{item.name}</div>
+                          ) : (
+                            <div className={styles.shipEmptyTitle}>
+                              Ship Capability
+                            </div>
+                          )
                         ) : (
                           <div className={styles.shipEmptyTitle}>
                             Ship Capability
                           </div>
-                        )
-                      ) : (
-                        <div className={styles.shipEmptyTitle}>
-                          Ship Capability
-                        </div>
-                      )}
+                        )}
 
-                      <div className={styles.imgSection}>
-                        <Image
-                          src={
-                            item && item.hasImage && item.imageKey
-                              ? SHIP_IMAGES[item.imageKey]
-                              : ShipEmptyImg
-                          }
-                          alt="ship"
-                          className={styles.shipImg}
-                          priority
-                        />
+                        <div className={styles.imgSection}>
+                          <Image
+                            src={
+                              item && item.hasImage && item.imageKey
+                                ? SHIP_IMAGES[item.imageKey]
+                                : ShipEmptyImg
+                            }
+                            alt="ship"
+                            className={styles.shipImg}
+                            priority
+                          />
+                        </div>
+                        {item && item.hasImage && item.imageKey ? (
+                          <div className={styles.footerSection}>
+                            <div className={styles.footerItem}>
+                              <div className={styles.footerText}>Status</div>
+                              <div className={styles.footerText}>
+                                {item ? item.status : "OFF"}
+                              </div>
+                            </div>
+                            <div className={styles.footerItem}>
+                              <div className={styles.footerText}>
+                                Fleet Power
+                              </div>
+                              <div className={styles.footerText}>
+                                {item ? item.fleetPower : "-"}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className={styles.footerSection}>
+                            <div className={styles.footerEmptyItem}>
+                              <div className={styles.footerText}>
+                                &gt; 1. Buy: 40 UFO
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                      {item && item.hasImage && item.imageKey ? (
-                        <div className={styles.footerSection}>
-                          <div className={styles.footerItem}>
-                            <div className={styles.footerText}>Status</div>
-                            <div className={styles.footerText}>
-                              {item ? item.status : "OFF"}
-                            </div>
-                          </div>
-                          <div className={styles.footerItem}>
-                            <div className={styles.footerText}>Fleet Power</div>
-                            <div className={styles.footerText}>
-                              {item ? item.fleetPower : "-"}
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className={styles.footerSection}>
-                          <div className={styles.footerEmptyItem}>
-                            <div className={styles.footerText}>
-                              &gt; 1. Buy: 40 UFO
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-          <div className={styles.footerBody}>
-            {/* Prev */}
-            <button
-              type="button"
-              onClick={prev}
-              disabled={page === 1}
-              aria-label="Previous page"
-              style={{
-                opacity: page === 1 ? 0.4 : 1,
-                cursor: page === 1 ? "default" : "pointer",
-              }}
-            >
-              [&lt;]
-            </button>
-
-            {/* Numbers + ellipses */}
-            {pageRange.map((token, idx) =>
-              token === "…" ? (
-                <span
-                  key={`dots-${idx}`}
-                  style={{
-                    userSelect: "none",
-                  }}
-                >
-                  [ ... ]
-                </span>
-              ) : (
-                <button
-                  type="button"
-                  key={token}
-                  onClick={() => goTo(token)}
-                  aria-current={token === page ? "page" : undefined}
-                  style={{
-                    background: token === page ? "#4AFF41" : "transparent",
-                    boxShadow:
-                      token === page
-                        ? "inset 0 0 8px rgba(124,252,0,.3)"
-                        : "none",
-                    color: token === page ? "#000" : "#4AFF41",
-                    cursor: token === page ? "default" : "pointer",
-                  }}
-                >
-                  [{token}]
-                </button>
-              )
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className={styles.emptyList}>No Fleets</div>
             )}
-
-            {/* Next */}
-            <button
-              type="button"
-              onClick={next}
-              disabled={page === totalPages}
-              aria-label="Next page"
-              style={{
-                background: "transparent",
-                opacity: page === totalPages ? 0.4 : 1,
-                cursor: page === totalPages ? "default" : "pointer",
-              }}
-            >
-              [&gt;]
-            </button>
           </div>
+          {pageRowsData.length > 0 && (
+            <div className={styles.footerBody}>
+              {/* Prev */}
+              <button
+                type="button"
+                onClick={prev}
+                disabled={page === 1}
+                aria-label="Previous page"
+                style={{
+                  opacity: page === 1 ? 0.4 : 1,
+                  cursor: page === 1 ? "default" : "pointer",
+                }}
+              >
+                [&lt;]
+              </button>
+
+              {/* Numbers + ellipses */}
+              {pageRange.map((token, idx) =>
+                token === "…" ? (
+                  <span
+                    key={`dots-${idx}`}
+                    style={{
+                      userSelect: "none",
+                    }}
+                  >
+                    [ ... ]
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    key={token}
+                    onClick={() => goTo(token)}
+                    aria-current={token === page ? "page" : undefined}
+                    style={{
+                      background: token === page ? "#4AFF41" : "transparent",
+                      boxShadow:
+                        token === page
+                          ? "inset 0 0 8px rgba(124,252,0,.3)"
+                          : "none",
+                      color: token === page ? "#000" : "#4AFF41",
+                      cursor: token === page ? "default" : "pointer",
+                    }}
+                  >
+                    [{token}]
+                  </button>
+                )
+              )}
+
+              {/* Next */}
+              <button
+                type="button"
+                onClick={next}
+                disabled={page === totalPages}
+                aria-label="Next page"
+                style={{
+                  background: "transparent",
+                  opacity: page === totalPages ? 0.4 : 1,
+                  cursor: page === totalPages ? "default" : "pointer",
+                }}
+              >
+                [&gt;]
+              </button>
+            </div>
+          )}
         </>
       )}
     </div>
