@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   useAccount,
+  useReadContract,
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
@@ -21,8 +22,17 @@ const ClaimPage = () => {
   const dispatch = useDispatch();
   const { showToast } = useToast();
   const [buyLoading, setBuyLoading] = useState(false);
+  const { address } = useAccount();
   const { writeContract, data: txHash, error: writeError } = useWriteContract();
   const { isSuccess } = useWaitForTransactionReceipt({ hash: txHash });
+
+  const { data: pendingRewards, isSuccess: isPendingRewardsSuccess } =
+    useReadContract({
+      address: rewardContractAddress,
+      abi: rewardABI,
+      functionName: "calculatePendingRewards",
+      args: address ? [address] : undefined,
+    });
 
   // Handle Buy Spacecraft button click
   const handleClaimRewards = async () => {
@@ -63,15 +73,33 @@ const ClaimPage = () => {
             [&times;]
           </button>
         </div>
-        <div
-          className={styles.subTitle}
-        >{`Confirm to authorize {{ ACTION }}.`}</div>
+        <div className={styles.subTitle}>Confirm to authorize Withdraw</div>
         <div className={styles.resourceSection}>
-          <div>{`Resource: {{RESOURCE}}`}</div>
-          <div>{`Amount/Value: {{VALUE}}`}</div>
-          <div>{`Estimated Fees: {{FEE}}`}</div>
-          <div>{`From: {{SOURCE}}`}</div>
-          <div>{`To: {{DESTINATION}}`}</div>
+          <div>
+            Resource:{" "}
+            {isPendingRewardsSuccess
+              ? Number(
+                  Number(
+                    Number(pendingRewards[0]?.toString()) / 1000000000000000000
+                  ).toFixed(4)
+                )
+              : 0.0}{" "}
+            UFO
+          </div>
+          <div>
+            Amount/Value:{" "}
+            {isPendingRewardsSuccess
+              ? Number(
+                  Number(
+                    Number(pendingRewards[1]?.toString()) / 1000000000000000000
+                  ).toFixed(4)
+                )
+              : 0.0}{" "}
+            UFO
+          </div>
+          <div>Estimated Fees: 0.001 ETH</div>
+          <div>From: In Game Wallet</div>
+          <div>{`To: ${address}`}</div>
         </div>
         <div className={styles.confirmText}>Proceed with Authorization?</div>
         <div className={styles.btnGroup}>
