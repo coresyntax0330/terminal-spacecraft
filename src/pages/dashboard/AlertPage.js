@@ -34,6 +34,7 @@ function AlertPage() {
   const [charIndex, setCharIndex] = useState(0);
   const [showBorderBar, setShowBorderBar] = useState(false);
   const [showSpaceBorderBar, setShowSpaceBorderBar] = useState(false);
+  const [skipped, setSkipped] = useState(false);
 
   // Readiness flag
   const [ready, setReady] = useState(false);
@@ -149,6 +150,8 @@ function AlertPage() {
   useEffect(() => {
     if (!ready) return;
 
+    if (skipped) return;
+
     if (lineIndex === 7) setShowBorderBar(true);
     if (lineIndex === 12) setShowSpaceBorderBar(true);
 
@@ -167,7 +170,25 @@ function AlertPage() {
         setLineIndex((prev) => prev + 1);
       }
     }
-  }, [charIndex, lineIndex, elements, ready]);
+  }, [charIndex, lineIndex, elements, ready, skipped]);
+
+  useEffect(() => {
+    const handleDoubleClick = () => {
+      if (!skipped && lineIndex < elements.length) {
+        // instantly show all content
+        setDisplayed(elements);
+        setCurrentLine("");
+        setCharIndex(0);
+        setLineIndex(elements.length);
+        setShowBorderBar(true);
+        setShowSpaceBorderBar(true);
+        setSkipped(true);
+      }
+    };
+
+    window.addEventListener("dblclick", handleDoubleClick);
+    return () => window.removeEventListener("dblclick", handleDoubleClick);
+  }, [skipped, lineIndex]);
 
   // ⬅️ Important: hooks are all above this return
   if (!ready) {

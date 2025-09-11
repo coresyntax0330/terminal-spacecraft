@@ -48,6 +48,7 @@ const BuySpace = () => {
   const [lineIndex, setLineIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [buyLoading, setBuyLoading] = useState(false);
+  const [skipped, setSkipped] = useState(false);
 
   // Ordered sequence
   const elements = [
@@ -71,6 +72,8 @@ const BuySpace = () => {
   ];
 
   useEffect(() => {
+    if (skipped) return;
+
     if (lineIndex < elements.length) {
       const current = elements[lineIndex];
       // image doesn't need typing
@@ -93,7 +96,7 @@ const BuySpace = () => {
         setLineIndex((prev) => prev + 1);
       }
     }
-  }, [charIndex, lineIndex]);
+  }, [charIndex, lineIndex, skipped]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -103,6 +106,22 @@ const BuySpace = () => {
       dispatch(pageSet("miningcore"));
     }
   }, [isSuccess, dispatch]);
+
+  useEffect(() => {
+    const handleDoubleClick = () => {
+      if (!skipped && lineIndex < elements.length) {
+        // instantly show all content
+        setDisplayed(elements);
+        setCurrentLine("");
+        setCharIndex(0);
+        setLineIndex(elements.length);
+        setSkipped(true);
+      }
+    };
+
+    window.addEventListener("dblclick", handleDoubleClick);
+    return () => window.removeEventListener("dblclick", handleDoubleClick);
+  }, [skipped, lineIndex]);
 
   // Handle Buy Station button click
   const handleBuyStation = async () => {

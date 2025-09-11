@@ -52,8 +52,11 @@ const MiningCore = () => {
   const [currentLine, setCurrentLine] = useState("");
   const [lineIndex, setLineIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
+  const [skipped, setSkipped] = useState(false);
 
   useEffect(() => {
+    if (skipped) return;
+
     if (lineIndex < elements.length) {
       const current = elements[lineIndex];
       if (current.type === "image") {
@@ -77,7 +80,23 @@ const MiningCore = () => {
         setLineIndex((prev) => prev + 1);
       }
     }
-  }, [charIndex, lineIndex]);
+  }, [charIndex, lineIndex, skipped]);
+
+  useEffect(() => {
+    const handleDoubleClick = () => {
+      if (!skipped && lineIndex < elements.length) {
+        // instantly show all content
+        setDisplayed(elements);
+        setCurrentLine("");
+        setCharIndex(0);
+        setLineIndex(elements.length);
+        setSkipped(true);
+      }
+    };
+
+    window.addEventListener("dblclick", handleDoubleClick);
+    return () => window.removeEventListener("dblclick", handleDoubleClick);
+  }, [skipped, lineIndex]);
 
   return (
     <div className={styles.main}>

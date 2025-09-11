@@ -50,8 +50,11 @@ const Home = () => {
   const [currentLine, setCurrentLine] = useState(""); // typing line
   const [lineIndex, setLineIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
+  const [skipped, setSkipped] = useState(false);
 
   useEffect(() => {
+    if (skipped) return;
+
     if (lineIndex < elements.length) {
       const currentText = elements[lineIndex].text;
       if (charIndex < currentText.length) {
@@ -70,7 +73,23 @@ const Home = () => {
         setLineIndex((prev) => prev + 1);
       }
     }
-  }, [charIndex, lineIndex]);
+  }, [charIndex, lineIndex, skipped]);
+
+  useEffect(() => {
+    const handleDoubleClick = () => {
+      if (!skipped && lineIndex < elements.length) {
+        // instantly show all content
+        setDisplayed(elements);
+        setCurrentLine("");
+        setCharIndex(0);
+        setLineIndex(elements.length);
+        setSkipped(true);
+      }
+    };
+
+    window.addEventListener("dblclick", handleDoubleClick);
+    return () => window.removeEventListener("dblclick", handleDoubleClick);
+  }, [skipped, lineIndex]);
 
   useEffect(() => {
     if (isConnected) {

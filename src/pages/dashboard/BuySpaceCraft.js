@@ -59,6 +59,7 @@ const BuySpaceCraft = () => {
   const [lineIndex, setLineIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [buyLoading, setBuyLoading] = useState(false);
+  const [skipped, setSkipped] = useState(false);
 
   // Ordered sequence
   const elements = [
@@ -91,6 +92,8 @@ const BuySpaceCraft = () => {
   ];
 
   useEffect(() => {
+    if (skipped) return;
+
     if (lineIndex < elements.length) {
       const current = elements[lineIndex];
       // image doesn't need typing
@@ -113,7 +116,7 @@ const BuySpaceCraft = () => {
         setLineIndex((prev) => prev + 1);
       }
     }
-  }, [charIndex, lineIndex]);
+  }, [charIndex, lineIndex, skipped]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -123,6 +126,22 @@ const BuySpaceCraft = () => {
       dispatch(pageSet("miningcore"));
     }
   }, [isSuccess, dispatch]);
+
+  useEffect(() => {
+    const handleDoubleClick = () => {
+      if (!skipped && lineIndex < elements.length) {
+        // instantly show all content
+        setDisplayed(elements);
+        setCurrentLine("");
+        setCharIndex(0);
+        setLineIndex(elements.length);
+        setSkipped(true);
+      }
+    };
+
+    window.addEventListener("dblclick", handleDoubleClick);
+    return () => window.removeEventListener("dblclick", handleDoubleClick);
+  }, [skipped, lineIndex]);
 
   const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;

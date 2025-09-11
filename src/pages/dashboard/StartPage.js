@@ -16,10 +16,13 @@ const StartPage = () => {
   const [currentLine, setCurrentLine] = useState("");
   const [lineIndex, setLineIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
+  const [skipped, setSkipped] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (skipped) return;
+
     if (lineIndex < messages.length) {
       const currentText = messages[lineIndex];
       if (charIndex < currentText.length) {
@@ -41,7 +44,28 @@ const StartPage = () => {
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [charIndex, lineIndex]);
+  }, [charIndex, lineIndex, skipped]);
+
+  useEffect(() => {
+    const handleDoubleClick = () => {
+      if (!skipped && lineIndex < messages.length) {
+        // instantly show all content
+        setDisplayed(messages);
+        setCurrentLine("");
+        setCharIndex(0);
+        setLineIndex(messages.length);
+        setSkipped(true);
+
+        const timer = setTimeout(() => {
+          dispatch(pageSet("alert"));
+        }, 500);
+        return () => clearTimeout(timer);
+      }
+    };
+
+    window.addEventListener("dblclick", handleDoubleClick);
+    return () => window.removeEventListener("dblclick", handleDoubleClick);
+  }, [skipped, lineIndex]);
 
   return (
     <div className={styles.main}>
