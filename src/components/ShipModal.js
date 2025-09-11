@@ -80,9 +80,7 @@ const ShipModal = ({ setShipFlag, shipGame }) => {
   const { writeContract, data: txHash, error: writeError } = useWriteContract();
   const { isSuccess } = useWaitForTransactionReceipt({ hash: txHash });
 
-  const [shipActive, setShipActive] = useState(
-    shipGame.status === "On" ? true : false
-  );
+  const [shipActive, setShipActive] = useState(false);
 
   const handleToggleShipActive = async (tokenId, status) => {
     try {
