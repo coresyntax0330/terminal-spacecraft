@@ -106,7 +106,7 @@ function AlertPage() {
           text:
             Number(stationInfo?.[0]) > 0
               ? "> Go to Mining Page"
-              : "> 1. Deploy Station [0.1 ETH]",
+              : "> 1. Deploy Station [0.001 ETH]",
           action: () => {
             if (Number(stationInfo?.[0]) > 0) {
               dispatch(pageSet("miningcore"));

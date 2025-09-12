@@ -122,8 +122,7 @@ const BuySpaceCraft = () => {
     if (isSuccess) {
       showToast("Buy Spacecrafts Success!");
       playDeploy();
-      setBuyLoading(true);
-      dispatch(pageSet("miningcore"));
+      setBuyLoading(false);
     }
   }, [isSuccess, dispatch]);
 

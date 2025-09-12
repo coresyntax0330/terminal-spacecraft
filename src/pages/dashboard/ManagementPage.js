@@ -145,7 +145,7 @@ const ships = [
   // { name: "", imageKey: "", img: ShipEmptyImg }, // empty case
 ];
 
-const getRandomStatus = () => (Math.random() > 0.5 ? "On" : "Off");
+const getRandomStatus = () => "Off";
 
 const getRandomFleetPower = () => Math.floor(Math.random() * 200) + 50; // between 50–250
 
