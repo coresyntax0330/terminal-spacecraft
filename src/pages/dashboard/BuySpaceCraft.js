@@ -8,7 +8,6 @@ import {
   useReadContract,
   useWaitForTransactionReceipt,
 } from "wagmi";
-import { parseEther } from "viem";
 
 // redux slices
 import { pageSet } from "@/redux/slices/pageSlice";
@@ -23,9 +22,12 @@ import CruxioImg from "@/assets/images/cruxio.png";
 import {
   stationContractAddress,
   spacecraftPurchaseContractAddress,
+  abstractorTokenContractAddress,
 } from "@/utils/contract";
 import { spacecraftPurchaseABI } from "@/utils/abis/spacecraftPurchase";
 import { stationABI } from "@/utils/abis/station";
+import { abstractorTokenContractABI } from "@/utils/abis/abstractor";
+
 import ExplainLine from "@/components/ExplainLine";
 import { useToast } from "@/components/ToastProvider";
 import { playDeploy } from "@/utils/sounds";
@@ -33,17 +35,32 @@ import { playDeploy } from "@/utils/sounds";
 const BuySpaceCraft = () => {
   const dispatch = useDispatch();
   const { showToast } = useToast();
-  const { writeContract, data: txHash, error: writeError } = useWriteContract();
-  const { isSuccess } = useWaitForTransactionReceipt({ hash: txHash });
+  const { address } = useAccount();
+  const { data: balance } = useBalance({ address, watch: true });
 
-  const { address, isConnected } = useAccount();
-  const { data: balance } = useBalance({
-    address,
-    watch: true,
+  // ✅ two separate write hooks
+  const {
+    writeContract: writeApprove,
+    data: approveHash,
+    isPending: isApprovePending,
+  } = useWriteContract();
+
+  const {
+    writeContract: writeBuy,
+    data: buyHash,
+    isPending: isBuyPending,
+  } = useWriteContract();
+
+  // ✅ tx waiters
+  const { isSuccess: isApproveSuccess } = useWaitForTransactionReceipt({
+    hash: approveHash,
+  });
+  const { isSuccess: isBuySuccess } = useWaitForTransactionReceipt({
+    hash: buyHash,
   });
 
-  // ✅ read station info for the connected wallet
-  const { data: stationInfo, isSuccess: isReadSuccess } = useReadContract({
+  // ✅ read station info
+  const { data: stationInfo } = useReadContract({
     address: stationContractAddress,
     abi: stationABI,
     functionName: "getStationInfo",
@@ -68,16 +85,16 @@ const BuySpaceCraft = () => {
       type: "subTitle",
       text: "Purchase a Ship, Deploy IT, And Start generating UFO Tokens",
     },
-    { type: "image" }, // static image
+    { type: "image" },
     {
       type: "deployBtn",
       text:
         stationInfo && Number(stationInfo[0]) > 0
-          ? "> 1. Deploy SpaceCraft [1000 UFO]"
+          ? "> 1. Deploy SpaceCraft [10 UFO]"
           : "> 1. Purchase station first",
       action: () => {
         if (stationInfo && Number(stationInfo[0]) > 0) {
-          handleBuySpaceCraft();
+          handleApproveUFOToken();
         } else {
           dispatch(pageSet("buyspace"));
         }
@@ -88,15 +105,15 @@ const BuySpaceCraft = () => {
       text: "> 2. Go to previous page",
       action: () => dispatch(pageSet("alert")),
     },
-    { type: "text", text: `*Insufficent ${formattedBalance} Balance` },
+    { type: "text", text: `*Insufficient ${formattedBalance} Balance` },
   ];
 
+  // typing animation effect
   useEffect(() => {
     if (skipped) return;
 
     if (lineIndex < elements.length) {
       const current = elements[lineIndex];
-      // image doesn't need typing
       if (current.type === "image") {
         setDisplayed((prev) => [...prev, current]);
         setLineIndex((prev) => prev + 1);
@@ -118,18 +135,10 @@ const BuySpaceCraft = () => {
     }
   }, [charIndex, lineIndex, skipped]);
 
-  useEffect(() => {
-    if (isSuccess) {
-      showToast("Buy Spacecrafts Success!");
-      playDeploy();
-      setBuyLoading(false);
-    }
-  }, [isSuccess, dispatch]);
-
+  // double-click to skip typing
   useEffect(() => {
     const handleDoubleClick = () => {
       if (!skipped && lineIndex < elements.length) {
-        // instantly show all content
         setDisplayed(elements);
         setCurrentLine("");
         setCharIndex(0);
@@ -137,36 +146,66 @@ const BuySpaceCraft = () => {
         setSkipped(true);
       }
     };
-
     window.addEventListener("dblclick", handleDoubleClick);
     return () => window.removeEventListener("dblclick", handleDoubleClick);
   }, [skipped, lineIndex]);
 
-  const getRandomInt = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
+  const getRandomInt = (min, max) =>
+    Math.floor(Math.random() * (max - min + 1)) + min;
 
-  // Handle Buy Spacecraft button click
-  const handleBuySpaceCraft = async () => {
+  // approve
+  const handleApproveUFOToken = async () => {
     if (stationInfo && Number(stationInfo[0]) > 0) {
       try {
         setBuyLoading(true);
-
-        await writeContract({
-          address: spacecraftPurchaseContractAddress,
-          abi: spacecraftPurchaseABI,
-          functionName: "mint",
-          args: [address, stationInfo[0], 1, getRandomInt(150, 250)],
+        writeApprove({
+          address: abstractorTokenContractAddress,
+          abi: abstractorTokenContractABI,
+          functionName: "approve",
+          args: [spacecraftPurchaseContractAddress, 10000000000000000000n],
         });
       } catch (err) {
-        console.error("Error Buying SpaceCraft:", err);
-        showToast("Error Buying SpaceCraft.");
+        console.error("Error Approving UFO Token:", err);
+        showToast("Error UFO Approving Token");
         setBuyLoading(false);
       }
     } else {
       showToast("Please purchase station first");
     }
   };
+
+  // buy
+  const handleBuySpaceCraft = async () => {
+    try {
+      writeBuy({
+        address: spacecraftPurchaseContractAddress,
+        abi: spacecraftPurchaseABI,
+        functionName: "mint",
+        args: [address, 1, getRandomInt(50, 250)],
+      });
+    } catch (err) {
+      console.error("Error Buying SpaceCraft:", err);
+      showToast("Error Buying SpaceCraft.");
+      setBuyLoading(false);
+    }
+  };
+
+  // approve success → trigger buy
+  useEffect(() => {
+    if (isApproveSuccess) {
+      showToast("✅ UFO Token Approved!");
+      handleBuySpaceCraft();
+    }
+  }, [isApproveSuccess]);
+
+  // buy success → final success
+  useEffect(() => {
+    if (isBuySuccess) {
+      showToast("🚀 Buy Spacecraft Success!");
+      setBuyLoading(false);
+      playDeploy();
+    }
+  }, [isBuySuccess]);
 
   return (
     <div className={styles.main}>
@@ -205,18 +244,13 @@ const BuySpaceCraft = () => {
             className={styles.shipImg}
           />
           <ExplainLine
-            explainStyle={{
-              top: "80px",
-              left: "0",
-            }}
-            textStyle={{
-              order: "1",
-            }}
+            explainStyle={{ top: "80px", left: "0" }}
+            text="Automatic UFO Generation"
+            textStyle={{ order: "1" }}
             dragStyle={{
               order: "2",
               transform: "translate(1px, 8px) rotate(25deg)",
             }}
-            text="Automatic UFO Generation"
           />
           <ExplainLine
             explainStyle={{
@@ -224,41 +258,27 @@ const BuySpaceCraft = () => {
               left: "35px",
               transform: "translateY(-50%)",
             }}
-            textStyle={{
-              order: "1",
-            }}
-            dragStyle={{
-              order: "2",
-            }}
             text="Marketplace Access"
+            textStyle={{ order: "1" }}
+            dragStyle={{ order: "2" }}
           />
           <ExplainLine
-            explainStyle={{
-              bottom: "80px",
-              left: "0px",
-            }}
-            textStyle={{
-              order: "1",
-            }}
+            explainStyle={{ bottom: "80px", left: "0px" }}
+            text="Automatic UFO Generation"
+            textStyle={{ order: "1" }}
             dragStyle={{
               order: "2",
               transform: "translate(-5px, -7px) rotate(-25deg)",
             }}
-            text="Automatic UFO Generation"
           />
           <ExplainLine
-            explainStyle={{
-              top: "80px",
-              right: "0px",
-            }}
-            textStyle={{
-              order: "2",
-            }}
+            explainStyle={{ top: "80px", right: "0px" }}
+            text="Base Fleet Power: 125-550"
+            textStyle={{ order: "2" }}
             dragStyle={{
               order: "1",
               transform: "translate(-2px, 8px) rotate(-25deg)",
             }}
-            text="Base Fleet Power: 125-550"
           />
           <ExplainLine
             explainStyle={{
@@ -266,27 +286,18 @@ const BuySpaceCraft = () => {
               right: "5px",
               transform: "translateY(-50%)",
             }}
-            textStyle={{
-              order: "2",
-            }}
-            dragStyle={{
-              order: "1",
-            }}
             text="Scout to heavy Ship NFT"
+            textStyle={{ order: "2" }}
+            dragStyle={{ order: "1" }}
           />
           <ExplainLine
-            explainStyle={{
-              bottom: "80px",
-              right: "0px",
-            }}
-            textStyle={{
-              order: "2",
-            }}
+            explainStyle={{ bottom: "80px", right: "0px" }}
+            text="Mining Station (Non-NFT)"
+            textStyle={{ order: "2" }}
             dragStyle={{
               order: "1",
               transform: "translate(5px, -7px) rotate(25deg)",
             }}
-            text="Mining Station (Non-NFT)"
           />
         </div>
       )}
@@ -300,7 +311,7 @@ const BuySpaceCraft = () => {
             type="button"
             className={styles.deployBtn}
             onClick={el.action || undefined}
-            disabled={buyLoading}
+            disabled={buyLoading || isApprovePending || isBuyPending}
           >
             {buyLoading ? "> Loading..." : el.text}
           </button>
@@ -312,7 +323,7 @@ const BuySpaceCraft = () => {
           </button>
         )}
 
-      {/* Previous BUTTON */}
+      {/* PREVIOUS BUTTON */}
       {displayed
         .filter((el) => el.type === "previousBtn")
         .map((el, i) => (
@@ -332,7 +343,7 @@ const BuySpaceCraft = () => {
           </button>
         )}
 
-      {/* SUFFICIENT BALANCE */}
+      {/* BALANCE TEXT */}
       {displayed
         .filter((el) => el.type === "text")
         .map((el, i) => (

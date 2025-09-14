@@ -1,5 +1,12 @@
 export const stationPurchaseABI = [
   {
+    inputs: [],
+    name: "buyStation",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -57,58 +64,6 @@ export const stationPurchaseABI = [
     type: "event",
   },
   {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "buyer",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "price",
-        type: "uint256",
-      },
-    ],
-    name: "StationBought",
-    type: "event",
-  },
-  {
-    inputs: [],
-    name: "buyStation",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "owner",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "price",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "renounceOwnership",
     outputs: [],
@@ -147,17 +102,23 @@ export const stationPurchaseABI = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "station",
-    outputs: [
+    anonymous: false,
+    inputs: [
       {
-        internalType: "contract Station",
-        name: "",
+        indexed: true,
+        internalType: "address",
+        name: "buyer",
         type: "address",
       },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "price",
+        type: "uint256",
+      },
     ],
-    stateMutability: "view",
-    type: "function",
+    name: "StationBought",
+    type: "event",
   },
   {
     inputs: [
@@ -170,6 +131,45 @@ export const stationPurchaseABI = [
     name: "transferOwnership",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "price",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "station",
+    outputs: [
+      {
+        internalType: "contract Station",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
 ];

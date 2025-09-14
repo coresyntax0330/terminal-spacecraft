@@ -1,5 +1,36 @@
 export const stationABI = [
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "minter",
+        type: "address",
+      },
+    ],
+    name: "addMinter",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        internalType: "uint8",
+        name: "tier",
+        type: "uint8",
+      },
+    ],
+    name: "mint",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     stateMutability: "nonpayable",
     type: "constructor",
@@ -65,6 +96,26 @@ export const stationABI = [
     type: "event",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "minter",
+        type: "address",
+      },
+    ],
+    name: "removeMinter",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -93,11 +144,11 @@ export const stationABI = [
     inputs: [
       {
         internalType: "address",
-        name: "minter",
+        name: "newOwner",
         type: "address",
       },
     ],
-    name: "addMinter",
+    name: "transferOwnership",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -173,24 +224,6 @@ export const stationABI = [
     inputs: [
       {
         internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "uint8",
-        name: "tier",
-        type: "uint8",
-      },
-    ],
-    name: "mint",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
         name: "",
         type: "address",
       },
@@ -223,26 +256,6 @@ export const stationABI = [
     inputs: [
       {
         internalType: "address",
-        name: "minter",
-        type: "address",
-      },
-    ],
-    name: "removeMinter",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
         name: "",
         type: "address",
       },
@@ -266,19 +279,6 @@ export const stationABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
 ];
