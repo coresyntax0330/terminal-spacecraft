@@ -175,6 +175,13 @@ a {
   transform: translateX(-50%);
 }
 
+@media (max-width: 1024px) {
+  .toast-container {
+    left: 50%;
+    top: calc(48 / 832 * 100vh);
+  }
+}
+
 .toast {
   display: inline-block;
   background-color: transparent;

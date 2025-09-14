@@ -14,6 +14,12 @@ import DatabaseImg from "@/assets/images/buttons/database.png";
 import RankingImg from "@/assets/images/buttons/ranking.png";
 import ManualImg from "@/assets/images/buttons/manual.png";
 import ClaimImg from "@/assets/images/buttons/claim.png";
+// mobile
+import MobileMiningGame from "@/assets/images/buttons/mobile_mining.png";
+import MobileDatabaseImg from "@/assets/images/buttons/mobile_database.png";
+import MobileRankingImg from "@/assets/images/buttons/mobile_ranking.png";
+import MobileManualImg from "@/assets/images/buttons/mobile_manual.png";
+import MobileClaimImg from "@/assets/images/buttons/mobile_claim.png";
 
 // hover images
 import MiningHoverImg from "@/assets/images/buttons/mining_hover.png";
@@ -28,6 +34,12 @@ import DatabasePressImg from "@/assets/images/buttons/database_press.png";
 import RankingPressImg from "@/assets/images/buttons/ranking_press.png";
 import ManualPressImg from "@/assets/images/buttons/manual_press.png";
 import ClaimPressImg from "@/assets/images/buttons/claim_press.png";
+// mobile
+import MobileMiningPressImg from "@/assets/images/buttons/mobile_mining_press.png";
+import MobileDatabasePressImg from "@/assets/images/buttons/mobile_database_press.png";
+import MobileRankingPressImg from "@/assets/images/buttons/mobile_ranking_press.png";
+import MobileManualPressImg from "@/assets/images/buttons/mobile_manual_press.png";
+import MobileClaimPressImg from "@/assets/images/buttons/mobile_claim_press.png";
 
 // import components
 import FooterButton from "@/components/FooterButton";

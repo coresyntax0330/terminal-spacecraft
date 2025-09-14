@@ -6,6 +6,7 @@ import styles from "@/assets/css/layout/dashboard.module.css";
 
 // import assets
 import BackgroundImg from "@/assets/images/game-background.png";
+import MobileBackgroundImg from "@/assets/images/mobile_game_background.png";
 
 const Dashboard = () => {
   return (
@@ -14,6 +15,12 @@ const Dashboard = () => {
         src={BackgroundImg}
         alt="Background"
         className={styles.backgroundImg}
+        priority
+      />
+      <Image
+        src={MobileBackgroundImg}
+        alt="GameBackground"
+        className={styles.mobileBackgroundImg}
         priority
       />
       <div className={styles.backShadow}></div>

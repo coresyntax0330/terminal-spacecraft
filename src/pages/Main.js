@@ -6,6 +6,7 @@ import styles from "@/assets/css/main.module.css";
 
 // import assets
 import BackgroundImg from "@/assets/images/background.png";
+import MobileBackgroundImg from "@/assets/images/mobile_background.png";
 
 // import components
 import Dashboard from "./layout/Dashboard";
@@ -25,7 +26,12 @@ const Main = () => {
         alt="Background"
         className={styles.backgroundImg}
         priority
-        fill
+      />
+      <Image
+        src={MobileBackgroundImg}
+        alt="Background"
+        className={styles.mobileBackgroundImg}
+        priority
       />
       <div className={styles.bodySection}>
         <div className={styles.wrapperSection}>
@@ -45,8 +51,8 @@ const Main = () => {
 
       <ToastProvider>
         <DashboardSection />
-        <ResultSection />
-        <PredictionSection />
+        {/* <ResultSection />
+        <PredictionSection /> */}
         <FooterSection />
       </ToastProvider>
     </div>
