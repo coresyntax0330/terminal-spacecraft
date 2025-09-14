@@ -15,7 +15,7 @@ import RankingImg from "@/assets/images/buttons/ranking.png";
 import ManualImg from "@/assets/images/buttons/manual.png";
 import ClaimImg from "@/assets/images/buttons/claim.png";
 // mobile
-import MobileMiningGame from "@/assets/images/buttons/mobile_mining.png";
+import MobileMiningImg from "@/assets/images/buttons/mobile_mining.png";
 import MobileDatabaseImg from "@/assets/images/buttons/mobile_database.png";
 import MobileRankingImg from "@/assets/images/buttons/mobile_ranking.png";
 import MobileManualImg from "@/assets/images/buttons/mobile_manual.png";
@@ -55,6 +55,90 @@ const FooterSection = () => {
     <div className={styles.footerSection}>
       <div className={styles.mainSection}>
         <div className={styles.leftSection}>
+          <FooterButton
+            defaultImg={MobileMiningImg}
+            hoverImg={MobileMiningPressImg}
+            pressImg={MobileMiningPressImg}
+            alt="Mining Mobile Button"
+            className={styles.buttonMobileImg}
+            style={{ left: 0, top: 0 }}
+            onClick={() => {
+              if (isConnected) {
+                dispatch(pageSet("miningcore"));
+                playButtonClick();
+              } else {
+                showToast("Please add wallet");
+              }
+            }}
+          />
+          <FooterButton
+            defaultImg={MobileDatabaseImg}
+            hoverImg={MobileDatabasePressImg}
+            pressImg={MobileDatabasePressImg}
+            alt="Database Mobile Button"
+            className={styles.buttonMobileImg}
+            style={{ right: 0, top: 0 }}
+            onClick={() => {
+              if (isConnected) {
+                dispatch(pageSet("databasepage"));
+                playButtonClick();
+              } else {
+                showToast("Please add wallet");
+              }
+            }}
+          />
+          <FooterButton
+            defaultImg={MobileRankingImg}
+            hoverImg={MobileRankingPressImg}
+            pressImg={MobileRankingPressImg}
+            alt="Ranking Mobile Button"
+            className={styles.buttonMobileImg}
+            style={{ bottom: 0, left: 0 }}
+            onClick={() => {
+              if (isConnected) {
+                dispatch(pageSet("rankingpage"));
+                playButtonClick();
+              } else {
+                showToast("Please add wallet");
+              }
+            }}
+          />
+          <FooterButton
+            defaultImg={MobileManualImg}
+            hoverImg={MobileManualPressImg}
+            pressImg={MobileManualPressImg}
+            alt="Manual Mobile Button"
+            className={styles.buttonMobileImg}
+            style={{ right: 0, bottom: 0 }}
+            onClick={() => {
+              if (isConnected) {
+                dispatch(pageSet("manualpage"));
+                playButtonClick();
+              } else {
+                showToast("Please add wallet");
+              }
+            }}
+          />
+          <FooterButton
+            defaultImg={MobileClaimImg}
+            hoverImg={MobileClaimPressImg}
+            pressImg={MobileClaimPressImg}
+            alt="Claim Mobile Button"
+            className={styles.buttonClaimImg}
+            style={{
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+            onClick={() => {
+              if (isConnected) {
+                dispatch(pageSet("manualpage"));
+                playButtonClick();
+              } else {
+                showToast("Please add wallet");
+              }
+            }}
+          />
           <FooterButton
             defaultImg={MiningImg}
             hoverImg={MiningHoverImg}
