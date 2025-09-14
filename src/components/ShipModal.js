@@ -10,6 +10,9 @@ import { spacecraftPurchaseContractAddress } from "@/utils/contract";
 import { spacecraftPurchaseABI } from "@/utils/abis/spacecraftPurchase";
 import { useToast } from "@/components/ToastProvider";
 
+// import utils
+import { playDeployOn, playDeployOff } from "@/utils/sounds";
+
 const ShipModal = ({ setShipFlag, shipGame }) => {
   const { showToast } = useToast();
   const { writeContract, data: txHash, error: writeError } = useWriteContract();
@@ -31,7 +34,12 @@ const ShipModal = ({ setShipFlag, shipGame }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      showToast("Toggle Success!");
+      if (shipGame.status === false) {
+        playDeployOn();
+      } else {
+        playDeployOff();
+      }
+      showToast(`Toggle Success as ${shipGame.status ? "Off" : "On"}!`);
       setShipFlag(false);
     }
   }, [isSuccess]);

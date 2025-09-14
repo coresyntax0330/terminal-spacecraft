@@ -39,7 +39,7 @@ const FooterButton = ({
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
     >
-      <Image src={getImage()} alt={alt} className={className} priority />
+      <Image src={getImage()} alt={alt} className={className} />
     </div>
   );
 };

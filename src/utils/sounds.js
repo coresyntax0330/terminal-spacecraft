@@ -32,3 +32,13 @@ export const playAddWallet = () => {
   const audio = new Audio("/music/PleaseAddWalletNotification.wav");
   audio.play();
 };
+
+export const playDeployOn = () => {
+  const audio = new Audio("/music/DeployOn.wav");
+  audio.play();
+};
+
+export const playDeployOff = () => {
+  const audio = new Audio("/music/DeployOff.wav");
+  audio.play();
+};
