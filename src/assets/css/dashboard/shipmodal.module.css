@@ -94,6 +94,22 @@
   font-size: 14px;
 }
 
+.offstatus {
+  width: 98px;
+  text-align: center;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  border-left: 1px dashed #4aff41;
+}
+
+.offstatus:hover {
+  background-color: #4aff41;
+  color: #000;
+}
+
 .system {
   display: flex;
   flex-direction: column;

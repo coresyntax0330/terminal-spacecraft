@@ -52,6 +52,10 @@ const ClaimPage = () => {
   };
 
   useEffect(() => {
+    console.log(pendingRewards, "--pendingRewards==");
+  }, [isPendingRewardsSuccess]);
+
+  useEffect(() => {
     if (isSuccess) {
       showToast("Claimed successfully!");
       setBuyLoading(true);
