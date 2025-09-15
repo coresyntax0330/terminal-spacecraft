@@ -59,8 +59,11 @@ const Home = () => {
           <div className={styles.value}>
             {isConnected
               ? isSuccess
-                ? Number(Number(balance?.toString()) / 1000000000000000000) +
-                  " UFO"
+                ? Number(
+                    Number(
+                      Number(balance?.toString()) / 1000000000000000000
+                    ).toFixed(4)
+                  ) + " UFO"
                 : "Loading..."
               : status}
           </div>
