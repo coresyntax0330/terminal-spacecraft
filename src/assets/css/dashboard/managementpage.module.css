@@ -10,6 +10,13 @@
   overflow: auto;
 }
 
+@media (max-width: 1024px) {
+  .main {
+    margin: calc(30 / 832 * 100vh) 0;
+    padding: 0 calc(30 / 402 * 100vw);
+  }
+}
+
 .title {
   font-size: 24px;
   margin-bottom: 20px;
@@ -59,11 +66,17 @@
 }
 
 .item {
-  width: calc((100% - 20px) / 2);
+  width: calc((100% - 10px) / 2);
   padding-top: calc((100% - 160px) / 2);
   border: 1px dashed #4aff41;
   position: relative;
   cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .item {
+    padding-top: calc(130% / 2);
+  }
 }
 
 .subItem {
@@ -77,6 +90,12 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 12px;
+}
+
+@media (max-width: 1024px) {
+  .subItem {
+    padding: 10px;
+  }
 }
 
 .shipTitle {
@@ -100,6 +119,13 @@
 .shipImg {
   width: 180px;
   height: 125px;
+}
+
+@media (max-width: 1024px) {
+  .shipImg {
+    width: 120px;
+    height: 100px;
+  }
 }
 
 .footerSection {
@@ -131,6 +157,12 @@
   font-size: 14px;
 }
 
+@media (max-width: 1024px) {
+  .footerText {
+    font-size: 12px;
+  }
+}
+
 .footerBody {
   width: 100%;
   display: flex;
@@ -138,4 +170,10 @@
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
+}
+
+@media (max-width: 1024px) {
+  .footerBody {
+    gap: 5px;
+  }
 }
