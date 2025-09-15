@@ -76,7 +76,7 @@ const ClaimPage = () => {
             [&times;]
           </button>
         </div>
-        <div className={styles.subTitle}>Confirm to authorize Withdraw</div>
+        <div className={styles.subTitle}>Confirm to authorize Withdraw.</div>
         <div className={styles.resourceSection}>
           <div>Resource: UFO</div>
           <div>
@@ -92,7 +92,12 @@ const ClaimPage = () => {
           </div>
           <div>Estimated Fees: 0.001 ETH</div>
           <div>From: In Game Wallet</div>
-          <div>{`To: ${address}`}</div>
+          <div className={styles.address}>{`To: ${address}`}</div>
+          <div className={styles.mobileAddress}>{`To: ${
+            address.substring(0, 8) +
+            "..." +
+            address.substring(address.length - 8)
+          }`}</div>
         </div>
         <div className={styles.confirmText}>Proceed with Authorization?</div>
         <div className={styles.btnGroup}>
