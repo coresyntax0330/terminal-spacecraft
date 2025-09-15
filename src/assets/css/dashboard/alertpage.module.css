@@ -10,6 +10,13 @@
   overflow: auto;
 }
 
+@media (max-width: 1024px) {
+  .main {
+    margin: calc(30 / 832 * 100vh) 0;
+    padding: 0 calc(30 / 402 * 100vw);
+  }
+}
+
 .alertTitle {
   font-size: 24px;
   text-transform: uppercase;
@@ -31,6 +38,12 @@
   gap: 5px;
   margin-bottom: 16px;
   width: 215px;
+}
+
+@media (max-width: 1024px) {
+  .stationPackage {
+    width: 100%;
+  }
 }
 
 .packageTitle {

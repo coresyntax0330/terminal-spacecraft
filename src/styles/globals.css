@@ -28,6 +28,12 @@
   user-select: none;
 }
 
+@media (max-width: 1024px) {
+  * {
+    font-size: 14px;
+  }
+}
+
 button {
   background-color: transparent;
   outline: none;
