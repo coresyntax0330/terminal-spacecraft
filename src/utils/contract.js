@@ -7,4 +7,4 @@ export const stationContractAddress =
 export const abstractorTokenContractAddress =
   "0xab5a080b3805233E2C3FEC9E3705955908e0e8aC";
 export const rewardContractAddress =
-  "0x94889fd0Ba03Db221452ed8F70F12C6a2f681f0E";
+  "0x966646f70dC89e72AeC635575C16E0b95ac0Bb3F";
