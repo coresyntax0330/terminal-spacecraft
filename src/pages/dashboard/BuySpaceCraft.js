@@ -213,7 +213,7 @@ const BuySpaceCraft = () => {
   // approve success → trigger buy
   useEffect(() => {
     if (isApproveSuccess) {
-      showToast("✅ UFO Token Approved!");
+      showToast("UFO Token Approved!");
       handleBuySpaceCraft();
     }
   }, [isApproveSuccess]);
@@ -221,7 +221,7 @@ const BuySpaceCraft = () => {
   // buy success → final success
   useEffect(() => {
     if (isBuySuccess) {
-      showToast("🚀 Buy Spacecraft Success!");
+      showToast("Buy Spacecraft Success!");
       setBuyLoading(false);
       playDeploy();
     }
