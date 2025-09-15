@@ -181,13 +181,6 @@ a {
   transform: translateX(-50%);
 }
 
-@media (max-width: 1024px) {
-  .toast-container {
-    left: 50%;
-    top: calc(48 / 832 * 100vh);
-  }
-}
-
 .toast {
   display: inline-block;
   background-color: transparent;
@@ -200,6 +193,18 @@ a {
   font-weight: 500;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   pointer-events: auto;
+}
+
+@media (max-width: 1024px) {
+  .toast-container {
+    left: 50%;
+    top: calc(48 / 832 * 100vh);
+  }
+
+  .toast {
+    font-size: 12px;
+    padding: 5px 12px;
+  }
 }
 
 /* Positions */
