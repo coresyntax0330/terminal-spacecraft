@@ -132,8 +132,8 @@ const FooterSection = () => {
             }}
             onClick={() => {
               if (isConnected) {
-                dispatch(pageSet("manualpage"));
-                playButtonClick();
+                dispatch(pageSet("claimpage"));
+                playClaim();
               } else {
                 showToast("Please add wallet");
               }
