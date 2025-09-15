@@ -51,6 +51,8 @@ const StartPage = () => {
   }, [charIndex, lineIndex, skipped]);
 
   useEffect(() => {
+    let lastTap = 0;
+
     const handleDoubleClick = () => {
       if (!skipped && lineIndex < messages.length) {
         // instantly show all content
@@ -67,8 +69,25 @@ const StartPage = () => {
       }
     };
 
+    const handleTouch = () => {
+      const now = Date.now();
+      const timeSince = now - lastTap;
+
+      if (timeSince < 300 && timeSince > 0) {
+        // double tap detected
+        handleDoubleClick();
+      }
+
+      lastTap = now;
+    };
+
     window.addEventListener("dblclick", handleDoubleClick);
-    return () => window.removeEventListener("dblclick", handleDoubleClick);
+    window.addEventListener("touchend", handleTouch); // mobile
+
+    return () => {
+      window.removeEventListener("dblclick", handleDoubleClick);
+      window.removeEventListener("touchend", handleTouch);
+    };
   }, [skipped, lineIndex]);
 
   return (
