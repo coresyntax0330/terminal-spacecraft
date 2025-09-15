@@ -10,6 +10,13 @@
   overflow: auto;
 }
 
+@media (max-width: 1024px) {
+  .main {
+    margin: calc(30 / 832 * 100vh) 0;
+    padding: 0 calc(30 / 402 * 100vw);
+  }
+}
+
 .title {
   font-size: 24px;
   margin-bottom: 20px;
@@ -60,6 +67,29 @@
   align-items: center;
   padding: 4px 6px;
   border: 1px solid #4aff41;
+}
+
+.barText {
+  font-size: 14px;
+}
+
+.barMobileText {
+  font-size: 12px;
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .barText {
+    display: none;
+  }
+
+  .barMobileText {
+    display: flex;
+  }
+
+  .btnText {
+    font-size: 12px;
+  }
 }
 
 .btn {

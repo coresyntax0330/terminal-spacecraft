@@ -19,7 +19,7 @@ import { abstractorTokenContractABI } from "@/utils/abis/abstractor";
 
 const DatabasePage = () => {
   const dispatch = useDispatch();
-  const { isConnected, status, address } = useAccount();
+  const { address } = useAccount();
   const { showToast } = useToast();
   const { data: balance, isLoading: isBalanceLoading } = useBalance({
     address,
@@ -71,7 +71,16 @@ const DatabasePage = () => {
           </div>
         </div>
         <div className={styles.barItem}>
-          <div className={styles.text}>{address ? address : "Loading..."}</div>
+          <div className={styles.barText}>
+            {address ? address : "Loading..."}
+          </div>
+          <div className={styles.barMobileText}>
+            {address
+              ? address.substring(0, 8) +
+                "..." +
+                address.substring(address.length - 8)
+              : "Loading..."}
+          </div>
           <button type="button" className={styles.btnText} onClick={handleCopy}>
             [Copy]
           </button>
@@ -94,8 +103,15 @@ const DatabasePage = () => {
           <div className={styles.text}>0 $ETH</div>
         </div>
         <div className={styles.barItem}>
-          <div className={styles.text}>
+          <div className={styles.barText}>
             HTTP://LOREMIPSUM.ETH/REF/0xba46...28do02
+          </div>
+          <div className={styles.barMobileText}>
+            {"HTTP://LOREMIPSUM.ETH/REF/0xba46...28do02".substring(0, 12) +
+              "..." +
+              "HTTP://LOREMIPSUM.ETH/REF/0xba46...28do02".substring(
+                "HTTP://LOREMIPSUM.ETH/REF/0xba46...28do02".length - 8
+              )}
           </div>
           <button type="button" className={styles.btnText} onClick={handleCopy}>
             [Copy]
