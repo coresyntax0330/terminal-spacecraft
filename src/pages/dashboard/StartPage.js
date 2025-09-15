@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+
+// import redux slice
 import { pageSet } from "@/redux/slices/pageSlice";
+
+// import style
 import styles from "@/assets/css/dashboard/startpage.module.css";
 
 const StartPage = () => {

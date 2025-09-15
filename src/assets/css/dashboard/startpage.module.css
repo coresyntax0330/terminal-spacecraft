@@ -11,3 +11,10 @@
   padding: 8px;
   width: 310px;
 }
+
+@media (max-width: 1024px) {
+  .item {
+    width: calc(300 / 402 * 100vw);
+    font-size: 14px;
+  }
+}
