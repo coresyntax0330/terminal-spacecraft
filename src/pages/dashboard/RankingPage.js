@@ -94,6 +94,14 @@ const RankingPage = () => {
                 >
                   {row.address}
                 </div>
+                <div
+                  className={styles.mobileAddress}
+                  style={{ wordBreak: "break-all" }}
+                >
+                  {row.address.substring(0, 4) +
+                    "..." +
+                    row.address.substring(row.address.length - 4)}
+                </div>
                 <div className={styles.value}>
                   {row.power.toLocaleString()} FLEET POWER
                 </div>
@@ -125,7 +133,7 @@ const RankingPage = () => {
                   userSelect: "none",
                 }}
               >
-                [ ... ]
+                [...]
               </span>
             ) : (
               <button
