@@ -94,9 +94,9 @@ const ClaimPage = () => {
           <div>From: In Game Wallet</div>
           <div className={styles.address}>{`To: ${address}`}</div>
           <div className={styles.mobileAddress}>{`To: ${
-            address.substring(0, 8) +
+            address?.substring(0, 8) +
             "..." +
-            address.substring(address.length - 8)
+            address?.substring(address?.length - 8)
           }`}</div>
         </div>
         <div className={styles.confirmText}>Proceed with Authorization?</div>
