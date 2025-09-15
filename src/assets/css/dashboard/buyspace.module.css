@@ -10,6 +10,13 @@
   overflow: auto;
 }
 
+@media (max-width: 1024px) {
+  .main {
+    margin: calc(30 / 832 * 100vh) 0;
+    padding: 0 calc(30 / 402 * 100vw);
+  }
+}
+
 .title {
   font-size: 24px;
   text-transform: uppercase;
@@ -36,6 +43,12 @@
   justify-content: flex-start;
 }
 
+@media (max-width: 1024px) {
+  .lineExplain {
+    display: none;
+  }
+}
+
 .lineText {
   border-bottom: 1px solid #4aff41;
   padding: 1px 0;
@@ -51,6 +64,13 @@
 .shipImg {
   width: 320px;
   height: 320px;
+}
+
+@media (max-width: 1024px) {
+  .shipImg {
+    width: 274px;
+    height: 274px;
+  }
 }
 
 .deployBtn {
