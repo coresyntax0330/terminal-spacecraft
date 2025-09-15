@@ -10,6 +10,13 @@
   overflow: auto;
 }
 
+@media (max-width: 1024px) {
+  .main {
+    margin: calc(30 / 832 * 100vh) 0;
+    padding: 0 calc(30 / 402 * 100vw);
+  }
+}
+
 .title {
   font-size: 24px;
   margin-bottom: 20px;
