@@ -9,6 +9,12 @@
   background-color: #000;
 }
 
+@media (max-width: 1024px) {
+  .homeSection {
+    overflow: hidden;
+  }
+}
+
 .mainSection {
   width: 1088px;
   height: 896px;
