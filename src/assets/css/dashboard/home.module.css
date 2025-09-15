@@ -7,15 +7,35 @@
   flex-direction: column;
 }
 
+@media (max-width: 1024px) {
+  .wrapper {
+    height: 250px;
+  }
+}
+
 .logoImg {
   width: 196px;
   height: 144px;
+}
+
+@media (max-width: 1024px) {
+  .logoImg {
+    width: 142px;
+    height: 104px;
+  }
 }
 
 .title {
   height: 64px;
   font-size: 64px;
   margin-top: 10px;
+}
+
+@media (max-width: 1024px) {
+  .title {
+    font-size: 48px;
+    height: 48px;
+  }
 }
 
 .menu {
@@ -26,6 +46,13 @@
   flex-direction: column;
   gap: 8px;
   margin-top: 10px;
+}
+
+@media (max-width: 1024px) {
+  .menu {
+    width: 180px;
+    margin-top: 20px;
+  }
 }
 
 .btn {
