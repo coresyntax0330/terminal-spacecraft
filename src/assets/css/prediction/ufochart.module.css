@@ -10,6 +10,12 @@
   position: relative;
 }
 
+@media (max-width: 1024px) {
+  .crtWrapper {
+    width: 100%;
+  }
+}
+
 .crtLegend {
   text-align: right;
   font-size: 12px;

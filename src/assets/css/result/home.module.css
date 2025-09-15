@@ -11,6 +11,13 @@
   gap: 5px;
 }
 
+@media (max-width: 1024px) {
+  .main {
+    padding: 0 calc(20 / 832 * 100vh);
+    margin: calc(20 / 402 * 100vw) 0;
+  }
+}
+
 .wrapper {
   width: 100%;
   display: flex;

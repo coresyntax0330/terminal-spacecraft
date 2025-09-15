@@ -10,6 +10,15 @@
   align-items: center;
 }
 
+@media (max-width: 1024px) {
+  .predictionSection {
+    width: calc(270 / 402 * 100vw);
+    height: calc(226 / 832 * 100vh);
+    right: calc(32 / 402 * 100vw);
+    top: calc(32 / 832 * 100vh);
+  }
+}
+
 .mainSection {
   width: 100%;
   height: 100%;

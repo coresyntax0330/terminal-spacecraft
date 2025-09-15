@@ -118,12 +118,35 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  height: auto;
+  height: 100%;
+  transition: 0.2s right ease-in-out;
+}
+
+.rightSubSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   gap: 16px;
 }
 
 @media (max-width: 1024px) {
   .rightSection {
-    display: none;
+    position: absolute;
+    z-index: 50;
+    top: 50%;
+    transform: translateY(-50%);
+    height: calc(704 / 832 * 100vh);
+    width: calc(332 / 402 * 100vw);
+  }
+
+  .rightSubSection {
+    height: 100%;
+    position: relative;
+    gap: 0;
+    padding: calc(32 / 832 * 100vh) calc(29 / 402 * 100vw);
+    width: 100%;
   }
 }
 
@@ -136,6 +159,13 @@
   align-items: center;
 }
 
+@media (max-width: 1024px) {
+  .predictionSection {
+    width: 100%;
+    height: calc(228 / 832 * 100vh);
+  }
+}
+
 .resultSection {
   width: 270px;
   height: 398px;
@@ -145,6 +175,13 @@
   align-items: center;
 }
 
+@media (max-width: 1024px) {
+  .resultSection {
+    width: 100%;
+    height: calc(400 / 832 * 100vh);
+  }
+}
+
 .footerSection {
   width: 100%;
   height: 112px;
@@ -152,4 +189,57 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.mobileNavbarSection {
+  display: flex;
+  transition: 0.2s right ease-in-out;
+}
+
+.mobileNavbarSubSection {
+  display: flex;
+}
+
+.mobileNavbarBackgroundimg {
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .mobileNavbarSection {
+    z-index: 99;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: calc(704 / 832 * 100vh);
+    width: calc(368 / 402 * 100vw);
+  }
+
+  .mobileNavbarSubSection {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .mobileNavbarBackgroundimg {
+    display: flex;
+  }
+}
+
+.navbarBtn {
+  display: none;
+  transition: 0.2s left ease-in-out;
+}
+
+@media (max-width: 1024px) {
+  .navbarBtn {
+    width: calc(36 / 402 * 100vw);
+    height: calc(126 / 832 * 100vh);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 999;
+    display: flex;
+  }
 }
