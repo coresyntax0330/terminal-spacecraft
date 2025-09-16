@@ -63,6 +63,7 @@ const ShipModal = ({ setShipFlag, shipGame }) => {
           className={styles.shipImg}
           width={342}
           height={312}
+          quality={100}
           priority
         />
         <div className={styles.descSection}>

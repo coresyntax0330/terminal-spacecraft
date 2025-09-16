@@ -262,6 +262,7 @@ const BuySpaceCraft = () => {
             alt="ship"
             priority
             className={styles.shipImg}
+            quality={100}
           />
           <ExplainLine
             explainStyle={{ top: "80px", left: "0" }}

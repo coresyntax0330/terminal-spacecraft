@@ -29,12 +29,14 @@ const Main = () => {
         alt="Background"
         className={styles.backgroundImg}
         priority
+        quality={100}
       />
       <Image
         src={MobileBackgroundImg}
         alt="Background"
         className={styles.mobileBackgroundImg}
         priority
+        quality={100}
       />
       <div className={styles.bodySection}>
         <div className={styles.wrapperSection}>
@@ -77,6 +79,7 @@ const Main = () => {
               alt="Navbar"
               className={styles.mobileNavbarBackgroundimg}
               priority
+              quality={100}
             />
             <button
               type="button"

@@ -16,12 +16,14 @@ const Dashboard = () => {
         alt="Background"
         className={styles.backgroundImg}
         priority
+        quality={100}
       />
       <Image
         src={MobileBackgroundImg}
         alt="GameBackground"
         className={styles.mobileBackgroundImg}
         priority
+        quality={100}
       />
       <div className={styles.backShadow}></div>
     </div>

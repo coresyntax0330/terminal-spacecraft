@@ -196,6 +196,7 @@ const BuySpace = () => {
             alt="ship"
             priority
             className={styles.shipImg}
+            quality={100}
           />
           <ExplainLine
             explainStyle={{

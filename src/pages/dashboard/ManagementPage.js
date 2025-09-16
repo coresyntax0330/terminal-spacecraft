@@ -250,6 +250,8 @@ const ManagementPage = () => {
                             className={styles.shipImg}
                             width={290}
                             height={200}
+                            priority
+                            quality={100}
                           />
                         ) : (
                           <div className={styles.noImage}>No Image</div>

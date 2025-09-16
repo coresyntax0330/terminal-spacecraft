@@ -15,6 +15,7 @@ const Result = () => {
         alt="Background"
         className={styles.backgroundImg}
         priority
+        quality={100}
       />
       <div className={styles.backShadow}></div>
     </div>
