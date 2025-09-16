@@ -65,8 +65,11 @@ const DatabasePage = () => {
           <div className={styles.text}>Token</div>
           <div className={styles.text}>
             {isSuccess
-              ? Number(Number(balanceToken?.toString()) / 1000000000000000000) +
-                " UFO"
+              ? Number(
+                  Number(
+                    Number(balanceToken?.toString()) / 1000000000000000000
+                  ).toFixed(4)
+                ) + " UFO"
               : "Loading..."}
           </div>
         </div>

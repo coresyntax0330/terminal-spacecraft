@@ -52,7 +52,11 @@ const Home = () => {
           <div className={styles.name}>UFO Balance:</div>
           <div className={styles.name}>
             {isBalanceSuccess
-              ? Number(Number(balance?.toString()) / 1000000000000000000)
+              ? Number(
+                  Number(
+                    Number(balance?.toString()) / 1000000000000000000
+                  ).toFixed(4)
+                )
               : 0}{" "}
             UFO
           </div>
@@ -64,7 +68,7 @@ const Home = () => {
         <div className={styles.item}>
           <div className={styles.name}>Fleet Power:</div>
           <div className={styles.name}>
-            {isShipPowerSuccess ? shipPower : 0}
+            {isShipPowerSuccess ? Number(shipPower) : 0}
           </div>
         </div>
         <div className={styles.item}>
