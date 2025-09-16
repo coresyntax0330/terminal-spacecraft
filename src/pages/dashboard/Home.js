@@ -135,6 +135,7 @@ const Home = () => {
         className={styles.logoImg}
         priority
         quality={100}
+        unoptimized
       />
 
       {/* Title */}
