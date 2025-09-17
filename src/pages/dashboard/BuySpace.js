@@ -17,7 +17,7 @@ import { pageSet } from "@/redux/slices/pageSlice";
 import styles from "@/assets/css/dashboard/buyspace.module.css";
 
 // import assets
-import SphereImg from "@/assets/images/sphere.gif";
+import SphereImg from "@/assets/images/Spacestation.png";
 
 // Smart Contract details
 import { stationPurchaseContractAddress } from "@/utils/contract";
@@ -198,7 +198,7 @@ const BuySpace = () => {
             className={styles.shipImg}
             quality={100}
           />
-          <ExplainLine
+          {/* <ExplainLine
             explainStyle={{
               top: "80px",
               left: "0",
@@ -281,7 +281,7 @@ const BuySpace = () => {
               transform: "translate(5px, -7px) rotate(25deg)",
             }}
             text="Mining Station (Non-NFT)"
-          />
+          /> */}
         </div>
       )}
 

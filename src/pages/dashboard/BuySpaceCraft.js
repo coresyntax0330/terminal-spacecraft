@@ -16,7 +16,7 @@ import { pageSet } from "@/redux/slices/pageSlice";
 import styles from "@/assets/css/dashboard/buyspace.module.css";
 
 // import assets
-import CruxioImg from "@/assets/images/cruxio.png";
+import CruxioImg from "@/assets/images/Spacecraft.png";
 
 // Smart Contract details
 import {
@@ -264,7 +264,7 @@ const BuySpaceCraft = () => {
             className={styles.shipImg}
             quality={100}
           />
-          <ExplainLine
+          {/* <ExplainLine
             explainStyle={{ top: "80px", left: "0" }}
             text="Automatic UFO Generation"
             textStyle={{ order: "1" }}
@@ -319,7 +319,7 @@ const BuySpaceCraft = () => {
               order: "1",
               transform: "translate(5px, -7px) rotate(25deg)",
             }}
-          />
+          /> */}
         </div>
       )}
 
