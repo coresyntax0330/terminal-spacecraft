@@ -43,6 +43,7 @@ import MobileClaimPressImg from "@/assets/images/buttons/mobile_claim_press.png"
 
 // import components
 import FooterButton from "@/components/FooterButton";
+import FooterMobileButton from "@/components/FooterMobileButton";
 import { playButtonClick, playClaim } from "@/utils/sounds";
 import { useToast } from "@/components/ToastProvider";
 
@@ -55,7 +56,7 @@ const FooterSection = () => {
     <div className={styles.footerSection}>
       <div className={styles.mainSection}>
         <div className={styles.leftSection}>
-          <FooterButton
+          <FooterMobileButton
             defaultImg={MobileMiningImg}
             hoverImg={MobileMiningPressImg}
             pressImg={MobileMiningPressImg}
@@ -71,7 +72,7 @@ const FooterSection = () => {
               }
             }}
           />
-          <FooterButton
+          <FooterMobileButton
             defaultImg={MobileDatabaseImg}
             hoverImg={MobileDatabasePressImg}
             pressImg={MobileDatabasePressImg}
@@ -87,7 +88,7 @@ const FooterSection = () => {
               }
             }}
           />
-          <FooterButton
+          <FooterMobileButton
             defaultImg={MobileRankingImg}
             hoverImg={MobileRankingPressImg}
             pressImg={MobileRankingPressImg}
@@ -103,7 +104,7 @@ const FooterSection = () => {
               }
             }}
           />
-          <FooterButton
+          <FooterMobileButton
             defaultImg={MobileManualImg}
             hoverImg={MobileManualPressImg}
             pressImg={MobileManualPressImg}
@@ -119,7 +120,7 @@ const FooterSection = () => {
               }
             }}
           />
-          <FooterButton
+          <FooterMobileButton
             defaultImg={MobileClaimImg}
             hoverImg={MobileClaimPressImg}
             pressImg={MobileClaimPressImg}
