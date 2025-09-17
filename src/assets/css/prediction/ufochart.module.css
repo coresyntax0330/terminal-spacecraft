@@ -3,24 +3,11 @@
   height: 150px;
   color: #4aff41;
   font-family: "Courier New", monospace;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
   position: relative;
-
-  /* Better retro text rendering in Safari/Firefox */
-  -webkit-font-smoothing: none;
-  -moz-osx-font-smoothing: auto;
 }
 
 @media (max-width: 1024px) {
@@ -43,7 +30,7 @@
   font-size: 10px;
 }
 
-/* CRT scanline overlay (placeholder, can be extended with gradient or repeating-linear-gradient) */
+/* CRT scanline effect */
 .crtWrapper::before {
   content: "";
   position: absolute;
@@ -52,6 +39,4 @@
   right: 0;
   bottom: 0;
   pointer-events: none;
-  -ms-touch-action: none; /* IE/Edge old */
-  -webkit-touch-callout: none; /* Safari */
 }
