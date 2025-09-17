@@ -15,6 +15,20 @@
   position: absolute;
   width: 100%;
   height: 100%;
+
+  /* fallback for very old browsers */
+  background-color: #000;
+
+  /* Safari/WebKit fallback */
+  background: -webkit-radial-gradient(
+      50% 119.38% at 50% 50%,
+      rgba(0, 0, 0, 0) 90%,
+      #000 100%
+    ),
+    -webkit-radial-gradient(109.42% 50.83% at 50% 50%, rgba(0, 0, 0, 0) 90%, #000
+          100%);
+
+  /* Modern browsers */
   background: radial-gradient(
       50% 119.38% at 50% 50%,
       rgba(0, 0, 0, 0) 90%,
