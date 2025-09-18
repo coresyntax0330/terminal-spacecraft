@@ -42,3 +42,8 @@ export const playDeployOff = () => {
   const audio = new Audio("/music/DeployOff.wav");
   audio.play();
 };
+
+export const playUpgrade = () => {
+  const audio = new Audio("/music/Upgrade.wav");
+  audio.play();
+};

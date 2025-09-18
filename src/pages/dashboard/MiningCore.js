@@ -32,6 +32,9 @@ import {
 import { stationABI } from "@/utils/abis/station";
 import { abstractorTokenContractABI } from "@/utils/abis/abstractor";
 
+// import utils
+import { playUpgrade } from "@/utils/sounds";
+
 const MiningCore = () => {
   const dispatch = useDispatch();
   const { showToast } = useToast();
@@ -202,7 +205,8 @@ const MiningCore = () => {
   // buy success → final success
   useEffect(() => {
     if (isUpgradeSuccess) {
-      showToast("Upgrade Station Success!");
+      showToast("Station Upgrade Success!");
+      playUpgrade();
       setUpgradeLoading(false);
       setRefetchedStatus(true);
       stationInfoContractRefetch();
