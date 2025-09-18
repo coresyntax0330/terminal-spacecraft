@@ -7,4 +7,4 @@ export const stationContractAddress =
 export const stationPurchaseContractAddress =
   "0xD703744e6b3e5d23F2E311594eb385e2146F1eAa";
 export const rewardContractAddress =
-  "0x913f1Ac1F8F1783C71e6760d115C4C6b3BE82C8F";
+  "0x5fd3fe327670F196af0Dfd3246f58389E585D60A";
