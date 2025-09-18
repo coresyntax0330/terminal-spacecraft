@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useAccount, useReadContract } from "wagmi";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 
@@ -9,10 +10,26 @@ import { pageSet } from "@/redux/slices/pageSlice";
 import styles from "@/assets/css/dashboard/miningcore.module.css";
 
 // import assets
-import SphereImg from "@/assets/images/sphere.gif";
+import Tier1Img from "@/assets/images/station/tier1_1.gif";
+import Tier2Img from "@/assets/images/station/tier2_1.gif";
+import Tier3Img from "@/assets/images/station/tier3_1.gif";
+import Tier4Img from "@/assets/images/station/tier4_1.gif";
+import Tier5Img from "@/assets/images/station/tier5_1.gif";
+
+// import contracts
+import { stationContractAddress } from "@/utils/contract";
+import { stationABI } from "@/utils/abis/station";
 
 const MiningCore = () => {
   const dispatch = useDispatch();
+  const { address } = useAccount();
+
+  const { data: stationInfo, isSuccess } = useReadContract({
+    address: stationContractAddress,
+    abi: stationABI,
+    functionName: "getStationInfo",
+    args: address ? [address] : undefined,
+  });
 
   // Ordered sequence of elements
   const elements = [
@@ -53,12 +70,30 @@ const MiningCore = () => {
   const [lineIndex, setLineIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [skipped, setSkipped] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [stationTier, setStationTier] = useState(0);
 
   useEffect(() => {
+    if (isSuccess && stationInfo) {
+      setReady(true);
+
+      setDisplayed([]);
+      setCurrentLine("");
+      setCharIndex(0);
+      setLineIndex(0);
+
+      setStationTier(Number(stationInfo[0]));
+    }
+  }, [isSuccess, stationInfo]);
+
+  useEffect(() => {
+    if (!ready) return;
+
     if (skipped) return;
 
     if (lineIndex < elements.length) {
       const current = elements[lineIndex];
+
       if (current.type === "image") {
         // show image instantly
         setDisplayed((prev) => [...prev, current]);
@@ -80,7 +115,7 @@ const MiningCore = () => {
         setLineIndex((prev) => prev + 1);
       }
     }
-  }, [charIndex, lineIndex, skipped]);
+  }, [charIndex, lineIndex, skipped, ready]);
 
   useEffect(() => {
     let lastTap = 0;
@@ -116,6 +151,10 @@ const MiningCore = () => {
       window.removeEventListener("touchend", handleTouch);
     };
   }, [skipped, lineIndex]);
+
+  if (!ready) {
+    return <div className={styles.main}>Loading station info...</div>;
+  }
 
   return (
     <div className={styles.main}>
@@ -162,7 +201,17 @@ const MiningCore = () => {
       {displayed.find((el) => el.type === "image") && (
         <div className={styles.wrapper}>
           <Image
-            src={SphereImg}
+            src={
+              stationTier === 1
+                ? Tier1Img
+                : stationTier === 2
+                ? Tier2Img
+                : stationTier === 3
+                ? Tier3Img
+                : stationTier === 4
+                ? Tier4Img
+                : Tier5Img
+            }
             alt="ship"
             className={styles.shipImg}
             priority

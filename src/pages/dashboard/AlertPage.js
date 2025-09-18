@@ -6,13 +6,14 @@ import { useAccount, useReadContract } from "wagmi";
 import { stationABI } from "@/utils/abis/station";
 import { stationContractAddress } from "@/utils/contract";
 import { useToast } from "@/components/ToastProvider";
+import { ConnectWalletButton } from "@/components/connect-wallet-button";
 
 // redux slices
 import { pageSet } from "@/redux/slices/pageSlice";
+import { stationStatusSet } from "@/redux/slices/stationSlice";
 
 // import styles
 import styles from "@/assets/css/dashboard/alertpage.module.css";
-import { ConnectWalletButton } from "@/components/connect-wallet-button";
 
 function AlertPage() {
   const dispatch = useDispatch();

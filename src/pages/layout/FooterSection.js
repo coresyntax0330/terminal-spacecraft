@@ -1,9 +1,10 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { useAccount } from "wagmi";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useAccount, useReadContract } from "wagmi";
 
 // redux slices
 import { pageSet } from "@/redux/slices/pageSlice";
+import { stationStatusSet } from "@/redux/slices/stationSlice";
 
 // import style
 import styles from "@/assets/css/layout/footerSection.module.css";
@@ -47,10 +48,41 @@ import FooterMobileButton from "@/components/FooterMobileButton";
 import { playButtonClick, playClaim } from "@/utils/sounds";
 import { useToast } from "@/components/ToastProvider";
 
+// import utils
+import { stationContractAddress } from "@/utils/contract";
+import { stationABI } from "@/utils/abis/station";
+
 const FooterSection = () => {
   const dispatch = useDispatch();
+  const stationStatus = useSelector((state) => state.station.stationStatus);
   const { showToast } = useToast();
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
+  const [stationTier, setStationTier] = useState(0);
+
+  // ✅ read station info
+  const {
+    data: stationInfo,
+    isSuccess,
+    refetch: stationInfoContractRefetch,
+  } = useReadContract({
+    address: stationContractAddress,
+    abi: stationABI,
+    functionName: "getStationInfo",
+    args: address ? [address] : undefined,
+  });
+
+  useEffect(() => {
+    stationInfoContractRefetch();
+  }, [stationStatus]);
+
+  useEffect(() => {
+    if (isSuccess && stationInfo) {
+      if (Number(stationInfo[0]) > 0) {
+        dispatch(stationStatusSet(true));
+        setStationTier(Number(stationInfo[0]));
+      }
+    }
+  }, [isSuccess, stationInfo]);
 
   return (
     <div className={styles.footerSection}>
@@ -65,8 +97,12 @@ const FooterSection = () => {
             style={{ left: 0, top: 0 }}
             onClick={() => {
               if (isConnected) {
-                dispatch(pageSet("miningcore"));
-                playButtonClick();
+                if (stationTier > 0) {
+                  dispatch(pageSet("miningcore"));
+                  playButtonClick();
+                } else {
+                  showToast("Please purchase Station first");
+                }
               } else {
                 showToast("Please add wallet");
               }
@@ -149,8 +185,12 @@ const FooterSection = () => {
             style={{ left: "10px" }}
             onClick={() => {
               if (isConnected) {
-                dispatch(pageSet("miningcore"));
-                playButtonClick();
+                if (stationTier > 0) {
+                  dispatch(pageSet("miningcore"));
+                  playButtonClick();
+                } else {
+                  showToast("Please purchase Station first");
+                }
               } else {
                 showToast("Please add wallet");
               }

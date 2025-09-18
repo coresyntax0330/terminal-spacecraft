@@ -5,13 +5,13 @@ import {
   useAccount,
   useBalance,
   useWriteContract,
-  useReadContract,
   useWaitForTransactionReceipt,
 } from "wagmi";
 import { parseEther } from "viem";
 
 // redux slices
 import { pageSet } from "@/redux/slices/pageSlice";
+import { stationStatusSet } from "@/redux/slices/stationSlice";
 
 // import style
 import styles from "@/assets/css/dashboard/buyspace.module.css";
@@ -106,6 +106,7 @@ const BuySpace = () => {
       playDeploy();
       setBuyLoading(false);
       dispatch(pageSet("miningcore"));
+      dispatch(stationStatusSet(true));
     }
   }, [isSuccess, dispatch]);
 
