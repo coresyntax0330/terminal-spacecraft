@@ -344,6 +344,35 @@ export const spacecraftPurchaseABI = [
         type: "address",
       },
       {
+        internalType: "uint8",
+        name: "tier",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "basePower",
+        type: "uint256",
+      },
+    ],
+    name: "adminMint",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
         internalType: "uint256",
         name: "tokenId",
         type: "uint256",

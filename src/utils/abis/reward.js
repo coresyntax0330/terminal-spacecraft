@@ -180,7 +180,7 @@ export const rewardABI = [
         type: "uint256",
       },
     ],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function",
   },
   {

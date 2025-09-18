@@ -14,6 +14,11 @@ export const stationPurchaseABI = [
         type: "address",
       },
       {
+        internalType: "address",
+        name: "spacecraftAddress",
+        type: "address",
+      },
+      {
         internalType: "uint256",
         name: "_price",
         type: "uint256",
@@ -113,6 +118,31 @@ export const stationPurchaseABI = [
       {
         indexed: false,
         internalType: "uint256",
+        name: "spacecraft1",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "spacecraft2",
+        type: "uint256",
+      },
+    ],
+    name: "SpacecraftsMinted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "buyer",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
         name: "price",
         type: "uint256",
       },
@@ -154,6 +184,19 @@ export const stationPurchaseABI = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "spacecraft",
+    outputs: [
+      {
+        internalType: "contract Spacecraft",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",

@@ -31,7 +31,13 @@ export const stationABI = [
     type: "function",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "_ufoToken",
+        type: "address",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "constructor",
   },
@@ -141,6 +147,37 @@ export const stationABI = [
     type: "event",
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint8",
+        name: "oldTier",
+        type: "uint8",
+      },
+      {
+        indexed: false,
+        internalType: "uint8",
+        name: "newTier",
+        type: "uint8",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "cost",
+        type: "uint256",
+      },
+    ],
+    name: "StationUpgraded",
+    type: "event",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -149,6 +186,13 @@ export const stationABI = [
       },
     ],
     name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "upgradeStation",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -223,6 +267,25 @@ export const stationABI = [
   {
     inputs: [
       {
+        internalType: "uint8",
+        name: "currentTier",
+        type: "uint8",
+      },
+    ],
+    name: "getUpgradeCost",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "",
         type: "address",
@@ -276,6 +339,19 @@ export const stationABI = [
         internalType: "uint256",
         name: "purchaseTime",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "ufoToken",
+    outputs: [
+      {
+        internalType: "contract AbstractorsToken",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",
