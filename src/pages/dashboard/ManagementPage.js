@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useAccount, useReadContract, useReadContracts } from "wagmi";
 import { useDispatch } from "react-redux";
+import axios from "axios";
 import Image from "next/image";
+import { apiUrl } from "@/config/api";
 
 // import style
 import styles from "@/assets/css/dashboard/managementpage.module.css";
@@ -14,8 +16,12 @@ import ShipModal from "@/components/ShipModal";
 import ShipEmptyModal from "@/components/ShipEmptyModal";
 
 // Smart Contract details
-import { spacecraftPurchaseContractAddress } from "@/utils/contract";
+import {
+  rewardContractAddress,
+  spacecraftPurchaseContractAddress,
+} from "@/utils/contract";
 import { spacecraftPurchaseABI } from "@/utils/abis/spacecraftPurchase";
+import { rewardABI } from "@/utils/abis/reward";
 
 // ---------------- Pagination helper ----------------
 const getPaginationRange = ({ currentPage, totalPages, siblingCount = 1 }) => {
@@ -86,6 +92,17 @@ const ManagementPage = () => {
       functionName: "isActive",
       args: [id],
     })),
+  });
+
+  const {
+    data: totalShipPower,
+    isSuccess: isTotalShipPowerSuccess,
+    refetch: totalShipPowerRefetch,
+  } = useReadContract({
+    address: rewardContractAddress,
+    abi: rewardABI,
+    functionName: "getFleetPower",
+    args: address ? [address] : undefined,
   });
 
   const [allRows, setAllRows] = useState([]);
@@ -201,10 +218,37 @@ const ManagementPage = () => {
     }
   };
 
+  useEffect(() => {
+    if (isTotalShipPowerSuccess) {
+      axios
+        .post(apiUrl + "/api/fleets/add-total-fleet", {
+          address,
+          total_fleet: Number(totalShipPower),
+        })
+        .then((res) => {
+          console.log("success");
+        })
+        .catch((err) => {
+          console.log(err);
+          showToast("Server Error!");
+        });
+    }
+  }, [isTotalShipPowerSuccess, totalShipPower]);
+
+  useEffect(() => {
+    if (!shipFlag) {
+      totalShipPowerRefetch();
+    }
+  }, [shipFlag]);
+
   return (
     <div className={styles.main}>
       {shipFlag ? (
-        <ShipModal setShipFlag={setShipFlag} shipGame={shipGame} />
+        <ShipModal
+          setShipFlag={setShipFlag}
+          shipGame={shipGame}
+          address={address}
+        />
       ) : shipEmptyFlag ? (
         <ShipEmptyModal setShipEmptyFlag={setShipEmptyFlag} />
       ) : (

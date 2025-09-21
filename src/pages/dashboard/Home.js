@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { useAccount } from "wagmi";
+import axios from "axios";
+import { apiUrl } from "@/config/api";
 
 // redux slices
 import { pageSet } from "@/redux/slices/pageSlice";
@@ -21,7 +23,7 @@ import { playAddWallet } from "@/utils/sounds";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const { showToast } = useToast();
 
   // Ordered elements
@@ -119,9 +121,22 @@ const Home = () => {
     };
   }, [skipped, lineIndex]);
 
+  const saveAddedWallet = (address) => {
+    axios
+      .post(apiUrl + "/api/fleets/add", { address })
+      .then((res) => {
+        console.log(res.data?.status);
+      })
+      .catch((err) => {
+        console.log(err);
+        showToast("Server Error while saving wallet!");
+      });
+  };
+
   useEffect(() => {
     if (isConnected) {
       showToast("Wallet Added!");
+      saveAddedWallet(address);
       dispatch(walletStatusSet(true));
       playAddWallet();
     }
