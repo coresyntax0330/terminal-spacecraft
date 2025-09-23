@@ -1,12 +1,5 @@
 export const stationPurchaseABI = [
   {
-    inputs: [],
-    name: "buyStation",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "address",
@@ -26,6 +19,27 @@ export const stationPurchaseABI = [
     ],
     stateMutability: "nonpayable",
     type: "constructor",
+  },
+  {
+    inputs: [],
+    name: "FailedCall",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "balance",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "needed",
+        type: "uint256",
+      },
+    ],
+    name: "InsufficientBalance",
+    type: "error",
   },
   {
     inputs: [
@@ -69,42 +83,23 @@ export const stationPurchaseABI = [
     type: "event",
   },
   {
-    inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
+    anonymous: false,
     inputs: [
       {
-        internalType: "address",
-        name: "tokenAddress",
-        type: "address",
-      },
-      {
+        indexed: false,
         internalType: "uint256",
-        name: "amount",
+        name: "oldPrice",
         type: "uint256",
       },
-    ],
-    name: "rescueTokens",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
       {
+        indexed: false,
         internalType: "uint256",
         name: "newPrice",
         type: "uint256",
       },
     ],
-    name: "setPrice",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    name: "PriceUpdated",
+    type: "event",
   },
   {
     anonymous: false,
@@ -143,7 +138,7 @@ export const stationPurchaseABI = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "price",
+        name: "pricePaid",
         type: "uint256",
       },
     ],
@@ -151,16 +146,10 @@ export const stationPurchaseABI = [
     type: "event",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "transferOwnership",
+    inputs: [],
+    name: "buyStation",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -191,6 +180,51 @@ export const stationPurchaseABI = [
   },
   {
     inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "rescueETH",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "rescueTokens",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newPrice",
+        type: "uint256",
+      },
+    ],
+    name: "setPrice",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "spacecraft",
     outputs: [
       {
@@ -213,6 +247,19 @@ export const stationPurchaseABI = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];

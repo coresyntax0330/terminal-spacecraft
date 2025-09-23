@@ -1,12 +1,6 @@
 export const abstractorTokenContractABI = [
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "initialSupply",
-        type: "uint256",
-      },
-    ],
+    inputs: [],
     stateMutability: "nonpayable",
     type: "constructor",
   },
@@ -212,6 +206,19 @@ export const abstractorTokenContractABI = [
     ],
     name: "Transfer",
     type: "event",
+  },
+  {
+    inputs: [],
+    name: "MAX_SUPPLY",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [
