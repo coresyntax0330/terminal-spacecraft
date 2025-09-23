@@ -23,10 +23,12 @@ import {
   stationContractAddress,
   spacecraftPurchaseContractAddress,
   abstractorTokenContractAddress,
+  rewardContractAddress,
 } from "@/utils/contract";
 import { spacecraftPurchaseABI } from "@/utils/abis/spacecraftPurchase";
 import { stationABI } from "@/utils/abis/station";
 import { abstractorTokenContractABI } from "@/utils/abis/abstractor";
+import { rewardABI } from "@/utils/abis/reward";
 
 import ExplainLine from "@/components/ExplainLine";
 import { useToast } from "@/components/ToastProvider";
@@ -65,6 +67,27 @@ const BuySpaceCraft = () => {
     abi: stationABI,
     functionName: "getStationInfo",
     args: address ? [address] : undefined,
+  });
+
+  const {
+    data: balanceToken,
+    isSuccess: isBalanceTokenSuccess,
+    refetch: balanceTokenRefetch,
+  } = useReadContract({
+    address: abstractorTokenContractAddress,
+    abi: abstractorTokenContractABI,
+    functionName: "balanceOf",
+    args: address ? [address] : undefined,
+  });
+
+  const {
+    data: totalShipPower,
+    isSuccess: isTotalShipPowerSuccess,
+    refetch: totalShipPowerRefetch,
+  } = useReadContract({
+    address: rewardContractAddress,
+    abi: rewardABI,
+    functionName: "getTotalActiveFleetPower",
   });
 
   const formattedBalance = balance
@@ -176,18 +199,28 @@ const BuySpaceCraft = () => {
   // approve
   const handleApproveUFOToken = async () => {
     if (stationInfo && Number(stationInfo[0]) > 0) {
-      try {
-        setBuyLoading(true);
-        writeApprove({
-          address: abstractorTokenContractAddress,
-          abi: abstractorTokenContractABI,
-          functionName: "approve",
-          args: [spacecraftPurchaseContractAddress, 10000000000000000000n],
-        });
-      } catch (err) {
-        console.error("Error Approving UFO Token:", err);
-        showToast("Error UFO Approving Token");
-        setBuyLoading(false);
+      if (
+        Number(
+          Number(
+            Number(balanceToken?.toString()) / 1000000000000000000
+          ).toFixed(4)
+        ) < 10
+      ) {
+        showToast("Insufficient Token Balance!");
+      } else {
+        try {
+          setBuyLoading(true);
+          writeApprove({
+            address: abstractorTokenContractAddress,
+            abi: abstractorTokenContractABI,
+            functionName: "approve",
+            args: [spacecraftPurchaseContractAddress, 10000000000000000000n],
+          });
+        } catch (err) {
+          console.error("Error Approving UFO Token:", err);
+          showToast("Error UFO Approving Token");
+          setBuyLoading(false);
+        }
       }
     } else {
       showToast("Please purchase station first");
@@ -223,6 +256,8 @@ const BuySpaceCraft = () => {
     if (isBuySuccess) {
       showToast("Buy Spacecraft Success!");
       setBuyLoading(false);
+      totalShipPowerRefetch();
+      balanceTokenRefetch();
       playDeploy();
     }
   }, [isBuySuccess]);
