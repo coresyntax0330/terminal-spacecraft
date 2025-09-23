@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   useAccount,
   useReadContract,
+  useReadContracts,
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
@@ -27,10 +28,14 @@ import Tier5Img from "@/assets/images/station/tier5_1.gif";
 // import contracts
 import {
   abstractorTokenContractAddress,
+  rewardContractAddress,
+  spacecraftPurchaseContractAddress,
   stationContractAddress,
 } from "@/utils/contract";
-import { stationABI } from "@/utils/abis/station";
 import { abstractorTokenContractABI } from "@/utils/abis/abstractor";
+import { stationABI } from "@/utils/abis/station";
+import { rewardABI } from "@/utils/abis/reward";
+import { spacecraftPurchaseABI } from "@/utils/abis/spacecraftPurchase";
 
 // import utils
 import { playUpgrade } from "@/utils/sounds";
@@ -50,6 +55,56 @@ const MiningCore = () => {
     functionName: "getStationInfo",
     args: address ? [address] : undefined,
   });
+
+  const {
+    data: balanceToken,
+    isSuccess: isBalanceTokenSuccess,
+    refetch: balanceTokenRefetch,
+  } = useReadContract({
+    address: abstractorTokenContractAddress,
+    abi: abstractorTokenContractABI,
+    functionName: "balanceOf",
+    args: address ? [address] : undefined,
+  });
+
+  const { data: totalShipPower, isSuccess: isTotalShipPowerSuccess } =
+    useReadContract({
+      address: rewardContractAddress,
+      abi: rewardABI,
+      functionName: "getTotalActiveFleetPower",
+    });
+
+  const { data: tokenIds, isSuccess: isTokenSuccess } = useReadContract({
+    address: spacecraftPurchaseContractAddress,
+    abi: spacecraftPurchaseABI,
+    functionName: "getOwnedShips",
+    args: address ? [address] : undefined,
+  });
+
+  const {
+    data: tokenActiveData,
+    isSuccess: isActiveSuccess,
+    refetch: refetchActive,
+  } = useReadContracts({
+    contracts: (tokenIds || []).map((id) => ({
+      address: spacecraftPurchaseContractAddress,
+      abi: spacecraftPurchaseABI,
+      functionName: "isActive",
+      args: [id],
+    })),
+  });
+
+  const activeTokens = useMemo(() => {
+    if (!tokenIds || !tokenActiveData) return [];
+
+    return tokenIds.filter((_, idx) => tokenActiveData[idx]?.result === true);
+  }, [tokenIds, tokenActiveData]);
+
+  const totalCount = tokenIds?.length ?? 0;
+  const activeCount = activeTokens.length;
+
+  const formattedTotal = String(totalCount).padStart(2, "0");
+  const formattedActive = String(activeCount).padStart(2, "0");
 
   const [displayed, setDisplayed] = useState([]); // finished items
   const [currentLine, setCurrentLine] = useState("");
@@ -84,29 +139,50 @@ const MiningCore = () => {
 
   const handleApproveUFOToken = async () => {
     if (stationInfo && Number(stationInfo[0]) > 0) {
-      console.log(stationTier, "--stationTier--");
+      if (isBalanceTokenSuccess) {
+        const toDoTokenBalance =
+          stationTier === 1
+            ? 10
+            : stationTier === 2
+            ? 30
+            : stationTier === 3
+            ? 80
+            : 550;
 
-      try {
-        setUpgradeLoading(true);
-        writeApprove({
-          address: abstractorTokenContractAddress,
-          abi: abstractorTokenContractABI,
-          functionName: "approve",
-          args: [
-            stationContractAddress,
-            stationTier === 1
-              ? 10000000000000000000n
-              : stationTier === 2
-              ? 30000000000000000000n
-              : stationTier === 3
-              ? 80000000000000000000n
-              : 550000000000000000000n,
-          ],
-        });
-      } catch (err) {
-        console.error("Error Approving UFO Token:", err);
-        showToast("Error UFO Approving Token");
-        setUpgradeLoading(false);
+        if (
+          Number(
+            Number(
+              Number(balanceToken?.toString()) / 1000000000000000000
+            ).toFixed(4)
+          ) < toDoTokenBalance
+        ) {
+          showToast("Insufficient Token Balance!");
+        } else {
+          try {
+            setUpgradeLoading(true);
+            writeApprove({
+              address: abstractorTokenContractAddress,
+              abi: abstractorTokenContractABI,
+              functionName: "approve",
+              args: [
+                stationContractAddress,
+                stationTier === 1
+                  ? 10000000000000000000n
+                  : stationTier === 2
+                  ? 30000000000000000000n
+                  : stationTier === 3
+                  ? 80000000000000000000n
+                  : 550000000000000000000n,
+              ],
+            });
+          } catch (err) {
+            console.error("Error Approving UFO Token:", err);
+            showToast("Error UFO Approving Token");
+            setUpgradeLoading(false);
+          }
+        }
+      } else {
+        showToast("Please wait! Loading assets...");
       }
     } else {
       showToast("Please purchase station first");
@@ -132,9 +208,9 @@ const MiningCore = () => {
     { type: "title", text: "Mining Core" },
 
     { type: "leftSection", text: "Initializing Station Check... [Online]" },
-    { type: "leftSection", text: "Fleet slots Detected: [05/09]" },
-    { type: "leftSection", text: "Total Fleet Power: [4820]" },
-    { type: "leftSection", text: "Target: [Level 4]" },
+    { type: "leftSectionFleetSlots", text: "Fleet slots Detected: [0/0]" },
+    { type: "leftSectionTotalFleetPower", text: "Total Fleet Power: [0]" },
+    { type: "leftSectionTarget", text: "Target: [Level 1]" },
 
     { type: "rightSection", text: "Mining Module... [Online]" },
     { type: "rightSection", text: "Claimable: 124.5 $UFO" },
@@ -179,8 +255,6 @@ const MiningCore = () => {
   useEffect(() => {
     if (isSuccess && stationInfo) {
       if (refetchedStatus) {
-        console.log(stationInfo[0], "---station info---");
-
         setStationTier(Number(stationInfo[0]));
       } else {
         setReady(true);
@@ -210,6 +284,7 @@ const MiningCore = () => {
       setUpgradeLoading(false);
       setRefetchedStatus(true);
       stationInfoContractRefetch();
+      balanceTokenRefetch();
     }
   }, [isUpgradeSuccess]);
 
@@ -309,6 +384,37 @@ const MiningCore = () => {
             elements[lineIndex].type === "leftSection" && (
               <div>{currentLine}</div>
             )}
+          {displayed
+            .filter((el) => el.type === "leftSectionFleetSlots")
+            .map((el, i) => (
+              <div
+                key={`left-${i}`}
+              >{`Fleet slots Detected: [${formattedActive}/${formattedTotal}]`}</div>
+            ))}
+          {lineIndex < elements.length &&
+            elements[lineIndex].type === "leftSectionFleetSlots" && (
+              <div>{currentLine}</div>
+            )}
+          {displayed
+            .filter((el) => el.type === "leftSectionTotalFleetPower")
+            .map((el, i) => (
+              <div key={`left-${i}`}>{`Total Fleet Power: [${
+                isTotalShipPowerSuccess ? totalShipPower : 0
+              }]`}</div>
+            ))}
+          {lineIndex < elements.length &&
+            elements[lineIndex].type === "leftSectionTotalFleetPower" && (
+              <div>{currentLine}</div>
+            )}
+          {displayed
+            .filter((el) => el.type === "leftSectionTarget")
+            .map((el, i) => (
+              <div key={`left-${i}`}>{`Target: [Level ${stationInfo[0]}]`}</div>
+            ))}
+          {lineIndex < elements.length &&
+            elements[lineIndex].type === "leftSectionTarget" && (
+              <div>{currentLine}</div>
+            )}
         </div>
 
         <div className={styles.rightSection}>
@@ -384,11 +490,12 @@ const MiningCore = () => {
                   }`}
             </button>
           ))}
-        {lineIndex < elements.length && elements[lineIndex].type === "btn" && (
-          <button type="button" className={styles.btn}>
-            {currentLine}
-          </button>
-        )}
+        {lineIndex < elements.length &&
+          elements[lineIndex].type === "upgradeBtn" && (
+            <button type="button" className={styles.btn}>
+              {currentLine}
+            </button>
+          )}
 
         {displayed
           .filter((el) => el.type === "btn")
