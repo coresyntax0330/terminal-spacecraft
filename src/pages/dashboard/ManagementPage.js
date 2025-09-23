@@ -105,6 +105,16 @@ const ManagementPage = () => {
     args: address ? [address] : undefined,
   });
 
+  const {
+    data: totalActiveShipPower,
+    isSuccess: isTotalActiveShipPowerSuccess,
+    refetch: totalActiveShipPowerRefetch,
+  } = useReadContract({
+    address: rewardContractAddress,
+    abi: rewardABI,
+    functionName: "getTotalActiveFleetPower",
+  });
+
   const [allRows, setAllRows] = useState([]);
   const [pageRowsData, setPageRowsData] = useState([]);
 
@@ -238,6 +248,7 @@ const ManagementPage = () => {
   useEffect(() => {
     if (!shipFlag) {
       totalShipPowerRefetch();
+      totalActiveShipPowerRefetch();
     }
   }, [shipFlag]);
 

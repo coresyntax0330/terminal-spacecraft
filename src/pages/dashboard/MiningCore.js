@@ -81,18 +81,15 @@ const MiningCore = () => {
     args: address ? [address] : undefined,
   });
 
-  const {
-    data: tokenActiveData,
-    isSuccess: isActiveSuccess,
-    refetch: refetchActive,
-  } = useReadContracts({
-    contracts: (tokenIds || []).map((id) => ({
-      address: spacecraftPurchaseContractAddress,
-      abi: spacecraftPurchaseABI,
-      functionName: "isActive",
-      args: [id],
-    })),
-  });
+  const { data: tokenActiveData, isSuccess: isActiveSuccess } =
+    useReadContracts({
+      contracts: (tokenIds || []).map((id) => ({
+        address: spacecraftPurchaseContractAddress,
+        abi: spacecraftPurchaseABI,
+        functionName: "isActive",
+        args: [id],
+      })),
+    });
 
   const activeTokens = useMemo(() => {
     if (!tokenIds || !tokenActiveData) return [];
