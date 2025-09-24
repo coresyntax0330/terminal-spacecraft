@@ -14,7 +14,7 @@ export default function Home() {
         <title>
           {pagePath === ""
             ? "Spacecraft"
-            : pagePath === "Start"
+            : pagePath === "start"
             ? "Loading..."
             : pagePath === "alert"
             ? "Station Status"
