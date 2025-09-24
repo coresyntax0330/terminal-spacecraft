@@ -134,7 +134,8 @@ const ManagementPage = () => {
         let image = "";
         let description = "";
         let status = false;
-        let fleetPower = Math.floor(Math.random() * 200) + 50;
+        // let fleetPower = Math.floor(Math.random() * 200) + 50;
+        let fleetPower = 100;
 
         try {
           const uri = tokenUriData[idx]; // e.g. ipfs://bafy.../4.json
