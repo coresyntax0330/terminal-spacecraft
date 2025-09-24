@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { useAccount } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import axios from "axios";
 import { apiUrl } from "@/config/api";
 
@@ -21,10 +21,22 @@ import { playStart } from "@/utils/sounds";
 import { useToast } from "@/components/ToastProvider";
 import { playAddWallet } from "@/utils/sounds";
 
+// import contract
+import { abstractorTokenContractAddress } from "@/utils/contract";
+import { abstractorTokenContractABI } from "@/utils/abis/abstractor";
+
 const Home = () => {
   const dispatch = useDispatch();
   const { isConnected, address } = useAccount();
   const { showToast } = useToast();
+
+  const { data: balanceToken, isSuccess: isBalanceTokenSuccess } =
+    useReadContract({
+      address: abstractorTokenContractAddress,
+      abi: abstractorTokenContractABI,
+      functionName: "balanceOf",
+      args: address ? [address] : undefined,
+    });
 
   // Ordered elements
   const elements = [
@@ -53,6 +65,14 @@ const Home = () => {
       text: "> 3. SUPPLY DEPOT",
       action: () => {
         window.open("https://opensea.io/", "_blank");
+      },
+    },
+    {
+      type: "btn",
+      text: "> 4. Start Battle",
+      action: () => {
+        dispatch(pageSet("startbattle"));
+        playStart();
       },
     },
   ];

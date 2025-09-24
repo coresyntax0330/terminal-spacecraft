@@ -16,6 +16,7 @@ import ManualPage from "../dashboard/ManualPage";
 import ManagementPage from "../dashboard/ManagementPage";
 import ClaimPage from "../dashboard/ClaimPage";
 import BuySpaceCraft from "../dashboard/BuySpaceCraft";
+import StartBattle from "../dashboard/StartBattle";
 
 const DashboardSection = () => {
   const pagePath = useSelector((state) => state.page.path);
@@ -45,6 +46,8 @@ const DashboardSection = () => {
           <ManagementPage />
         ) : pagePath === "claimpage" ? (
           <ClaimPage />
+        ) : pagePath === "startbattle" ? (
+          <StartBattle />
         ) : (
           <></>
         )}

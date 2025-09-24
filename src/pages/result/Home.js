@@ -29,11 +29,27 @@ const Home = () => {
       functionName: "getTotalActiveFleetPower",
     });
 
+  const { data: totalClaimedToken, isSuccess: isTotalClaimedTokenSuccess } =
+    useReadContract({
+      address: rewardContractAddress,
+      abi: rewardABI,
+      functionName: "getTotalClaimed",
+      args: address ? [address] : undefined,
+    });
+
   const { data: pendingRewards, isSuccess: isPendingRewardsSuccess } =
     useReadContract({
       address: rewardContractAddress,
       abi: rewardABI,
       functionName: "calculatePendingRewards",
+      args: address ? [address] : undefined,
+    });
+
+  const { data: hourlyEarnings, isSuccess: isHourlyEarningsSuccess } =
+    useReadContract({
+      address: rewardContractAddress,
+      abi: rewardABI,
+      functionName: "getUserHourlyEmission",
       args: address ? [address] : undefined,
     });
 
@@ -55,7 +71,7 @@ const Home = () => {
               ? Number(
                   Number(
                     Number(balance?.toString()) / 1000000000000000000
-                  ).toFixed(4)
+                  ).toFixed(2)
                 )
               : 0}{" "}
             UFO
@@ -74,11 +90,11 @@ const Home = () => {
         <div className={styles.item}>
           <div className={styles.name}>Hourly Earnings:</div>
           <div className={styles.name}>
-            {isPendingRewardsSuccess
+            {isHourlyEarningsSuccess
               ? Number(
                   Number(
-                    Number(pendingRewards[0]?.toString()) / 1000000000000000000
-                  ).toFixed(4)
+                    Number(hourlyEarnings?.toString()) / 1000000000000000000
+                  ).toFixed(2)
                 )
               : 0.0}{" "}
             UFO
@@ -87,10 +103,10 @@ const Home = () => {
       </div>
       <div className={styles.wrapper}>
         <div className={styles.title}>Network Stats</div>
-        <div className={styles.item}>
+        {/* <div className={styles.item}>
           <div className={styles.name}>Next Emission:</div>
           <div className={styles.name}>0 Blocks</div>
-        </div>
+        </div> */}
         <div className={styles.item}>
           <div className={styles.name}>Emission Per block:</div>
           <div className={styles.name}>
@@ -98,7 +114,7 @@ const Home = () => {
               ? Number(
                   Number(
                     Number(pendingRewards[1]?.toString()) / 1000000000000000000
-                  ).toFixed(4)
+                  ).toFixed(2)
                 )
               : 0.0}{" "}
             UFO
@@ -137,7 +153,16 @@ const Home = () => {
       <div className={styles.wrapper}>
         <div className={styles.item}>
           <div className={styles.name}>Earned:</div>
-          <div className={styles.name}>0.00 UFO</div>
+          <div className={styles.name}>
+            {isTotalClaimedTokenSuccess
+              ? Number(
+                  Number(
+                    Number(totalClaimedToken) / 1000000000000000000
+                  ).toFixed(2)
+                )
+              : 0}{" "}
+            UFO
+          </div>
         </div>
       </div>
     </div>

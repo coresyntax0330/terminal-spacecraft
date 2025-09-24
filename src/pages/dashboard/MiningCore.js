@@ -150,7 +150,7 @@ const MiningCore = () => {
           Number(
             Number(
               Number(balanceToken?.toString()) / 1000000000000000000
-            ).toFixed(4)
+            ).toFixed(2)
           ) < toDoTokenBalance
         ) {
           showToast("Insufficient Token Balance!");

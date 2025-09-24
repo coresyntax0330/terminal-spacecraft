@@ -81,7 +81,7 @@ const ClaimPage = () => {
               ? Number(
                   Number(
                     Number(pendingRewards[0]?.toString()) / 1000000000000000000
-                  ).toFixed(4)
+                  ).toFixed(2)
                 )
               : 0.0}{" "}
             UFO

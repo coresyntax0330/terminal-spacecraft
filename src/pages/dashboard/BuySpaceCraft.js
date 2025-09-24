@@ -203,7 +203,7 @@ const BuySpaceCraft = () => {
         Number(
           Number(
             Number(balanceToken?.toString()) / 1000000000000000000
-          ).toFixed(4)
+          ).toFixed(2)
         ) < 10
       ) {
         showToast("Insufficient Token Balance!");

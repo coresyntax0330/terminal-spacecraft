@@ -42,7 +42,7 @@ const BuySpace = () => {
   });
 
   const formattedBalance = balance
-    ? `${parseFloat(balance.formatted).toFixed(4)} ${balance.symbol}`
+    ? `${parseFloat(balance.formatted).toFixed(2)} ${balance.symbol}`
     : "0.0000 ETH";
 
   const [displayed, setDisplayed] = useState([]); // finished lines
