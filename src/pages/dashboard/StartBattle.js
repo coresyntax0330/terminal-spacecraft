@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import Image from "next/image";
 import { useAccount, useReadContract, useReadContracts } from "wagmi";
+import { useDispatch } from "react-redux";
+import Image from "next/image";
+
+// import slice
+import { pageSet } from "@/redux/slices/pageSlice";
 
 // import utils
 import { useToast } from "@/components/ToastProvider";
@@ -25,6 +29,7 @@ const StartBattle = () => {
   const cols = 4; // 6 columns
   const cellSize = 60; // px
 
+  const dispatch = useDispatch();
   const { showToast } = useToast();
 
   const [player1Ships, setPlayer1Ships] = useState([]);
@@ -94,7 +99,6 @@ const StartBattle = () => {
   };
 
   useEffect(() => {
-    console.log("--hi--");
     if (isTokenSuccess && isUriSuccess && isActiveSuccess) {
       setReady(true);
 
@@ -139,11 +143,15 @@ const StartBattle = () => {
       // Attack phase
       if (turn === "p1") {
         setFlash("p1");
-        attack("p1", "p2");
+        setTimeout(() => {
+          attack("p1", "p2");
+        }, 400);
         setTurn("p2");
       } else {
         setFlash("p2");
-        attack("p2", "p1");
+        setTimeout(() => {
+          attack("p2", "p1");
+        }, 400);
         setTurn("p1");
       }
 
@@ -160,6 +168,9 @@ const StartBattle = () => {
     setGameOver(true);
     showToast(winnerFlag ? "You won!" : "You Lose!");
     setFlash(winnerFlag ? "p1" : "p2");
+    setTimeout(() => {
+      dispatch(pageSet(""));
+    }, 1000);
   };
 
   // --- Attack logic ---

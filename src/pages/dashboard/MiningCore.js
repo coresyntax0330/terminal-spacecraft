@@ -91,6 +91,30 @@ const MiningCore = () => {
       })),
     });
 
+  const { data: pendingRewards, isSuccess: isPendingRewardsSuccess } =
+    useReadContract({
+      address: rewardContractAddress,
+      abi: rewardABI,
+      functionName: "calculatePendingRewards",
+      args: address ? [address] : undefined,
+    });
+
+  const { data: hourlyEarnings, isSuccess: isHourlyEarningsSuccess } =
+    useReadContract({
+      address: rewardContractAddress,
+      abi: rewardABI,
+      functionName: "getUserHourlyEmission",
+      args: address ? [address] : undefined,
+    });
+
+  const { data: totalClaimedToken, isSuccess: isTotalClaimedTokenSuccess } =
+    useReadContract({
+      address: rewardContractAddress,
+      abi: rewardABI,
+      functionName: "getTotalClaimed",
+      args: address ? [address] : undefined,
+    });
+
   const activeTokens = useMemo(() => {
     if (!tokenIds || !tokenActiveData) return [];
 
@@ -210,9 +234,9 @@ const MiningCore = () => {
     { type: "leftSectionTarget", text: "Target: [Level 1]" },
 
     { type: "rightSection", text: "Mining Module... [Online]" },
-    { type: "rightSection", text: "Claimable: 124.5 $UFO" },
-    { type: "rightSection", text: "Hourly Emission: 56.7 $UFO" },
-    { type: "rightSection", text: "Mined Today: 987.6 $UFO" },
+    { type: "rightSectionClaimable", text: "Claimable: 0.0 UFO" },
+    { type: "rightSectionHourly", text: "Hourly Emission: 0.0 UFO" },
+    { type: "rightSectionMined", text: "Mined Today: 0.0 UFO" },
 
     { type: "image" },
 
@@ -422,6 +446,64 @@ const MiningCore = () => {
             ))}
           {lineIndex < elements.length &&
             elements[lineIndex].type === "rightSection" && (
+              <div>{currentLine}</div>
+            )}
+          {displayed
+            .filter((el) => el.type === "rightSectionClaimable")
+            .map((el, i) => (
+              <div key={`right-${i}`}>
+                Claimable:{" "}
+                {isPendingRewardsSuccess
+                  ? Number(
+                      Number(
+                        Number(pendingRewards[0]?.toString()) /
+                          1000000000000000000
+                      ).toFixed(2)
+                    )
+                  : 0.0}{" "}
+                UFO
+              </div>
+            ))}
+          {lineIndex < elements.length &&
+            elements[lineIndex].type === "rightSectionClaimable" && (
+              <div>{currentLine}</div>
+            )}
+          {displayed
+            .filter((el) => el.type === "rightSectionHourly")
+            .map((el, i) => (
+              <div key={`right-${i}`}>
+                Hourly Emission:{" "}
+                {isHourlyEarningsSuccess
+                  ? Number(
+                      Number(
+                        Number(hourlyEarnings?.toString()) / 1000000000000000000
+                      ).toFixed(2)
+                    )
+                  : 0.0}{" "}
+                UFO
+              </div>
+            ))}
+          {lineIndex < elements.length &&
+            elements[lineIndex].type === "rightSectionHourly" && (
+              <div>{currentLine}</div>
+            )}
+          {displayed
+            .filter((el) => el.type === "rightSectionMined")
+            .map((el, i) => (
+              <div key={`right-${i}`}>
+                Mined Today:{" "}
+                {isTotalClaimedTokenSuccess
+                  ? Number(
+                      Number(
+                        Number(totalClaimedToken) / 1000000000000000000
+                      ).toFixed(2)
+                    )
+                  : 0}{" "}
+                UFO
+              </div>
+            ))}
+          {lineIndex < elements.length &&
+            elements[lineIndex].type === "rightSectionMined" && (
               <div>{currentLine}</div>
             )}
         </div>

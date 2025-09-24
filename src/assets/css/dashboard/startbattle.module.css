@@ -60,7 +60,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #4aff41;
+  border: 1px dashed #4aff41;
   position: relative;
 }
 
