@@ -71,8 +71,8 @@ const Home = () => {
       type: "btn",
       text: "> 4. Start Battle",
       action: () => {
-        dispatch(pageSet("startbattle"));
-        playStart();
+        // dispatch(pageSet("startbattle"));
+        // playStart();
       },
     },
   ];

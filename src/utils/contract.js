@@ -1,10 +1,10 @@
 export const abstractorTokenContractAddress =
-  "0x85dC1A6d86F659CD84AFd4002c181c5eA5076e4e";
+  "0x0e071F7fE93Df5DA030A7d0ca2c8fb12Bf98e237";
 export const spacecraftPurchaseContractAddress =
-  "0xb6ADB83b80466D5C097A39d8a905f34D9a9085aE";
+  "0x75810eF2286d84499198D91F1FbE10b157201496";
 export const stationContractAddress =
-  "0x5DC92eedE562B49E518E9F2227f1aEc4e82719AD";
+  "0x0C6613cD7bF71353C602A723cA3a51ce7c9D475a";
 export const stationPurchaseContractAddress =
-  "0x5b93023E80ae9ae960eFe780A4F379a287Af0Fef";
+  "0x6E41DbF15f1FC350b7f1cB0B350900D816130aeB";
 export const rewardContractAddress =
-  "0xD8e399a5a6f84c46383BAAD29e0f0BA2a53A3b80";
+  "0x871Fc60C538b441242257FF85dE6bEdD2519fcCE";
