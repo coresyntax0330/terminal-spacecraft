@@ -77,8 +77,8 @@ const Home = () => {
     },
   ];
 
-  const [displayed, setDisplayed] = useState([]); // finished lines
-  const [currentLine, setCurrentLine] = useState(""); // typing line
+  const [displayed, setDisplayed] = useState([]);
+  const [currentLine, setCurrentLine] = useState("");
   const [lineIndex, setLineIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [skipped, setSkipped] = useState(false);
